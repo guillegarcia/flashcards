@@ -1,7 +1,7 @@
-class FlashCard {
-  String? id;
+class Flashcard {
+  int? id;
   String question;
   String answer;
 
-  FlashCard({required this.question,required this.answer});
+  Flashcard({this.id, required this.question,required this.answer});
 }

@@ -5,7 +5,7 @@ class Group {
   String name;
   String? description;
 
-  List<FlashCard>? cards;
+  List<Flashcard>? cards;
 
   Group({this.id, required this.name, this.description, this.cards});
 }

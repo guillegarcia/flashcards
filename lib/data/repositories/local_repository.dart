@@ -1,3 +1,4 @@
+import 'package:flashcards/domain/entities/flash_card.dart';
 import 'package:flashcards/domain/entities/group.dart';
 
 abstract class LocalRepository {
@@ -8,4 +9,13 @@ abstract class LocalRepository {
   Future<void> updateGroup(Group group);
 
   Future<void> deleteGroup(int groupId);
+
+  Future<List<Flashcard>> getFlashcardsByGroup(int groupId);
+
+  Future<void> insertFlashcard(Flashcard flashcard);
+
+  Future<void> updateFlashcard(Flashcard flashcard);
+
+  Future<void> deleteFlashcard(int flashcardId);
+
 }
