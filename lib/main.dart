@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'presentation/screens/groups_screen.dart';
 import 'presentation/screens/home_screen.dart';
 import 'presentation/screens/sample_screen.dart';
 
@@ -31,8 +32,9 @@ class MyApp extends StatelessWidget {
       routes: {
         HomeScreen.routeName: (context) => HomeScreen(),
         SampleScreen.routeName: (context) => SampleScreen(),
+        GroupsScreen.routeName: (context) => GroupsScreen(),
       },
-      initialRoute: HomeScreen.routeName,
+      initialRoute: GroupsScreen.routeName,
     );
   }
 }
