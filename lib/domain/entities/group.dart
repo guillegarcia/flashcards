@@ -1,7 +1,7 @@
 import 'flash_card.dart';
 
 class Group {
-  String? id;
+  int? id;
   String name;
   String? description;
 

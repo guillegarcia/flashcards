@@ -12,7 +12,7 @@ class LoadingState extends GroupsState {
 class LoadedState extends GroupsState {
   LoadedState(this.groups);
 
-  final List<Group> groups;
+  List<Group> groups;
 
   @override
   List<Object> get props => [groups];

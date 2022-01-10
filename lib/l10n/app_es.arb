@@ -1,3 +1,9 @@
 {
-  "appName": "Preguntas de animales"
+  "appName": "Simple flashcards",
+  "newGroup": "Nuevo grupo de preguntas",
+  "name": "Nombre",
+  "save": "Guardar",
+  "valueCanNotBeEmpty": "Este valor no puede estar vacío",
+  "createGroupErrorMessage": "Ha ocurrido un error al crear el nuevo grupo",
+  "description": "Descripción"
 }

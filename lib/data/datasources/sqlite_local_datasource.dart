@@ -61,9 +61,9 @@ class SQLiteLocalDatasource implements LocalRepository{
   }
 
   @override
-  Future<void> insertGroup(Group group) async{
+  Future<int> insertGroup(Group group) async{
     final db = await database;
-    await db.insert("groups", _groupToMap(group));
+    return await db.insert("groups", _groupToMap(group));
   }
 
   @override
@@ -104,6 +104,7 @@ class SQLiteLocalDatasource implements LocalRepository{
   }
 
   Group _groupFromMap(Map<String, dynamic> map) {
+    print('Grupo MAPA: $map');
     return Group(
       id: map['id'] ?? -1,
       name: map['name'] ?? '',
