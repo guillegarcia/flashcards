@@ -46,7 +46,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
               ],
             ),
             body:
-            (state is CreatingState)?Center(child: CircularProgressIndicator()):
+            (state is CreateInProgressState)?Center(child: CircularProgressIndicator()):
             Form(
               key: _formKey,
               child: ListView(

@@ -6,7 +6,7 @@ import 'package:flashcards/domain/entities/group.dart';
 part 'groups_state.dart';
 
 class GroupsCubit extends Cubit<GroupsState> {
-  GroupsCubit(this._localRepository) : super(LoadingState()){
+  GroupsCubit(this._localRepository) : super(LoadInProgressState()){
     loadGroups();
   }
 
@@ -14,11 +14,11 @@ class GroupsCubit extends Cubit<GroupsState> {
 
   void loadGroups() async {
     try {
-      emit(LoadingState());
+      emit(LoadInProgressState());
       final groups = await _localRepository.getGroups();
-      emit(LoadedState(groups));
+      emit(LoadSuccessState(groups));
     } catch (e) {
-      emit(ErrorState());
+      emit(LoadErrorState());
     }
   }
 

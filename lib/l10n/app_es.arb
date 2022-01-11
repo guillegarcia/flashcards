@@ -5,5 +5,6 @@
   "save": "Guardar",
   "valueCanNotBeEmpty": "Este valor no puede estar vacío",
   "createGroupErrorMessage": "Ha ocurrido un error al crear el nuevo grupo",
-  "description": "Descripción"
+  "description": "Descripción",
+  "createFlashcard": "Crear tarjeta"
 }

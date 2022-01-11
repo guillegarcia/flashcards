@@ -15,9 +15,9 @@ class NewGroupCubit extends Cubit<NewGroupState> {
   void createGroup(Group group) async{
     try{
       print('createGroup cubit ${group.name}');
-      emit(CreatingState());
+      emit(CreateInProgressState());
       group.id = await _localRepository.insertGroup(group);
-      if(groupsBloc.state is LoadedState){
+      if(groupsBloc.state is LoadSuccessState){
         groupsBloc.loadGroups();//.addCreatedGroup(group);
       }
       emit(CreateSuccessState());

@@ -28,11 +28,11 @@ class _GroupsScreenState extends State<GroupsScreen> {
       body: BlocBuilder<GroupsCubit, GroupsState>(
         builder: (context, state) {
           print(state);
-          if (state is LoadingState) {
+          if (state is LoadInProgressState) {
             return Container(
               child: Center(child: CircularProgressIndicator()),
             );
-          } else if (state is LoadedState) {
+          } else if (state is LoadSuccessState) {
             final groups = state.groups;
 
             return ListView.builder(
@@ -49,7 +49,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
                     ),
                   ),
             );
-          } else if (state is ErrorState) {
+          } else if (state is LoadErrorState) {
             return Container(
               child: Text('GroupsLoadErrorState'),
             );

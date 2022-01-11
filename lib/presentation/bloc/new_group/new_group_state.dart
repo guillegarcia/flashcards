@@ -9,7 +9,7 @@ class NewGroupInitial extends NewGroupState {
   List<Object> get props => [];
 }
 
-class CreatingState extends NewGroupState {
+class CreateInProgressState extends NewGroupState {
   @override
   List<Object> get props => [];
 }

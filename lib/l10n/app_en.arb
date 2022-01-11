@@ -9,5 +9,6 @@
   "save": "Save",
   "valueCanNotBeEmpty": "This value can not be empty",
   "createGroupErrorMessage": "There was an error at creating the new group",
-  "description": "Descripción"
+  "description": "Descripción",
+  "createFlashcard": "Create flashcard"
 }
