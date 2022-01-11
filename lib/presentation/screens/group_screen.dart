@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'new_flashcard_screen.dart';
+
 class GroupScreen extends StatefulWidget {
   const GroupScreen({Key? key}) : super(key: key);
 
@@ -21,51 +23,57 @@ class _GroupScreenState extends State<GroupScreen> {
 
     Group group = ModalRoute.of(context)!.settings.arguments as Group;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(group.name),
-      ),
-      body: BlocProvider(
-        create: (context) => GroupCubit(context.read<SQLiteLocalDatasource>(),
-        group: group),
-        child: BlocBuilder<GroupCubit, GroupState>(
-        builder: (context, state) {
-          if (state is LoadFlashcardsInProgressState) {
-            return Container(
-              child: Center(child: CircularProgressIndicator()),
-            );
-          } else if (state is LoadFlashcardsSuccessState) {
-            final flashcards = state.flashcards;
+    return BlocProvider(
+        create: (context) => GroupCubit(context.read<SQLiteLocalDatasource>(),group: group),
+       child: Scaffold(
+        appBar: AppBar(
+          title: Text(group.name),
+        ),
+        body: BlocBuilder<GroupCubit, GroupState>(
+          builder: (context, state) {
+            if (state is LoadFlashcardsInProgressState) {
+              return Container(
+                child: Center(child: CircularProgressIndicator()),
+              );
+            } else if (state is LoadFlashcardsSuccessState) {
+              final flashcards = state.flashcards;
 
-            return ListView.builder(
-              itemCount: flashcards.length,
-              itemBuilder: (context, index) =>
-                  Card(
-                    child: Container(
-                      padding: EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          Text(flashcards[index].question,style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text(flashcards[index].answer),
-                        ],
-                      )
+              return Column(
+                children: [
+                  Text(group.description!),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: flashcards.length,
+                      itemBuilder: (context, index) =>
+                          Card(
+                            child: Container(
+                              padding: EdgeInsets.all(16),
+                              child: Column(
+                                children: [
+                                  Text(flashcards[index].question,style: TextStyle(fontWeight: FontWeight.bold)),
+                                  Text(flashcards[index].answer),
+                                ],
+                              )
+                            ),
+                          ),
                     ),
                   ),
-            );
-          } else if (state is LoadFlashcardsErrorState) {
-            return Container(
-              child: Text('GroupsLoadErrorState'),
-            );
-          } else {
-            return Container();
+                ],
+              );
+            } else if (state is LoadFlashcardsErrorState) {
+              return Container(
+                child: Text('GroupsLoadErrorState'),
+              );
+            } else {
+              return Container();
+            }
+          },
+        ),
+        floatingActionButton: FloatingActionButton(child: Text(AppLocalizations.of(context)!.createFlashcard),onPressed: (){
+            Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,arguments: context.read<GroupCubit>());
           }
-        },
-      ),
-),
-      floatingActionButton: FloatingActionButton(child: Text(AppLocalizations.of(context)!.createFlashcard),onPressed: (){
-        //context.read<GroupsCubit>().
-        //Navigator.of(context).pushNamed(NewFlashcardScreen.routeName);
-      }),
+        ),
+      )
     );
   }
 }

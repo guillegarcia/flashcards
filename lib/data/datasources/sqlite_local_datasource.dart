@@ -92,9 +92,9 @@ class SQLiteLocalDatasource implements LocalRepository{
   }
 
   @override
-  Future<void> insertFlashcard(Flashcard flashcard) async {
+  Future<int> insertFlashcard(Flashcard flashcard) async {
     final db = await database;
-    await db.insert("flashcards", _flashcardToMap(flashcard));
+    return await db.insert("flashcards", _flashcardToMap(flashcard));
   }
 
   @override

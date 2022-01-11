@@ -12,7 +12,7 @@ abstract class LocalRepository {
 
   Future<List<Flashcard>> getFlashcardsByGroup(int groupId);
 
-  Future<void> insertFlashcard(Flashcard flashcard);
+  Future<int> insertFlashcard(Flashcard flashcard);
 
   Future<void> updateFlashcard(Flashcard flashcard);
 

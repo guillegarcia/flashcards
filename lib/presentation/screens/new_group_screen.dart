@@ -38,7 +38,8 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                 TextButton(onPressed: (){
                   if(_formKey.currentState!.validate()) {
                     var group = Group(
-                        name: _nameController.text
+                        name: _nameController.text,
+                      description: _descriptionController.text
                     );
                     context.read<NewGroupCubit>().createGroup(group);
                   }
@@ -65,7 +66,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                   Text(AppLocalizations.of(context)!.description),
                   TextFormField(
                     autofocus: true,
-                    controller: _nameController,
+                    controller: _descriptionController,
                     validator: (value){
                       if (value == null || value.isEmpty) {
                         return AppLocalizations.of(context)!.valueCanNotBeEmpty;

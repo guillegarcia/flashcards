@@ -1,4 +1,5 @@
 import 'package:flashcards/presentation/bloc/groups/groups_cubit.dart';
+import 'package:flashcards/presentation/screens/new_flashcard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
             SampleScreen.routeName: (context) => SampleScreen(),
             GroupsScreen.routeName: (context) => GroupsScreen(),
             NewGroupScreen.routeName: (context) => NewGroupScreen(),
+            NewFlashcardScreen.routeName: (context) => NewFlashcardScreen(),
             GroupScreen.routeName: (context) => GroupScreen(),
           },
           initialRoute: GroupsScreen.routeName,

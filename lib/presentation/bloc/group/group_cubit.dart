@@ -12,13 +12,13 @@ class GroupCubit extends Cubit<GroupState> {
   final Group group;
 
   GroupCubit(this._localRepository,{required Group this.group}) : super(LoadFlashcardsInProgressState()){
-    loadFlashcards(group.id!);
+    loadFlashcards();
   }
 
-  void loadFlashcards(int groupId) async {
+  void loadFlashcards() async {
     try {
       emit(LoadFlashcardsInProgressState());
-      final groups = await _localRepository.getFlashcardsByGroup(groupId);
+      final groups = await _localRepository.getFlashcardsByGroup(group.id!);
       emit(LoadFlashcardsSuccessState(groups));
     } catch (e) {
       emit(LoadFlashcardsErrorState());
