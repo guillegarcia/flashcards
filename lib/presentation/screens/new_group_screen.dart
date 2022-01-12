@@ -29,7 +29,12 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
       create: (context) => NewGroupCubit(context.read<SQLiteLocalDatasource>(),
         groupsBloc: context.read<GroupsCubit>()
       ),
-      child: BlocBuilder<NewGroupCubit, NewGroupState>(
+      child: BlocConsumer<NewGroupCubit, NewGroupState>(
+        listener: (context, state) {
+          if(state is CreateSuccessState){
+            Navigator.of(context).pop();
+          }
+        },
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(

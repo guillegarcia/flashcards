@@ -1,6 +1,7 @@
 import 'package:flashcards/data/datasources/sqlite_local_datasource.dart';
 import 'package:flashcards/domain/entities/group.dart';
 import 'package:flashcards/presentation/bloc/group/group_cubit.dart';
+import 'package:flashcards/presentation/screens/edit_flashcard_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,14 +47,19 @@ class _GroupScreenState extends State<GroupScreen> {
                       itemCount: flashcards.length,
                       itemBuilder: (context, index) =>
                           Card(
-                            child: Container(
-                              padding: EdgeInsets.all(16),
-                              child: Column(
-                                children: [
-                                  Text(flashcards[index].question,style: TextStyle(fontWeight: FontWeight.bold)),
-                                  Text(flashcards[index].answer),
-                                ],
-                              )
+                            child: InkWell(
+                              onTap: (){
+                                Navigator.of(context).pushNamed(EditFlashcardScreen.routeName,arguments: EditFlashcardScreenArguments(flashcard: flashcards[index], groupCubit: context.read<GroupCubit>()));
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(16),
+                                child: Column(
+                                  children: [
+                                    Text(flashcards[index].question,style: TextStyle(fontWeight: FontWeight.bold)),
+                                    Text(flashcards[index].answer),
+                                  ],
+                                )
+                              ),
                             ),
                           ),
                     ),
@@ -69,9 +75,12 @@ class _GroupScreenState extends State<GroupScreen> {
             }
           },
         ),
-        floatingActionButton: FloatingActionButton(child: Text(AppLocalizations.of(context)!.createFlashcard),onPressed: (){
+        floatingActionButton: BlocBuilder<GroupCubit, GroupState>(
+          builder:(context, state) {
+          return FloatingActionButton(child: Text(AppLocalizations.of(context)!.createFlashcard),onPressed: (){
             Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,arguments: context.read<GroupCubit>());
           }
+        );}
         ),
       )
     );

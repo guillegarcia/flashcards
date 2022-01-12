@@ -13,5 +13,6 @@
   "description": "Descripción",
   "createFlashcard": "Create flashcard",
   "question": "Question",
-  "answer": "Answer"
+  "answer": "Answer",
+  "editFlashcard": "Edit flashcard"
 }

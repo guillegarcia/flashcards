@@ -4,25 +4,25 @@ import 'package:flashcards/data/repositories/local_repository.dart';
 import 'package:flashcards/domain/entities/flash_card.dart';
 import 'package:flashcards/presentation/bloc/group/group_cubit.dart';
 
-part 'new_flashcard_state.dart';
+part 'edit_flashcard_state.dart';
 
-class NewFlashcardCubit extends Cubit<NewFlashcardState> {
-  NewFlashcardCubit(this._localRepository,{required GroupCubit this.groupBloc}) : super(NewFlashcardInitial());
+class EditFlashcardCubit extends Cubit<EditFlashcardState> {
+  EditFlashcardCubit(this._localRepository,{required GroupCubit this.groupBloc}) : super(EditFlashcardInitial());
 
   final GroupCubit groupBloc;
   final LocalRepository _localRepository;
 
-  void createFlashcard(Flashcard flashcard) async{
+  void editFlashcard(Flashcard flashcard) async{
     try{
       if(groupBloc.state is LoadFlashcardsSuccessState){
-        emit(CreateFlashcardInProgressState());
+        emit(EditFlashcardInProgressState());
         int groupId = (groupBloc.group.id!);
-        flashcard.id = await _localRepository.insertFlashcard(flashcard,groupId);
+        await _localRepository.updateFlashcard(flashcard);
         groupBloc.loadFlashcards();//.addCreatedGroup(group);
-        emit(CreateFlashcardSuccessState());
+        emit(EditFlashcardSuccessState());
       }
     } catch (e) {
-      emit(CreateFlashcardErrorState());
+      emit(EditFlashcardErrorState());
     }
   }
 }

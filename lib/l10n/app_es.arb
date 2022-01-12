@@ -9,5 +9,6 @@
   "description": "Descripción",
   "createFlashcard": "Crear tarjeta",
   "question": "Pregunta",
-  "answer": "Respuesta"
+  "answer": "Respuesta",
+  "editFlashcard": "Editar tarjeta"
 }

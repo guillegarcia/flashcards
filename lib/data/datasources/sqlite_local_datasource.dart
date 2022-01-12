@@ -26,13 +26,13 @@ class SQLiteLocalDatasource implements LocalRepository{
   void _createTables(Database database, int version) async {
     await database.execute("CREATE TABLE groups ("
         "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-        "name TEXT,"
+        "name TEXT NOT NULL,"
         "description TEXT"
         ")");
 
     await database.execute("CREATE TABLE flashcards ("
         "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-        "group_id INTEGER,"
+        "group_id INTEGER NOT NULL,"
         "question TEXT NOT NULL,"
         "answer TEXT NOT NULL"
         ")");
@@ -86,22 +86,24 @@ class SQLiteLocalDatasource implements LocalRepository{
     List<Flashcard> flashcards = [];
     var result = await db.query("flashcards", columns: ['id','question','answer'],where: 'group_id=?',whereArgs: [groupId]);
     for(final row in result){
+      print('id recuperado: ${_flashcardFromMap(row).id}');
       flashcards.add(_flashcardFromMap(row));
     }
     return flashcards;
   }
 
   @override
-  Future<int> insertFlashcard(Flashcard flashcard) async {
+  Future<int> insertFlashcard(Flashcard flashcard,int groupId) async {
     final db = await database;
-    return await db.insert("flashcards", _flashcardToMap(flashcard));
+    return await db.insert("flashcards", _flashcardToMap(flashcard,groupId: groupId));
   }
 
   @override
   Future<void> updateFlashcard(Flashcard flashcard) async{
     final db = await database;
     Map<String,dynamic> values = _flashcardToMap(flashcard);
-    await db.update("flashcard",values,where: 'id=?',whereArgs: [flashcard.id]);
+    print('SQLite update flashcard: ${flashcard.id}, ${flashcard.question}, ${flashcard.answer}');
+    await db.update("flashcards",values,where: 'id=?',whereArgs: [flashcard.id]);
   }
 
   Group _groupFromMap(Map<String, dynamic> map) {
@@ -129,11 +131,15 @@ class SQLiteLocalDatasource implements LocalRepository{
     return result;
   }
 
-  Map<String, Object?> _flashcardToMap(Flashcard flashcard) {
+  Map<String, Object?> _flashcardToMap(Flashcard flashcard,{int? groupId}) {
     Map<String, dynamic> result = {
       "question": flashcard.question,
-      "answer": flashcard.answer
+      "answer": flashcard.answer,
     };
+
+    if(groupId != null){
+      result['group_id'] = groupId;
+    }
     return result;
   }
 }
