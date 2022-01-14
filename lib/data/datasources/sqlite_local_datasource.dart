@@ -126,8 +126,12 @@ class SQLiteLocalDatasource implements LocalRepository{
   Map<String, Object?> _groupToMap(Group group) {
     Map<String, dynamic> result = {
       "name": group.name,
-      "description": group.description
+      "description": group.description,
     };
+
+    if(group.id != null){
+      result['id'] = group.id;
+    }
     return result;
   }
 
@@ -136,6 +140,10 @@ class SQLiteLocalDatasource implements LocalRepository{
       "question": flashcard.question,
       "answer": flashcard.answer,
     };
+
+    if(flashcard.id != null){
+      result['id'] = flashcard.id;
+    }
 
     if(groupId != null){
       result['group_id'] = groupId;

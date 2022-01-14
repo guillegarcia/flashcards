@@ -10,9 +10,12 @@
   "valueCanNotBeEmpty": "This value can not be empty",
   "createGroupErrorMessage": "There was an error at creating the new group",
   "createFlashcardErrorMessage": "There was an error at creating the new flashcard",
+  "updateFlashcardErrorMessage": "There was an error at updating the new flashcard",
+  "updateGroupErrorMessage": "There was an error at updating the group",
   "description": "Descripción",
   "createFlashcard": "Create flashcard",
   "question": "Question",
   "answer": "Answer",
-  "editFlashcard": "Edit flashcard"
+  "editFlashcard": "Edit flashcard",
+  "editGroup": "Edit group"
 }

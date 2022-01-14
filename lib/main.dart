@@ -7,6 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'data/datasources/sqlite_local_datasource.dart';
 import 'presentation/screens/edit_flashcard_screen.dart';
+import 'presentation/screens/edit_group_screen.dart';
 import 'presentation/screens/group_screen.dart';
 import 'presentation/screens/groups_screen.dart';
 import 'presentation/screens/new_group_screen.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
             NewFlashcardScreen.routeName: (context) => NewFlashcardScreen(),
             EditFlashcardScreen.routeName: (context) => EditFlashcardScreen(),
             GroupScreen.routeName: (context) => GroupScreen(),
+            EditGroupScreen.routeName: (context) => EditGroupScreen(),
           },
           initialRoute: GroupsScreen.routeName,
         ),

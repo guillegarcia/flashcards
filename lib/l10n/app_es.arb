@@ -6,9 +6,12 @@
   "valueCanNotBeEmpty": "Este valor no puede estar vacío",
   "createGroupErrorMessage": "Ha ocurrido un error al crear el nuevo grupo",
   "createFlashcardErrorMessage": "Ha ocurrido un error al crear la nueva tarjeta",
+  "updateFlashcardErrorMessage": "Ha ocurrido un error al actualizar la tarjeta",
+  "updateGroupErrorMessage": "Ha ocurrido un error al actualizar el grupo",
   "description": "Descripción",
   "createFlashcard": "Crear tarjeta",
   "question": "Pregunta",
   "answer": "Respuesta",
-  "editFlashcard": "Editar tarjeta"
+  "editFlashcard": "Editar tarjeta",
+  "editGroup": "Editar grupo"
 }

@@ -84,7 +84,7 @@ class _EditFlashcardScreenState extends State<EditFlashcardScreen> {
                         return null;
                       }
                   ),
-                  (state is EditFlashcardErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.createFlashcardErrorMessage):SizedBox.shrink()
+                  (state is EditFlashcardErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.updateFlashcardErrorMessage):SizedBox.shrink()
                 ],
               ),
             ),

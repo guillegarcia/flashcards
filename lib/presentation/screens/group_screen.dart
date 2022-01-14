@@ -1,7 +1,9 @@
 import 'package:flashcards/data/datasources/sqlite_local_datasource.dart';
 import 'package:flashcards/domain/entities/group.dart';
 import 'package:flashcards/presentation/bloc/group/group_cubit.dart';
+import 'package:flashcards/presentation/bloc/groups/groups_cubit.dart';
 import 'package:flashcards/presentation/screens/edit_flashcard_screen.dart';
+import 'package:flashcards/presentation/screens/edit_group_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,6 +31,12 @@ class _GroupScreenState extends State<GroupScreen> {
        child: Scaffold(
         appBar: AppBar(
           title: Text(group.name),
+          actions: [
+            IconButton(icon: Icon(Icons.edit),
+            onPressed: (){
+              Navigator.of(context).pushNamed(EditGroupScreen.routeName,arguments: EditGroupScreenArguments(group: group, groupsCubit: context.read<GroupsCubit>()));
+            },)
+          ],
         ),
         body: BlocBuilder<GroupCubit, GroupState>(
           builder: (context, state) {
@@ -77,10 +85,14 @@ class _GroupScreenState extends State<GroupScreen> {
         ),
         floatingActionButton: BlocBuilder<GroupCubit, GroupState>(
           builder:(context, state) {
-          return FloatingActionButton(child: Text(AppLocalizations.of(context)!.createFlashcard),onPressed: (){
-            Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,arguments: context.read<GroupCubit>());
+          return FloatingActionButton.extended(
+              label: Text(AppLocalizations.of(context)!.createFlashcard),
+              icon: Icon(Icons.add),
+              onPressed: (){
+                Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,arguments: context.read<GroupCubit>());
+              }
+            );
           }
-        );}
         ),
       )
     );
