@@ -25,4 +25,18 @@ class EditFlashcardCubit extends Cubit<EditFlashcardState> {
       emit(EditFlashcardErrorState());
     }
   }
+
+  void deleteFlashcard(Flashcard flashcard) async{
+    try{
+      if(groupBloc.state is LoadFlashcardsSuccessState){
+        emit(DeleteFlashcardInProgressState());
+        int groupId = (groupBloc.group.id!);
+        await _localRepository.deleteFlashcard(flashcard.id!);
+        groupBloc.loadFlashcards();//.addCreatedGroup(group);
+        emit(DeleteFlashcardSuccessState());
+      }
+    } catch (e) {
+      emit(DeleteFlashcardErrorState());
+    }
+  }
 }

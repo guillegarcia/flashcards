@@ -35,7 +35,7 @@ class _EditFlashcardScreenState extends State<EditFlashcardScreen> {
       ),
       child: BlocConsumer<EditFlashcardCubit, EditFlashcardState>(
         listener: (context, state) {
-          if(state is EditFlashcardSuccessState){
+          if(state is EditFlashcardSuccessState || state is DeleteFlashcardSuccessState){
             Navigator.of(context).pop();
           }
         },
@@ -53,11 +53,19 @@ class _EditFlashcardScreenState extends State<EditFlashcardScreen> {
                     );
                     context.read<EditFlashcardCubit>().editFlashcard(flashcard);
                   }
-                }, child: Text(AppLocalizations.of(context)!.save,style: TextStyle(color: Colors.white),))
+                }, child: Text(AppLocalizations.of(context)!.save,style: TextStyle(color: Colors.white))),
+                IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: (){
+                    showConfirmationDialog(context,(){
+                      context.read<EditFlashcardCubit>().deleteFlashcard(arguments.flashcard);
+                    });
+                  },
+                )
               ],
             ),
             body:
-            (state is EditFlashcardInProgressState)?Center(child: CircularProgressIndicator()):
+            (state is EditFlashcardInProgressState || state is DeleteFlashcardInProgressState)?Center(child: CircularProgressIndicator()):
             Form(
               key: _formKey,
               child: ListView(
@@ -84,13 +92,46 @@ class _EditFlashcardScreenState extends State<EditFlashcardScreen> {
                         return null;
                       }
                   ),
-                  (state is EditFlashcardErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.updateFlashcardErrorMessage):SizedBox.shrink()
+                  (state is EditFlashcardErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.updateFlashcardErrorMessage):SizedBox.shrink(),
+                  (state is DeleteFlashcardErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.deleteFlashcardErrorMessage):SizedBox.shrink()
                 ],
               ),
             ),
           );
         },
       ),
+    );
+  }
+
+  void showConfirmationDialog(BuildContext context,VoidCallback mainAction) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(AppLocalizations.of(context)!.cancel),
+      onPressed:  () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text(AppLocalizations.of(context)!.delete),
+      onPressed:  (){
+        Navigator.pop(context);
+        mainAction();
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: Text(AppLocalizations.of(context)!.confirmationMessageDeleteFlashcard),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 

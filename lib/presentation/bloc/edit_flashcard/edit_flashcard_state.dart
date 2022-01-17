@@ -23,3 +23,18 @@ class EditFlashcardErrorState extends EditFlashcardState {
   @override
   List<Object> get props => [];
 }
+
+class DeleteFlashcardInProgressState extends EditFlashcardState {
+  @override
+  List<Object> get props => [];
+}
+
+class DeleteFlashcardSuccessState extends EditFlashcardState {
+  @override
+  List<Object> get props => [];
+}
+
+class DeleteFlashcardErrorState extends EditFlashcardState {
+  @override
+  List<Object> get props => [];
+}

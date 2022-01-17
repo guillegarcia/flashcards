@@ -7,11 +7,15 @@
   "createGroupErrorMessage": "Ha ocurrido un error al crear el nuevo grupo",
   "createFlashcardErrorMessage": "Ha ocurrido un error al crear la nueva tarjeta",
   "updateFlashcardErrorMessage": "Ha ocurrido un error al actualizar la tarjeta",
+  "deleteFlashcardErrorMessage": "Ha ocurrido un error al eliminar la tarjeta",
   "updateGroupErrorMessage": "Ha ocurrido un error al actualizar el grupo",
   "description": "Descripción",
   "createFlashcard": "Crear tarjeta",
   "question": "Pregunta",
   "answer": "Respuesta",
   "editFlashcard": "Editar tarjeta",
-  "editGroup": "Editar grupo"
+  "editGroup": "Editar grupo",
+  "cancel": "Cancelar",
+  "delete": "Borrar",
+  "confirmationMessageDeleteFlashcard": "¿Seguro que quieres eliminar la tarjeta?"
 }
