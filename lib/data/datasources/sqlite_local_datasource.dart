@@ -80,6 +80,12 @@ class SQLiteLocalDatasource implements LocalRepository{
   }
 
   @override
+  Future<void> deleteFlashcardsByGroup(int groupId) async {
+    final db = await database;
+    await db.delete("flashcards",where: 'group_id=?',whereArgs: [groupId]);
+  }
+
+  @override
   Future<List<Flashcard>> getFlashcardsByGroup(int groupId) async{
     print('getFlashcardsByGroup');
     final db = await database;

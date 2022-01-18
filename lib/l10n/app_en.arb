@@ -12,6 +12,7 @@
   "createFlashcardErrorMessage": "There was an error at creating the new flashcard",
   "updateFlashcardErrorMessage": "There was an error at updating the flashcard",
   "deleteFlashcardErrorMessage": "There was an error at deleting the flashcard",
+  "deleteGroupErrorMessage": "There was an error at deleting the group",
   "updateGroupErrorMessage": "There was an error at updating the group",
   "description": "Descripción",
   "createFlashcard": "Create flashcard",
@@ -21,5 +22,6 @@
   "editGroup": "Edit group",
   "cancel": "Cancel",
   "delete": "Borrar",
-  "confirmationMessageDeleteFlashcard": "Are you sure you want to delete the flashcard?"
+  "confirmationMessageDeleteFlashcard": "Are you sure you want to delete the flashcard?",
+  "confirmationMessageDeleteGroup": "Are you sure you want to delete the group and all its flashcards?"
 }

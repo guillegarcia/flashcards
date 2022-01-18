@@ -24,6 +24,19 @@ class EditGroupCubit extends Cubit<EditGroupState> {
     } catch (e) {
       emit(UpdateErrorState());
     }
+  }
 
+  void deleteGroup(Group group) async{
+    try{
+      emit(DeleteGroupInProgressState());
+      await _localRepository.deleteFlashcardsByGroup(group.id!);
+      await _localRepository.deleteGroup(group.id!);
+      if(groupsBloc.state is LoadSuccessState){
+        groupsBloc.loadGroups();
+      }
+      emit(DeleteGroupSuccessState());
+    } catch (e) {
+      emit(DeleteGroupErrorState());
+    }
   }
 }

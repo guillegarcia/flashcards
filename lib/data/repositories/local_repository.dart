@@ -18,4 +18,6 @@ abstract class LocalRepository {
 
   Future<void> deleteFlashcard(int flashcardId);
 
+  Future<void> deleteFlashcardsByGroup(int groupId);
+
 }

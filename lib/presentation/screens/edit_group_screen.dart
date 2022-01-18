@@ -4,6 +4,7 @@ import 'package:flashcards/presentation/bloc/edit_group/edit_group_cubit.dart';
 import 'package:flashcards/presentation/bloc/group/group_cubit.dart';
 import 'package:flashcards/presentation/bloc/groups/groups_cubit.dart';
 import 'package:flashcards/presentation/bloc/new_group/new_group_cubit.dart';
+import 'package:flashcards/presentation/screens/groups_screen.dart';
 import 'package:flashcards/presentation/widgets/error_message_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,6 +39,8 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
         listener: (context, state) {
           if(state is UpdateSuccessState){
             Navigator.of(context).pop();
+          } else if(state is DeleteGroupSuccessState) {
+            Navigator.of(context).pushNamedAndRemoveUntil(GroupsScreen.routeName,(Route<dynamic> route) => false);
           }
         },
         builder: (context, state) {
@@ -53,11 +56,19 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                       id: arguments.group.id
                     ));
                   }
-                }, child: Text(AppLocalizations.of(context)!.save,style: TextStyle(color: Colors.white),))
+                }, child: Text(AppLocalizations.of(context)!.save,style: TextStyle(color: Colors.white),)),
+                IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: (){
+                    showConfirmationDialog(context,(){
+                      context.read<EditGroupCubit>().deleteGroup(arguments.group);
+                    });
+                  },
+                )
               ],
             ),
             body:
-            (state is UpdateInProgressState)?Center(child: CircularProgressIndicator()):
+            (state is UpdateInProgressState || state is DeleteGroupInProgressState)?Center(child: CircularProgressIndicator()):
             Form(
               key: _formKey,
               child: ListView(
@@ -84,13 +95,46 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                         return null;
                       }
                   ),
-                  (state is UpdateErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.updateGroupErrorMessage):SizedBox.shrink()
+                  (state is UpdateErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.updateGroupErrorMessage):SizedBox.shrink(),
+                  (state is DeleteGroupErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.deleteGroupErrorMessage):SizedBox.shrink()
                 ],
               ),
             ),
           );
         },
       ),
+    );
+  }
+
+  void showConfirmationDialog(BuildContext context,VoidCallback mainAction) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(AppLocalizations.of(context)!.cancel),
+      onPressed:  () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text(AppLocalizations.of(context)!.delete),
+      onPressed:  (){
+        Navigator.pop(context);
+        mainAction();
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: Text(AppLocalizations.of(context)!.confirmationMessageDeleteGroup),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 

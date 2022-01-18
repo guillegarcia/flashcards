@@ -23,3 +23,18 @@ class UpdateErrorState extends EditGroupState {
   @override
   List<Object> get props => [];
 }
+
+class DeleteGroupInProgressState extends EditGroupState {
+  @override
+  List<Object> get props => [];
+}
+
+class DeleteGroupSuccessState extends EditGroupState {
+  @override
+  List<Object> get props => [];
+}
+
+class DeleteGroupErrorState extends EditGroupState {
+  @override
+  List<Object> get props => [];
+}
