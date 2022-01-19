@@ -1,8 +1,11 @@
+import 'package:flashcards/config/app_config.dart';
+import 'package:flashcards/config/design_config.dart';
 import 'package:flashcards/data/datasources/sqlite_local_datasource.dart';
 import 'package:flashcards/domain/entities/flash_card.dart';
 import 'package:flashcards/presentation/bloc/group/group_cubit.dart';
 import 'package:flashcards/presentation/bloc/new_flashcard/new_flashcard_cubit.dart';
 import 'package:flashcards/presentation/widgets/error_message_widget.dart';
+import 'package:flashcards/presentation/widgets/form_field_label.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -54,34 +57,41 @@ class _NewFlashcardScreenState extends State<NewFlashcardScreen> {
             ),
             body:
             (state is CreateFlashcardInProgressState)?Center(child: CircularProgressIndicator()):
-            Form(
-              key: _formKey,
-              child: ListView(
-                children: [
-                  Text(AppLocalizations.of(context)!.question),
-                  TextFormField(
-                      autofocus: true,
-                      controller: _questionController,
-                      validator: (value){
-                        if (value == null || value.isEmpty) {
-                          return AppLocalizations.of(context)!.valueCanNotBeEmpty;
+            Container(
+              padding: DesignConfig.screenPadding,
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  children: [
+                    FormFieldLabel(AppLocalizations.of(context)!.question),
+                    TextFormField(
+                        autofocus: true,
+                        maxLines: 3,
+                        maxLength: AppConfig.flashcardTextMaxLength,
+                        controller: _questionController,
+                        validator: (value){
+                          if (value == null || value.isEmpty) {
+                            return AppLocalizations.of(context)!.valueCanNotBeEmpty;
+                          }
+                          return null;
                         }
-                        return null;
-                      }
-                  ),
-                  Text(AppLocalizations.of(context)!.answer),
-                  TextFormField(
-                      autofocus: true,
-                      controller: _answerController,
-                      validator: (value){
-                        if (value == null || value.isEmpty) {
-                          return AppLocalizations.of(context)!.valueCanNotBeEmpty;
+                    ),
+                    SizedBox(height: DesignConfig.formFieldSeparationHeight),
+                    FormFieldLabel(AppLocalizations.of(context)!.answer),
+                    TextFormField(
+                        maxLines: 3,
+                        maxLength: AppConfig.flashcardTextMaxLength,
+                        controller: _answerController,
+                        validator: (value){
+                          if (value == null || value.isEmpty) {
+                            return AppLocalizations.of(context)!.valueCanNotBeEmpty;
+                          }
+                          return null;
                         }
-                        return null;
-                      }
-                  ),
-                  (state is CreateFlashcardErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.createFlashcardErrorMessage):SizedBox.shrink()
-                ],
+                    ),
+                    (state is CreateFlashcardErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.createFlashcardErrorMessage):SizedBox.shrink()
+                  ],
+                ),
               ),
             ),
           );

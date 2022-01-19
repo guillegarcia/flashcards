@@ -8,6 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'data/datasources/sqlite_local_datasource.dart';
 import 'presentation/screens/edit_flashcard_screen.dart';
 import 'presentation/screens/edit_group_screen.dart';
+import 'presentation/screens/exam_screen.dart';
 import 'presentation/screens/group_screen.dart';
 import 'presentation/screens/groups_screen.dart';
 import 'presentation/screens/new_group_screen.dart';
@@ -29,6 +30,23 @@ class MyApp extends StatelessWidget {
           title: 'Simple flashcards',
           theme: ThemeData(
             primarySwatch: Colors.green,
+              inputDecorationTheme: new InputDecorationTheme(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    // width: 0.0 produces a thin "hairline" border
+                    borderSide: const BorderSide(color: Colors.black54, width: 0.0),
+                  ),
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    // width: 0.0 produces a thin "hairline" border
+                    borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                  ),
+                  hintStyle: TextStyle(color: Colors.grey[800])
+              )
           ),
           localizationsDelegates: [
             AppLocalizations.delegate,
@@ -48,6 +66,7 @@ class MyApp extends StatelessWidget {
             EditFlashcardScreen.routeName: (context) => EditFlashcardScreen(),
             GroupScreen.routeName: (context) => GroupScreen(),
             EditGroupScreen.routeName: (context) => EditGroupScreen(),
+            ExamScreen.routeName: (context) => ExamScreen(),
           },
           initialRoute: GroupsScreen.routeName,
         ),

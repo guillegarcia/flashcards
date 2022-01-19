@@ -1,3 +1,4 @@
+import 'package:flashcards/config/design_config.dart';
 import 'package:flashcards/data/datasources/sqlite_local_datasource.dart';
 import 'package:flashcards/domain/entities/group.dart';
 import 'package:flashcards/presentation/bloc/edit_group/edit_group_cubit.dart';
@@ -6,6 +7,7 @@ import 'package:flashcards/presentation/bloc/groups/groups_cubit.dart';
 import 'package:flashcards/presentation/bloc/new_group/new_group_cubit.dart';
 import 'package:flashcards/presentation/screens/groups_screen.dart';
 import 'package:flashcards/presentation/widgets/error_message_widget.dart';
+import 'package:flashcards/presentation/widgets/form_field_label.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -69,35 +71,37 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
             ),
             body:
             (state is UpdateInProgressState || state is DeleteGroupInProgressState)?Center(child: CircularProgressIndicator()):
-            Form(
-              key: _formKey,
-              child: ListView(
-                children: [
-                  Text(AppLocalizations.of(context)!.name),
-                  TextFormField(
-                      autofocus: true,
-                      controller: _nameController,
-                      validator: (value){
-                        if (value == null || value.isEmpty) {
-                          return AppLocalizations.of(context)!.valueCanNotBeEmpty;
+            Container(
+              padding: DesignConfig.screenPadding,
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  children: [
+                    FormFieldLabel(AppLocalizations.of(context)!.name),
+                    TextFormField(
+                        controller: _nameController,
+                        validator: (value){
+                          if (value == null || value.isEmpty) {
+                            return AppLocalizations.of(context)!.valueCanNotBeEmpty;
+                          }
+                          return null;
                         }
-                        return null;
-                      }
-                  ),
-                  Text(AppLocalizations.of(context)!.description),
-                  TextFormField(
-                      autofocus: true,
-                      controller: _descriptionController,
-                      validator: (value){
-                        if (value == null || value.isEmpty) {
-                          return AppLocalizations.of(context)!.valueCanNotBeEmpty;
+                    ),
+                    SizedBox(height: DesignConfig.formFieldSeparationHeight),
+                    FormFieldLabel(AppLocalizations.of(context)!.description),
+                    TextFormField(
+                        controller: _descriptionController,
+                        validator: (value){
+                          if (value == null || value.isEmpty) {
+                            return AppLocalizations.of(context)!.valueCanNotBeEmpty;
+                          }
+                          return null;
                         }
-                        return null;
-                      }
-                  ),
-                  (state is UpdateErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.updateGroupErrorMessage):SizedBox.shrink(),
-                  (state is DeleteGroupErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.deleteGroupErrorMessage):SizedBox.shrink()
-                ],
+                    ),
+                    (state is UpdateErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.updateGroupErrorMessage):SizedBox.shrink(),
+                    (state is DeleteGroupErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.deleteGroupErrorMessage):SizedBox.shrink()
+                  ],
+                ),
               ),
             ),
           );

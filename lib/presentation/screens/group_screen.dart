@@ -1,9 +1,11 @@
+import 'package:flashcards/config/design_config.dart';
 import 'package:flashcards/data/datasources/sqlite_local_datasource.dart';
 import 'package:flashcards/domain/entities/group.dart';
 import 'package:flashcards/presentation/bloc/group/group_cubit.dart';
 import 'package:flashcards/presentation/bloc/groups/groups_cubit.dart';
 import 'package:flashcards/presentation/screens/edit_flashcard_screen.dart';
 import 'package:flashcards/presentation/screens/edit_group_screen.dart';
+import 'package:flashcards/presentation/screens/exam_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,32 +49,38 @@ class _GroupScreenState extends State<GroupScreen> {
             } else if (state is LoadFlashcardsSuccessState) {
               final flashcards = state.flashcards;
 
-              return Column(
-                children: [
-                  Text(group.description!),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: flashcards.length,
-                      itemBuilder: (context, index) =>
-                          Card(
-                            child: InkWell(
-                              onTap: (){
-                                Navigator.of(context).pushNamed(EditFlashcardScreen.routeName,arguments: EditFlashcardScreenArguments(flashcard: flashcards[index], groupCubit: context.read<GroupCubit>()));
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(16),
-                                child: Column(
-                                  children: [
-                                    Text(flashcards[index].question,style: TextStyle(fontWeight: FontWeight.bold)),
-                                    Text(flashcards[index].answer),
-                                  ],
-                                )
+              return Container(
+                padding: DesignConfig.screenPadding,
+                child: Column(
+                  children: [
+                    Text(group.description!),
+                    ElevatedButton(onPressed: (){
+                      Navigator.pushNamed(context, ExamScreen.routeName,arguments: group.cards);
+                    }, child: Text(AppLocalizations.of(context)!.startExam)),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: flashcards.length,
+                        itemBuilder: (context, index) =>
+                            Card(
+                              child: InkWell(
+                                onTap: (){
+                                  Navigator.of(context).pushNamed(EditFlashcardScreen.routeName,arguments: EditFlashcardScreenArguments(flashcard: flashcards[index], groupCubit: context.read<GroupCubit>()));
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(16),
+                                  child: Column(
+                                    children: [
+                                      Text(flashcards[index].question,style: TextStyle(fontWeight: FontWeight.bold)),
+                                      Text(flashcards[index].answer),
+                                    ],
+                                  )
+                                ),
                               ),
                             ),
-                          ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             } else if (state is LoadFlashcardsErrorState) {
               return Container(

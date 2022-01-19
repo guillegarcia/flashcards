@@ -19,5 +19,6 @@
   "cancel": "Cancelar",
   "delete": "Borrar",
   "confirmationMessageDeleteFlashcard": "¿Seguro que quieres eliminar la tarjeta?",
-  "confirmationMessageDeleteGroup": "¿Seguro que quieres eliminar el grupo y todas sus tarjetas?"
+  "confirmationMessageDeleteGroup": "¿Seguro que quieres eliminar el grupo y todas sus tarjetas?",
+  "startExam": "Comenzar repaso"
 }

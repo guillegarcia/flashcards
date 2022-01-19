@@ -1,3 +1,4 @@
+import 'package:flashcards/config/design_config.dart';
 import 'package:flashcards/data/datasources/sqlite_local_datasource.dart';
 import 'package:flashcards/data/repositories/local_repository.dart';
 import 'package:flashcards/presentation/bloc/groups/groups_cubit.dart';
@@ -36,6 +37,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
             final groups = state.groups;
 
             return ListView.builder(
+              padding: DesignConfig.screenPadding,
               itemCount: groups.length,
               itemBuilder: (context, index) =>
                   Card(

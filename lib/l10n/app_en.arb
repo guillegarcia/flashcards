@@ -23,5 +23,6 @@
   "cancel": "Cancel",
   "delete": "Borrar",
   "confirmationMessageDeleteFlashcard": "Are you sure you want to delete the flashcard?",
-  "confirmationMessageDeleteGroup": "Are you sure you want to delete the group and all its flashcards?"
+  "confirmationMessageDeleteGroup": "Are you sure you want to delete the group and all its flashcards?",
+  "startExam": "Start exam"
 }
