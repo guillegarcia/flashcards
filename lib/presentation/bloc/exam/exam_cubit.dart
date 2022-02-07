@@ -1,0 +1,63 @@
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flashcards/data/repositories/local_repository.dart';
+import 'package:flashcards/domain/entities/exam_result.dart';
+import 'package:flashcards/domain/entities/flash_card.dart';
+
+part 'exam_state.dart';
+
+class ExamCubit extends Cubit<ExamState> {
+
+  final List<Flashcard> flashcards;
+  int currentFlashcardIndex = 0;
+  ExamResult examResult = ExamResult();
+  final LocalRepository localRepository;
+
+  ExamCubit({required this.localRepository,required this.flashcards}) : super(flashcards.isNotEmpty ? ShowCurrentFlashcardState(flashcards.first,1) : ErrorState());
+
+  /*void updateGroup(Group group) async{
+    try{
+      print('updateGroup cubit ${group.name}');
+      emit(UpdateInProgressState());
+      await _localRepository.updateGroup(group);
+      if(groupsBloc.state is LoadSuccessState){
+        groupsBloc.loadGroups();//.addCreatedGroup(group);
+      }
+      emit(UpdateSuccessState());
+    } catch (e) {
+      emit(UpdateErrorState());
+    }
+  }*/
+
+  /*void showCurrentCardAnswer(){
+    emit(FlashcardAnswerState(flashcards[currentFlashcardIndex]));
+  }
+
+  void showCurrentCardQuestion(){
+    emit(FlashcardQuestionState(flashcards[currentFlashcardIndex]));
+  }*/
+
+  void saveCurrentCardSuccess(){
+    //Save success
+    examResult.rightCounter++;
+    _showNextCard();
+  }
+
+  void saveCurrentCardFailed(){
+    //Save Failure
+    examResult.failedCounter++;
+    _showNextCard();
+  }
+
+  void _showNextCard() {
+    print('_showNextCard');
+    //Mostrar siguiente carta o pagina de resultados
+    if(currentFlashcardIndex<flashcards.length-1) {
+      currentFlashcardIndex++;
+      emit(ShowCurrentFlashcardState(flashcards[currentFlashcardIndex],currentFlashcardIndex+1));
+    } else {
+      emit(FinishState(examResult));
+    }
+  }
+
+}

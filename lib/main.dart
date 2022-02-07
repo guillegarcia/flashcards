@@ -12,6 +12,7 @@ import 'presentation/screens/exam_screen.dart';
 import 'presentation/screens/group_screen.dart';
 import 'presentation/screens/groups_screen.dart';
 import 'presentation/screens/new_group_screen.dart';
+import 'presentation/screens/result_screen.dart';
 import 'presentation/screens/sample_screen.dart';
 
 void main() {
@@ -46,6 +47,16 @@ class MyApp extends StatelessWidget {
                     borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                   ),
                   hintStyle: TextStyle(color: Colors.grey[800])
+              ),
+              elevatedButtonTheme: ElevatedButtonThemeData(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 6,
+                    padding: EdgeInsets.symmetric(vertical: 16,horizontal: 28),
+                    textStyle: TextStyle(fontSize: 14),
+                    shape:RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(30.0),
+                    ),
+                  )
               )
           ),
           localizationsDelegates: [
@@ -67,6 +78,7 @@ class MyApp extends StatelessWidget {
             GroupScreen.routeName: (context) => GroupScreen(),
             EditGroupScreen.routeName: (context) => EditGroupScreen(),
             ExamScreen.routeName: (context) => ExamScreen(),
+            ResultScreen.routeName: (context) => ResultScreen(),
           },
           initialRoute: GroupsScreen.routeName,
         ),

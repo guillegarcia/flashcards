@@ -85,6 +85,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.2"
+  flip_card:
+    dependency: "direct main"
+    description:
+      name: flip_card
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -266,6 +273,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.0"
+  step_progress_indicator:
+    dependency: "direct main"
+    description:
+      name: step_progress_indicator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   stream_channel:
     dependency: transitive
     description:

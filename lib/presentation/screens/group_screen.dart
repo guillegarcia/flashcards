@@ -55,8 +55,9 @@ class _GroupScreenState extends State<GroupScreen> {
                   children: [
                     Text(group.description!),
                     ElevatedButton(onPressed: (){
-                      Navigator.pushNamed(context, ExamScreen.routeName,arguments: group.cards);
+                      Navigator.pushNamed(context, ExamScreen.routeName,arguments: state.flashcards);
                     }, child: Text(AppLocalizations.of(context)!.startExam)),
+                    const SizedBox(height: 16),
                     Expanded(
                       child: ListView.builder(
                         itemCount: flashcards.length,
