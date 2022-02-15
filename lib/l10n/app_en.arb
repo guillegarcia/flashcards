@@ -24,5 +24,10 @@
   "delete": "Borrar",
   "confirmationMessageDeleteFlashcard": "Are you sure you want to delete the flashcard?",
   "confirmationMessageDeleteGroup": "Are you sure you want to delete the group and all its flashcards?",
-  "startExam": "Start exam"
+  "startExam": "Start exam",
+  "result": "Result",
+  "goHome": "Done",
+  "flashcards": "Cards",
+  "repeatFailedCards": "Repeat failed",
+  "startFailedExam": "Review failed"
 }

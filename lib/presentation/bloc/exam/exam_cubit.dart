@@ -13,7 +13,14 @@ class ExamCubit extends Cubit<ExamState> {
   ExamResult examResult = ExamResult();
   final LocalRepository localRepository;
 
-  ExamCubit({required this.localRepository,required this.flashcards}) : super(flashcards.isNotEmpty ? ShowCurrentFlashcardState(flashcards.first,1) : ErrorState());
+  ExamCubit({required this.localRepository,required this.flashcards}) : super(flashcards.isNotEmpty ? LoadingState() : ErrorState()){
+    print('Constructor');
+    //Random order
+    flashcards.shuffle();
+    emit(ShowCurrentFlashcardState(flashcards.first,1));
+  }
+
+  Flashcard _currentFlashcard() => flashcards[currentFlashcardIndex];
 
   /*void updateGroup(Group group) async{
     try{
@@ -38,14 +45,15 @@ class ExamCubit extends Cubit<ExamState> {
   }*/
 
   void saveCurrentCardSuccess(){
-    //Save success
+    localRepository.removeFromReview(_currentFlashcard().id!);
     examResult.rightCounter++;
     _showNextCard();
   }
 
   void saveCurrentCardFailed(){
-    //Save Failure
-    examResult.failedCounter++;
+    Flashcard currentFlashcard = _currentFlashcard();
+    localRepository.markForReview(currentFlashcard.id!);
+    examResult.failedFlashcard.add(currentFlashcard);
     _showNextCard();
   }
 

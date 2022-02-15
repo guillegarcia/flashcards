@@ -99,6 +99,35 @@ class SQLiteLocalDatasource implements LocalRepository{
   }
 
   @override
+  Future<List<Flashcard>> getFlashcardsForReviewByGroup(int groupId) async{
+    print('getFlashcardsByGroup');
+    final db = await database;
+    List<Flashcard> flashcards = [];
+    //var result = await db.query("flashcards", columns: ['id','question','answer'],where: 'group_id=?',whereArgs: [groupId]);
+    var result = await db.rawQuery('select id,question,answer from flashcards join review on id=flashcard_id where group_id=?',[groupId]);
+    for(final row in result){
+      //print('id recuperado: ${_flashcardFromMap(row).id}');
+      flashcards.add(_flashcardFromMap(row));
+    }
+    return flashcards;
+  }
+
+  @override
+  Future<void> markForReview(int flashCardId) async{
+    final db = await database;
+    var value = {
+      'flashcard_id': flashCardId,
+    };
+    await db.insert("review",value);
+  }
+
+  @override
+  Future<void> removeFromReview(int flashCardId) async{
+    final db = await database;
+    await db.delete("review",where: 'flashcard_id=?',whereArgs: [flashCardId]);
+  }
+
+  @override
   Future<int> insertFlashcard(Flashcard flashcard,int groupId) async {
     final db = await database;
     return await db.insert("flashcards", _flashcardToMap(flashcard,groupId: groupId));

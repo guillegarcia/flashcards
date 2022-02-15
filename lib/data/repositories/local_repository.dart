@@ -12,6 +12,8 @@ abstract class LocalRepository {
 
   Future<List<Flashcard>> getFlashcardsByGroup(int groupId);
 
+  Future<List<Flashcard>> getFlashcardsForReviewByGroup(int groupId);
+
   Future<int> insertFlashcard(Flashcard flashcard,int groupId);
 
   Future<void> updateFlashcard(Flashcard flashcard);
@@ -19,5 +21,9 @@ abstract class LocalRepository {
   Future<void> deleteFlashcard(int flashcardId);
 
   Future<void> deleteFlashcardsByGroup(int groupId);
+
+  Future<void> markForReview(int flashcardId);
+
+  Future<void> removeFromReview(int flashcardId);
 
 }

@@ -103,6 +103,10 @@ class _ExamScreenState extends State<ExamScreen> {
                         )
                       ]
                   );
+                } else if(state is LoadingState) {
+                  return const Center(
+                    child: CircularProgressIndicator()
+                  );
                 } else {
                   return Container();
                 }

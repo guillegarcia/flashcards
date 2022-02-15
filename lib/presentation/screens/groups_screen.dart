@@ -1,6 +1,7 @@
 import 'package:flashcards/config/design_config.dart';
 import 'package:flashcards/data/datasources/sqlite_local_datasource.dart';
 import 'package:flashcards/data/repositories/local_repository.dart';
+import 'package:flashcards/domain/entities/group.dart';
 import 'package:flashcards/presentation/bloc/groups/groups_cubit.dart';
 import 'package:flashcards/presentation/bloc/groups/groups_cubit.dart';
 import 'package:flashcards/presentation/screens/new_group_screen.dart';
@@ -36,20 +37,24 @@ class _GroupsScreenState extends State<GroupsScreen> {
           } else if (state is LoadSuccessState) {
             final groups = state.groups;
 
-            return ListView.builder(
-              padding: DesignConfig.screenPadding,
-              itemCount: groups.length,
-              itemBuilder: (context, index) =>
-                  Card(
-                    child: InkWell(
-                        child: Container(
-                          padding: EdgeInsets.all(16),
-                            child: Text(groups[index].name)),
-                      onTap: (){
-                        Navigator.pushNamed(context, GroupScreen.routeName,arguments: groups[index]);
-                      },
-                    ),
+            return GridView.count(
+              crossAxisCount: 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              children: List.generate(groups.length, (index) {
+                Group group = groups[index];
+                return Card(
+                  child: InkWell(
+                    child: Container(
+                        padding: EdgeInsets.all(16),
+                        child: Text(group.name)),
+                    onTap: (){
+                      Navigator.pushNamed(context, GroupScreen.routeName,arguments: group);
+                    },
                   ),
+                );
+              }),
+              padding: DesignConfig.screenPadding,
             );
           } else if (state is LoadErrorState) {
             return Container(

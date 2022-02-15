@@ -32,7 +32,10 @@ class _GroupScreenState extends State<GroupScreen> {
         create: (context) => GroupCubit(context.read<SQLiteLocalDatasource>(),group: group),
        child: Scaffold(
         appBar: AppBar(
-          title: Text(group.name),
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          //title: ,
           actions: [
             IconButton(icon: Icon(Icons.edit),
             onPressed: (){
@@ -49,39 +52,87 @@ class _GroupScreenState extends State<GroupScreen> {
             } else if (state is LoadFlashcardsSuccessState) {
               final flashcards = state.flashcards;
 
-              return Container(
-                padding: DesignConfig.screenPadding,
-                child: Column(
-                  children: [
-                    Text(group.description!),
-                    ElevatedButton(onPressed: (){
-                      Navigator.pushNamed(context, ExamScreen.routeName,arguments: state.flashcards);
-                    }, child: Text(AppLocalizations.of(context)!.startExam)),
-                    const SizedBox(height: 16),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: flashcards.length,
-                        itemBuilder: (context, index) =>
-                            Card(
-                              child: InkWell(
-                                onTap: (){
-                                  Navigator.of(context).pushNamed(EditFlashcardScreen.routeName,arguments: EditFlashcardScreenArguments(flashcard: flashcards[index], groupCubit: context.read<GroupCubit>()));
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(16),
-                                  child: Column(
-                                    children: [
-                                      Text(flashcards[index].question,style: TextStyle(fontWeight: FontWeight.bold)),
-                                      Text(flashcards[index].answer),
-                                    ],
-                                  )
+              return Stack(
+                children: [
+                  Container(
+                    padding: DesignConfig.screenPadding,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(group.name,style: TextStyle(
+                          fontSize: 32
+                        )),
+                        const SizedBox(height: 8),
+                        Text(group.description!),
+                        const SizedBox(height: 16),
+                        Text(AppLocalizations.of(context)!.flashcards, style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.grey
+                        )),
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          height: 250,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: flashcards.length,
+                            itemBuilder: (context, index) =>
+                                Card(
+                                  child: InkWell(
+                                    onTap: (){
+                                      Navigator.of(context).pushNamed(EditFlashcardScreen.routeName,arguments: EditFlashcardScreenArguments(flashcard: flashcards[index], groupCubit: context.read<GroupCubit>()));
+                                    },
+                                    child: Container(
+                                      height: 250,
+                                      width: 250,
+                                      padding: EdgeInsets.all(16),
+                                      child: Column(
+                                        children: [
+                                          Text(flashcards[index].question,style: TextStyle(fontWeight: FontWeight.bold)),
+                                          Text(flashcards[index].answer),
+                                        ],
+                                      )
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: OutlinedButton.icon(
+                            onPressed: (){
+                              Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,arguments: context.read<GroupCubit>());
+                            },
+                            icon: const Icon(Icons.add),
+                            label: Text(AppLocalizations.of(context)!.createFlashcard)),
+                        )
+                      ],
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 32),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ElevatedButton.icon(
+                            icon: Icon(Icons.play_arrow),
+                              onPressed: (){
+                                Navigator.pushNamed(context, ExamScreen.routeName,arguments: state.flashcards);
+                              },
+                              label: Text(AppLocalizations.of(context)!.startExam.toUpperCase())),
+                          SizedBox(height: 12),
+                          ElevatedButton.icon(
+                              icon: Icon(Icons.play_arrow_outlined),
+                              onPressed: (){
+                                Navigator.pushNamed(context, ExamScreen.routeName,arguments: state.flashcards);
+                              },
+                              label: Text(AppLocalizations.of(context)!.startFailedExam.toUpperCase()))
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  )
+                ],
               );
             } else if (state is LoadFlashcardsErrorState) {
               return Container(
@@ -91,18 +142,7 @@ class _GroupScreenState extends State<GroupScreen> {
               return Container();
             }
           },
-        ),
-        floatingActionButton: BlocBuilder<GroupCubit, GroupState>(
-          builder:(context, state) {
-          return FloatingActionButton.extended(
-              label: Text(AppLocalizations.of(context)!.createFlashcard),
-              icon: Icon(Icons.add),
-              onPressed: (){
-                Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,arguments: context.read<GroupCubit>());
-              }
-            );
-          }
-        ),
+        )
       )
     );
   }

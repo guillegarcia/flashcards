@@ -4,6 +4,12 @@ abstract class ExamState extends Equatable {
   const ExamState();
 }
 
+class LoadingState extends ExamState {
+
+  @override
+  List<Object> get props => [];
+}
+
 class ShowCurrentFlashcardState extends ExamState {
 
   ShowCurrentFlashcardState(this.flashcard,this.currentStep);

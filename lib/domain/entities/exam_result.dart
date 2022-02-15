@@ -1,4 +1,6 @@
+import 'flash_card.dart';
+
 class ExamResult {
-  int failedCounter = 0;
   int rightCounter = 0;
+  List<Flashcard> failedFlashcard = [];
 }

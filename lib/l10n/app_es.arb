@@ -20,5 +20,9 @@
   "delete": "Borrar",
   "confirmationMessageDeleteFlashcard": "¿Seguro que quieres eliminar la tarjeta?",
   "confirmationMessageDeleteGroup": "¿Seguro que quieres eliminar el grupo y todas sus tarjetas?",
-  "startExam": "Comenzar repaso"
+  "startExam": "Comenzar repaso",
+  "result": "Resultado",
+  "goHome": "Salir",
+  "flashcards": "Tarjetas",
+  "startFailedExam": "Repasar falladas"
 }
