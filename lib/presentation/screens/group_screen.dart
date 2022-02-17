@@ -47,66 +47,69 @@ class _GroupScreenState extends State<GroupScreen> {
           builder: (context, state) {
             if (state is LoadFlashcardsInProgressState) {
               return Container(
-                child: Center(child: CircularProgressIndicator()),
+                child: const Center(child: CircularProgressIndicator()),
               );
             } else if (state is LoadFlashcardsSuccessState) {
               final flashcards = state.flashcards;
 
               return Stack(
                 children: [
-                  Container(
-                    padding: DesignConfig.screenPadding,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(group.name,style: TextStyle(
-                          fontSize: 32
-                        )),
-                        const SizedBox(height: 8),
-                        Text(group.description!),
-                        const SizedBox(height: 16),
-                        Text(AppLocalizations.of(context)!.flashcards, style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.grey
-                        )),
-                        const SizedBox(height: 8),
-                        SizedBox(
-                          height: 250,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: flashcards.length,
-                            itemBuilder: (context, index) =>
-                                Card(
-                                  child: InkWell(
-                                    onTap: (){
-                                      Navigator.of(context).pushNamed(EditFlashcardScreen.routeName,arguments: EditFlashcardScreenArguments(flashcard: flashcards[index], groupCubit: context.read<GroupCubit>()));
-                                    },
-                                    child: Container(
-                                      height: 250,
-                                      width: 250,
-                                      padding: EdgeInsets.all(16),
-                                      child: Column(
-                                        children: [
-                                          Text(flashcards[index].question,style: TextStyle(fontWeight: FontWeight.bold)),
-                                          Text(flashcards[index].answer),
-                                        ],
-                                      )
-                                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: DesignConfig.screenPadding,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(group.name,style: const TextStyle(
+                                fontSize: 32
+                            )),
+                            const SizedBox(height: 16),
+                            Text(group.description!),
+                            const SizedBox(height: 32),
+                            Text(AppLocalizations.of(context)!.flashcards, style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.grey
+                            )),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        height: 250,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: flashcards.length,
+                          itemBuilder: (context, index) =>
+                              Card(
+                                child: InkWell(
+                                  onTap: (){
+                                    Navigator.of(context).pushNamed(EditFlashcardScreen.routeName,arguments: EditFlashcardScreenArguments(flashcard: flashcards[index], groupCubit: context.read<GroupCubit>()));
+                                  },
+                                  child: Container(
+                                    height: 250,
+                                    width: 250,
+                                    padding: EdgeInsets.all(16),
+                                    child: Center(child: Text(flashcards[index].question,style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 16))),
                                   ),
                                 ),
-                          ),
+                              ),
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: OutlinedButton.icon(
                             onPressed: (){
                               Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,arguments: context.read<GroupCubit>());
                             },
                             icon: const Icon(Icons.add),
                             label: Text(AppLocalizations.of(context)!.createFlashcard)),
-                        )
-                      ],
-                    ),
+                        ),
+                      )
+                    ],
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
@@ -123,9 +126,12 @@ class _GroupScreenState extends State<GroupScreen> {
                               label: Text(AppLocalizations.of(context)!.startExam.toUpperCase())),
                           SizedBox(height: 12),
                           ElevatedButton.icon(
-                              icon: Icon(Icons.play_arrow_outlined),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.grey
+                            ),
+                              icon: const Icon(Icons.play_arrow_outlined),
                               onPressed: (){
-                                Navigator.pushNamed(context, ExamScreen.routeName,arguments: state.flashcards);
+                                Navigator.pushNamed(context, ExamScreen.routeName,arguments: state.reviewFlashcards);
                               },
                               label: Text(AppLocalizations.of(context)!.startFailedExam.toUpperCase()))
                         ],

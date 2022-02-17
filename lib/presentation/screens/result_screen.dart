@@ -1,5 +1,6 @@
 import 'package:flashcards/config/design_config.dart';
 import 'package:flashcards/domain/entities/exam_result.dart';
+import 'package:flashcards/utils/admob_tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -17,12 +18,28 @@ class ResultScreen extends StatefulWidget {
 }
 
 class _ResultScreenState extends State<ResultScreen> {
+
+  AdmobTools? admobTools;
+
+  @override
+  void initState() {
+    admobTools = AdmobTools();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    admobTools!.disposeInterstitialAd();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
 
     ExamResult examResult = ModalRoute.of(context)!.settings.arguments as ExamResult;
     int totalSteps = examResult.failedFlashcard.length +examResult.rightCounter;
     double percent = double.parse((100*examResult.rightCounter/(totalSteps)).toStringAsFixed(2));
+    admobTools!.screenIsReadyToShowAd();
 
     return Scaffold(
       body: Padding(
@@ -76,6 +93,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     OutlinedButton(
                       child: Text((AppLocalizations.of(context)!.goHome).toUpperCase(),style: const TextStyle(fontSize: 18)),
                       onPressed: (){
+                        admobTools!.adAction();
                         Navigator.pushNamedAndRemoveUntil(context, GroupsScreen.routeName, (route) => false);
                       },
                     )

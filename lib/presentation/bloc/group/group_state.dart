@@ -10,12 +10,13 @@ class LoadFlashcardsInProgressState extends GroupState {
 }
 
 class LoadFlashcardsSuccessState extends GroupState {
-  LoadFlashcardsSuccessState(this.flashcards);
+  LoadFlashcardsSuccessState(this.flashcards,this.reviewFlashcards);
 
   List<Flashcard> flashcards;
+  List<Flashcard> reviewFlashcards;
 
   @override
-  List<Object> get props => [flashcards];
+  List<Object> get props => [flashcards,reviewFlashcards];
 }
 
 class LoadFlashcardsErrorState extends GroupState {

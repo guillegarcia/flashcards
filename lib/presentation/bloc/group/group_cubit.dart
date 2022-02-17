@@ -19,7 +19,8 @@ class GroupCubit extends Cubit<GroupState> {
     try {
       emit(LoadFlashcardsInProgressState());
       final flashcards = await _localRepository.getFlashcardsByGroup(group.id!);
-      emit(LoadFlashcardsSuccessState(flashcards));
+      final reviewFlashcards = await _localRepository.getFlashcardsForReviewByGroup(group.id!);
+      emit(LoadFlashcardsSuccessState(flashcards,reviewFlashcards));
     } catch (e) {
       emit(LoadFlashcardsErrorState());
     }

@@ -3,6 +3,11 @@
    <application
         android:label="flashcards"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-9891329721318092~8431457541"/>
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
