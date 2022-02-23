@@ -25,7 +25,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Grupos provisional'),
+        title: Text(AppLocalizations.of(context)!.flashcardsGroups),
       ),
       body: BlocBuilder<GroupsCubit, GroupsState>(
         builder: (context, state) {
@@ -36,26 +36,61 @@ class _GroupsScreenState extends State<GroupsScreen> {
             );
           } else if (state is LoadSuccessState) {
             final groups = state.groups;
-
-            return GridView.count(
+            MediaQueryData queryData = MediaQuery.of(context);
+            double deckWidth = queryData.size.width / 2 - DesignConfig.screenPadding.horizontal;
+            double deckHeight = 150;
+            final deckborder = RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            );
+            return groups.length > 0 ? GridView.count(
               crossAxisCount: 2,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
               children: List.generate(groups.length, (index) {
                 Group group = groups[index];
-                return Card(
-                  child: InkWell(
-                    child: Container(
-                        padding: EdgeInsets.all(16),
-                        child: Text(group.name)),
-                    onTap: (){
-                      Navigator.pushNamed(context, GroupScreen.routeName,arguments: group);
-                    },
-                  ),
+                return Stack(
+                  children: [
+                    Positioned(
+                      top: 10,
+                      child: Card(
+                        shape: deckborder,
+                        child: SizedBox(
+                          width: deckWidth,
+                          height: deckHeight,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 5,
+                      child: Card(
+                        shape: deckborder,
+                        child: SizedBox(
+                          width: deckWidth,
+                          height: deckHeight,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 0,
+                      child: Card(
+                        shape: deckborder,
+                        child: InkWell(
+                          child: Container(
+                              width: deckWidth,
+                              height: deckHeight,
+                              padding: const EdgeInsets.all(16),
+                              child: Center(child: Text(group.name))),
+                          onTap: (){
+                            Navigator.pushNamed(context, GroupScreen.routeName,arguments: group);
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 );
               }),
               padding: DesignConfig.screenPadding,
-            );
+            ) : Center(child: Text(AppLocalizations.of(context)!.thereAreNoGroups));
           } else if (state is LoadErrorState) {
             return Container(
               child: Text('GroupsLoadErrorState'),

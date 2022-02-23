@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'import_screen.dart';
 import 'new_flashcard_screen.dart';
 
 class GroupScreen extends StatefulWidget {
@@ -37,7 +38,7 @@ class _GroupScreenState extends State<GroupScreen> {
           elevation: 0,
           //title: ,
           actions: [
-            IconButton(icon: Icon(Icons.edit),
+            IconButton(icon: const Icon(Icons.edit),
             onPressed: (){
               Navigator.of(context).pushNamed(EditGroupScreen.routeName,arguments: EditGroupScreenArguments(group: group, groupsCubit: context.read<GroupsCubit>()));
             },)
@@ -68,39 +69,41 @@ class _GroupScreenState extends State<GroupScreen> {
                             const SizedBox(height: 16),
                             Text(group.description!),
                             const SizedBox(height: 32),
+                            state.flashcards.isNotEmpty ?
                             Text(AppLocalizations.of(context)!.flashcards, style: const TextStyle(
                                 fontSize: 18,
                                 color: Colors.grey
-                            )),
+                            )) : const SizedBox.shrink(),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 16),
                       SizedBox(
                         height: 250,
                         child: ListView.builder(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
                           scrollDirection: Axis.horizontal,
                           itemCount: flashcards.length,
                           itemBuilder: (context, index) =>
-                              Card(
-                                child: InkWell(
-                                  onTap: (){
-                                    Navigator.of(context).pushNamed(EditFlashcardScreen.routeName,arguments: EditFlashcardScreenArguments(flashcard: flashcards[index], groupCubit: context.read<GroupCubit>()));
-                                  },
-                                  child: Container(
-                                    height: 250,
-                                    width: 250,
-                                    padding: EdgeInsets.all(16),
-                                    child: Center(child: Text(flashcards[index].question,style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 16))),
-                                  ),
+                            Card(
+                              child: InkWell(
+                                onTap: (){
+                                  Navigator.of(context).pushNamed(EditFlashcardScreen.routeName, arguments: EditFlashcardScreenArguments(flashcard: flashcards[index], groupCubit: context.read<GroupCubit>()));
+                                },
+                                child: Container(
+                                  height: 250,
+                                  width: 250,
+                                  padding: const EdgeInsets.all(16),
+                                  child: Center(child: Text(flashcards[index].question,style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 16))),
                                 ),
                               ),
+                            ),
                         ),
                       ),
+                      state.flashcards.isNotEmpty ?
                       Align(
                         alignment: Alignment.centerRight,
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.symmetric(vertical:8,horizontal: 16.0),
                           child: OutlinedButton.icon(
                             onPressed: (){
                               Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,arguments: context.read<GroupCubit>());
@@ -108,23 +111,23 @@ class _GroupScreenState extends State<GroupScreen> {
                             icon: const Icon(Icons.add),
                             label: Text(AppLocalizations.of(context)!.createFlashcard)),
                         ),
-                      )
+                      ) : const SizedBox.shrink()
                     ],
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 32),
-                      child: Column(
+                      padding: const EdgeInsets.only(bottom: 40),
+                      child: state.flashcards.isNotEmpty ? Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           ElevatedButton.icon(
-                            icon: Icon(Icons.play_arrow),
+                            icon: const Icon(Icons.play_arrow),
                               onPressed: (){
                                 Navigator.pushNamed(context, ExamScreen.routeName,arguments: state.flashcards);
                               },
                               label: Text(AppLocalizations.of(context)!.startExam.toUpperCase())),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
                           ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
                               primary: Colors.grey
@@ -134,6 +137,23 @@ class _GroupScreenState extends State<GroupScreen> {
                                 Navigator.pushNamed(context, ExamScreen.routeName,arguments: state.reviewFlashcards);
                               },
                               label: Text(AppLocalizations.of(context)!.startFailedExam.toUpperCase()))
+                        ],
+                      ) : Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ElevatedButton.icon(
+                              icon: const Icon(Icons.play_arrow),
+                              onPressed: (){
+                                Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,arguments: context.read<GroupCubit>());
+                              },
+                              label: Text(AppLocalizations.of(context)!.createFlashcard.toUpperCase())),
+                          const SizedBox(height: 12),
+                          ElevatedButton.icon(
+                              icon: const Icon(Icons.cloud_download),
+                              onPressed: (){
+                                Navigator.of(context).pushNamed(ImportScreen.routeName,arguments: context.read<GroupCubit>());
+                              },
+                              label: Text(AppLocalizations.of(context)!.importFromspreadsheet.toUpperCase()))
                         ],
                       ),
                     ),

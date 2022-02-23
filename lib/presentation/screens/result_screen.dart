@@ -24,6 +24,7 @@ class _ResultScreenState extends State<ResultScreen> {
   @override
   void initState() {
     admobTools = AdmobTools();
+    admobTools!.adAction();
     super.initState();
   }
 
@@ -93,7 +94,6 @@ class _ResultScreenState extends State<ResultScreen> {
                     OutlinedButton(
                       child: Text((AppLocalizations.of(context)!.goHome).toUpperCase(),style: const TextStyle(fontSize: 18)),
                       onPressed: (){
-                        admobTools!.adAction();
                         Navigator.pushNamedAndRemoveUntil(context, GroupsScreen.routeName, (route) => false);
                       },
                     )

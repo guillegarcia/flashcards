@@ -11,6 +11,7 @@ import 'presentation/screens/edit_group_screen.dart';
 import 'presentation/screens/exam_screen.dart';
 import 'presentation/screens/group_screen.dart';
 import 'presentation/screens/groups_screen.dart';
+import 'presentation/screens/import_screen.dart';
 import 'presentation/screens/new_group_screen.dart';
 import 'presentation/screens/result_screen.dart';
 import 'presentation/screens/sample_screen.dart';
@@ -79,6 +80,7 @@ class MyApp extends StatelessWidget {
             EditGroupScreen.routeName: (context) => EditGroupScreen(),
             ExamScreen.routeName: (context) => ExamScreen(),
             ResultScreen.routeName: (context) => ResultScreen(),
+            ImportScreen.routeName: (context) => ImportScreen(),
           },
           initialRoute: GroupsScreen.routeName,
         ),
