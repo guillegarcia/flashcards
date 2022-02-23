@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flashcards/config/app_config.dart';
 import 'package:flashcards/data/repositories/local_repository.dart';
 import 'package:flashcards/domain/entities/flash_card.dart';
 import 'package:flashcards/presentation/bloc/group/group_cubit.dart';
@@ -34,33 +35,50 @@ class ImportCubit extends Cubit<ImportState> {
           String csvResponse = response.body;
           print('csvResponse: $csvResponse');
 
+          int rowsExceedMaxLengthCounter = 0;
+          int rowsWithLessThanTwoColumnsCounter = 0;
+          bool maxFlashcardInGroupReached = false;
+
           //Recuperar la información
           List<
               List<dynamic>> flashcardsImportedInfo = const CsvToListConverter()
               .convert(csvResponse);
 
-
+          int rowCounter = 0;
           for (var flashcardImportedInfo in flashcardsImportedInfo) {
-            String question = flashcardImportedInfo[0];
-            String answer = flashcardImportedInfo[1];
-            var newFlashcard = Flashcard(question: question, answer: answer);
-            _localRepository.insertFlashcard(newFlashcard, groupId);
-            importedFlashcards.add(newFlashcard);
+            rowCounter++;
+            if(flashcardImportedInfo != null && flashcardsImportedInfo.length>=2) {
+              String question = flashcardImportedInfo[0];
+              String answer = flashcardImportedInfo[1];
+
+              if (question.length <= AppConfig.flashcardTextMaxLength &&
+                  question.length <= AppConfig.flashcardTextMaxLength) {
+                var newFlashcard = Flashcard(
+                    question: question, answer: answer);
+                _localRepository.insertFlashcard(newFlashcard, groupId);
+                importedFlashcards.add(newFlashcard);
+              } else {
+                rowsExceedMaxLengthCounter++;
+              }
+            } else {
+              rowsWithLessThanTwoColumnsCounter++;
+            }
+            if(rowCounter>= AppConfig.maxFlashcardInGroup){
+              maxFlashcardInGroupReached = true;
+              break;
+            }
           }
 
           groupBloc.loadFlashcards();
 
-          //Contadores para mensaje de resultado:
-          // Numero de elementos correctos
-          // Numero de elementos cortados por superar tamaño
-          // Numero de elementos sin columnas suficientes
-          // Numero de elementos con columnas de mas
-          // Si se ha sobrepasado el maximo de filas
+          // TODO: Contador de tarjetas que no se han creado porque la pregunta ya existía
 
-          //Crear las tarjetas en el grupo
-          // Contador de tarjetas que no se han creado porque la pregunta ya existía
-
-          emit(ImportSuccessState(importedFlashcards: importedFlashcards));
+          emit(ImportSuccessState(
+            importedFlashcards: importedFlashcards,
+            rowsExceedMaxLengthCounter: rowsExceedMaxLengthCounter,
+            rowsWithLessThanTwoColumnsCounter: rowsWithLessThanTwoColumnsCounter,
+            maxFlashcardInGroupReached: maxFlashcardInGroupReached,
+          ));
         }
       } catch (e) {
         emit(ImportErrorState());

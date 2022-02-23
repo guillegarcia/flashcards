@@ -20,14 +20,17 @@ class ImportLoadingState extends ImportState {
 }
 
 class ImportSuccessState extends ImportState {
-  List<Flashcard> importedFlashcards;
-  // Numero de elementos correctos
-  // Numero de elementos cortados por superar tamaño
-  // Numero de elementos sin columnas suficientes
-  // Numero de elementos con columnas de mas
-  // Si se ha sobrepasado el maximo de filas
+  final List<Flashcard> importedFlashcards;
+  final int rowsExceedMaxLengthCounter;
+  final int rowsWithLessThanTwoColumnsCounter;
+  final bool maxFlashcardInGroupReached;
 
-  ImportSuccessState({required this.importedFlashcards});
+  const ImportSuccessState({
+    required this.importedFlashcards,
+    required this.rowsExceedMaxLengthCounter,
+    required this.rowsWithLessThanTwoColumnsCounter,
+    required this.maxFlashcardInGroupReached,
+  });
 
   @override
   List<Object> get props => [importedFlashcards];

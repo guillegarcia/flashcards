@@ -64,6 +64,9 @@ class _ImportScreenState extends State<ImportScreen> {
                       SizedBox(height: DesignConfig.formFieldSeparationHeight),
                       (state is ImportLoadingState)?Center(child: CircularProgressIndicator()):SizedBox.shrink(),
                       (state is ImportSuccessState)?Text('Importadas: ${state.importedFlashcards.length}'):SizedBox.shrink(),
+                      (state is ImportSuccessState && state.maxFlashcardInGroupReached)?Text('maxFlashcardInGroupReached'):SizedBox.shrink(),
+                      (state is ImportSuccessState && state.rowsExceedMaxLengthCounter > 0)?Text('rowsExceedMaxLengthCounter: ${state.rowsExceedMaxLengthCounter}'):SizedBox.shrink(),
+                      (state is ImportSuccessState && state.rowsWithLessThanTwoColumnsCounter > 0)?Text('rowsWithLessThanTwoColumnsCounter: ${state.rowsWithLessThanTwoColumnsCounter}'):SizedBox.shrink(),
                       //(state is DeleteGroupErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.deleteGroupErrorMessage):SizedBox.shrink()
                     ],
                   ),
