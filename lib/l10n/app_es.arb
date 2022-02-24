@@ -27,6 +27,8 @@
   "startFailedExam": "Repasar falladas",
   "flashcardsGroups": "Grupos de tarjetas",
   "thereAreNoGroups": "No tienes ningún grupo de preguntas aún. ¡Vamos, crea el primero :)!",
-  "importFromspreadsheet": "Importar de hoja de cálculo de Google",
-  "spreadsheetUrl": "URL de la hoja de cálculo de Google"
+  "importFromspreadsheet": "Importar de hoja de cálculo",
+  "spreadsheetUrl": "URL de la hoja de cálculo de Google",
+  "import": "Importar",
+  "finish": "Terminar"
 }

@@ -38,7 +38,25 @@ class _ExamScreenState extends State<ExamScreen> {
         localRepository: context.read<SQLiteLocalDatasource>()
       ),
       child: Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            foregroundColor: Colors.black,
+            actions: [
+              BlocBuilder<ExamCubit, ExamState>(
+                builder: (context, state) {
+                  return TextButton(
+                    onPressed: (){
+                      context.read<ExamCubit>().finish();
+                    },
+                    child: Text(AppLocalizations.of(context)!.finish.toUpperCase(),
+                      style: TextStyle(color: Colors.grey),
+                    )
+                  );
+                },
+              )
+            ],
+          ),
           body: Container(
             child: BlocConsumer<ExamCubit, ExamState>(
               builder: (context, state) {

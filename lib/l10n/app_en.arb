@@ -33,5 +33,7 @@
   "flashcardsGroups": "Your decks",
   "thereAreNoGroups": "You don't have any deck yet. Create the first one :)!",
   "importFromspreadsheet": "Import from Google Spreadsheet",
-  "spreadsheetUrl": "Spreadsheet URL"
+  "spreadsheetUrl": "Spreadsheet URL",
+  "import": "Import",
+  "finish": "Finish"
 }

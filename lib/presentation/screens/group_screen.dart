@@ -128,7 +128,7 @@ class _GroupScreenState extends State<GroupScreen> {
                               },
                               label: Text(AppLocalizations.of(context)!.startExam.toUpperCase())),
                           const SizedBox(height: 12),
-                          ElevatedButton.icon(
+                          (state.reviewFlashcards.isNotEmpty) ? ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
                               primary: Colors.grey
                             ),
@@ -136,24 +136,27 @@ class _GroupScreenState extends State<GroupScreen> {
                               onPressed: (){
                                 Navigator.pushNamed(context, ExamScreen.routeName,arguments: state.reviewFlashcards);
                               },
-                              label: Text(AppLocalizations.of(context)!.startFailedExam.toUpperCase()))
+                              label: Text(AppLocalizations.of(context)!.startFailedExam.toUpperCase())) : SizedBox.shrink()
                         ],
                       ) : Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           ElevatedButton.icon(
+                              icon: const Icon(Icons.cloud_download),
+                              onPressed: (){
+                                Navigator.of(context).pushNamed(ImportScreen.routeName,arguments: context.read<GroupCubit>());
+                              },
+                              label: Text(AppLocalizations.of(context)!.importFromspreadsheet.toUpperCase())),
+                          const SizedBox(height: 12),
+                          ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.grey
+                            ),
                               icon: const Icon(Icons.play_arrow),
                               onPressed: (){
                                 Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,arguments: context.read<GroupCubit>());
                               },
                               label: Text(AppLocalizations.of(context)!.createFlashcard.toUpperCase())),
-                          const SizedBox(height: 12),
-                          ElevatedButton.icon(
-                              icon: const Icon(Icons.cloud_download),
-                              onPressed: (){
-                                Navigator.of(context).pushNamed(ImportScreen.routeName,arguments: context.read<GroupCubit>());
-                              },
-                              label: Text(AppLocalizations.of(context)!.importFromspreadsheet.toUpperCase()))
                         ],
                       ),
                     ),

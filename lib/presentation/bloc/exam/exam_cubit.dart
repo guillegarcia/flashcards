@@ -58,14 +58,16 @@ class ExamCubit extends Cubit<ExamState> {
   }
 
   void _showNextCard() {
-    print('_showNextCard');
-    //Mostrar siguiente carta o pagina de resultados
     if(currentFlashcardIndex<flashcards.length-1) {
       currentFlashcardIndex++;
       emit(ShowCurrentFlashcardState(flashcards[currentFlashcardIndex],currentFlashcardIndex+1));
     } else {
       emit(FinishState(examResult));
     }
+  }
+
+  void finish(){
+    emit(FinishState(examResult));
   }
 
 }

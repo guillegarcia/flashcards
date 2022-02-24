@@ -60,7 +60,7 @@ class _ImportScreenState extends State<ImportScreen> {
                         if(_formKey.currentState!.validate()) {
                           context.read<ImportCubit>().importFromSpreadsheet('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-AdUnsxTHpU2XZ_IM9iMs-37Flnjh6ydQtuq0Un-x522PZJTe6Li8rhpj14ZJXjoLFtGpJMMIoOEO/pub?output=csv');
                         }
-                      }, icon: const Icon(Icons.cloud_download), label: Text('Importar')),
+                      }, icon: const Icon(Icons.cloud_download), label: Text(AppLocalizations.of(context)!.import.toUpperCase())),
                       SizedBox(height: DesignConfig.formFieldSeparationHeight),
                       (state is ImportLoadingState)?Center(child: CircularProgressIndicator()):SizedBox.shrink(),
                       (state is ImportSuccessState)?Text('Importadas: ${state.importedFlashcards.length}'):SizedBox.shrink(),
