@@ -30,5 +30,6 @@
   "importFromspreadsheet": "Importar de hoja de cálculo",
   "spreadsheetUrl": "URL de la hoja de cálculo de Google",
   "import": "Importar",
-  "finish": "Terminar"
+  "finish": "Terminar",
+  "color": "Color"
 }

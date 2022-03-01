@@ -35,5 +35,6 @@
   "importFromspreadsheet": "Import from Google Spreadsheet",
   "spreadsheetUrl": "Spreadsheet URL",
   "import": "Import",
-  "finish": "Finish"
+  "finish": "Finish",
+  "color": "Color"
 }

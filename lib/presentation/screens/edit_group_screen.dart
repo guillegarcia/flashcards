@@ -55,6 +55,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                     context.read<EditGroupCubit>().updateGroup(Group(
                       name: _nameController.text,
                       description: _descriptionController.text,
+                      color: Colors.red,
                       id: arguments.group.id
                     ));
                   }

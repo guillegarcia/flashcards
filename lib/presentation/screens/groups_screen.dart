@@ -42,6 +42,36 @@ class _GroupsScreenState extends State<GroupsScreen> {
             final deckborder = RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),
             );
+            return ListView(
+              children: List.generate(groups.length, (index) {
+                Group group = groups[index];
+                return Hero(
+                  tag: group.id!,
+                  child: Container(
+                      margin: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: group.color
+                      ),
+                      child: Material(
+                          type: MaterialType.transparency,
+                          child: InkWell(
+                            //splashColor: Colors.white,
+                              borderRadius: BorderRadius.all(Radius.circular(30)),
+                              onTap: () {
+                                Navigator.pushNamed(context, GroupScreen.routeName,arguments: group);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 24),
+                                child: Text(group.name,style: const TextStyle(fontSize: 18)),
+                                height: 150,
+                              )
+                          )
+                      )
+                  ),
+                );
+              })
+            );
             return groups.length > 0 ? GridView.count(
               crossAxisCount: 2,
               crossAxisSpacing: 10,
@@ -90,7 +120,16 @@ class _GroupsScreenState extends State<GroupsScreen> {
                 );
               }),
               padding: DesignConfig.screenPadding,
-            ) : Center(child: Text(AppLocalizations.of(context)!.thereAreNoGroups));
+            ) : Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 24.0,horizontal: 48),
+                  child: Text(AppLocalizations.of(context)!.thereAreNoGroups,style: TextStyle(color: Colors.grey),textAlign: TextAlign.center,),
+                ),
+                Text('😉',style: TextStyle(fontSize: 40),)
+              ],
+            );
           } else if (state is LoadErrorState) {
             return Container(
               child: Text('GroupsLoadErrorState'),

@@ -1,6 +1,7 @@
 import 'package:flashcards/data/repositories/local_repository.dart';
 import 'package:flashcards/domain/entities/flash_card.dart';
 import 'package:flashcards/domain/entities/group.dart';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -27,6 +28,7 @@ class SQLiteLocalDatasource implements LocalRepository{
     await database.execute("CREATE TABLE groups ("
         "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
         "name TEXT NOT NULL,"
+        "color INTEGER NOT NULL,"
         "description TEXT"
         ")");
 
@@ -53,7 +55,7 @@ class SQLiteLocalDatasource implements LocalRepository{
   Future<List<Group>> getGroups() async {
     final db = await database;
     List<Group> groups = [];
-    var result = await db.query("groups", columns: ['id','name','description']);
+    var result = await db.query("groups", columns: ['id','name','description','color']);
     for(final row in result){
       groups.add(_groupFromMap(row));
     }
@@ -143,10 +145,12 @@ class SQLiteLocalDatasource implements LocalRepository{
 
   Group _groupFromMap(Map<String, dynamic> map) {
     print('Grupo MAPA: $map');
+    var color = Color(map['color'] ?? Colors.green);
     return Group(
       id: map['id'] ?? -1,
       name: map['name'] ?? '',
-      description: map['description'] ?? ''
+      description: map['description'] ?? '',
+      color: color,
     );
   }
 
@@ -162,6 +166,7 @@ class SQLiteLocalDatasource implements LocalRepository{
     Map<String, dynamic> result = {
       "name": group.name,
       "description": group.description,
+      'color': group.color.value
     };
 
     if(group.id != null){

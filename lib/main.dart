@@ -24,14 +24,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+    final ThemeData theme = ThemeData();
+
     return RepositoryProvider(
       create: (context) => SQLiteLocalDatasource(),
       child: BlocProvider(
         create: (context) => GroupsCubit(context.read<SQLiteLocalDatasource>()),
         child: MaterialApp(
           title: 'Simple flashcards',
-          theme: ThemeData(
-            primarySwatch: Colors.green,
+          theme: theme.copyWith(
+              colorScheme: theme.colorScheme.copyWith(
+                  primary: Colors.white,
+                  secondary: Colors.grey,
+                  onPrimary: Colors.black
+              ),
               inputDecorationTheme: new InputDecorationTheme(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0),
