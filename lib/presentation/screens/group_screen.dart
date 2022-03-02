@@ -86,12 +86,11 @@ class _GroupScreenState extends State<GroupScreen> {
                                               groupCubit: context.read< GroupCubit>()));
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 24, horizontal: 24),
+                                      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(flashcard.question,style: TextStyle(fontWeight: FontWeight.bold)),
+                                          Text(flashcard.question,style: const TextStyle(fontWeight: FontWeight.bold)),
                                           Text(flashcard.answer),
                                         ],
                                       ),
@@ -101,13 +100,10 @@ class _GroupScreenState extends State<GroupScreen> {
                         );
                       }
                   ),
-                  Hero(
-                    child: Container(width: double.infinity, height: 220,decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(bottomRight: Radius.circular(90),bottomLeft: Radius.circular(90)),
-                        color: group.color
-                    )),
-                    tag: group.id!
-                  ),
+                  Container(width: double.infinity, height: 220,decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(bottomRight: Radius.circular(90),bottomLeft: Radius.circular(90)),
+                      color: group.color
+                  )),
                   Positioned(
                     top: 60,
                     right: 0,
@@ -124,9 +120,17 @@ class _GroupScreenState extends State<GroupScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              const GroupButton(),
+                              GroupButton(
+                                label: AppLocalizations.of(context)!.startExam.toUpperCase(),
+                                icon: Icons.play_arrow,
+                                onTap: (){Navigator.pushNamed(context, ExamScreen.routeName,arguments: flashcards);}
+                              ),
                               const SizedBox(width: 16),
-                              const GroupButton(),
+                              GroupButton(
+                                label: AppLocalizations.of(context)!.startFailedExam.toUpperCase(),
+                                  icon: Icons.play_arrow_outlined,
+                                onTap: (){Navigator.pushNamed(context, ExamScreen.routeName,arguments:reviewFlashcards);}
+                              ),
                             ],
                           )
                         ],
@@ -138,45 +142,23 @@ class _GroupScreenState extends State<GroupScreen> {
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 40),
                       child: flashcards.isNotEmpty
-                          ? Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                ElevatedButton.icon(
-                                    icon: const Icon(Icons.play_arrow),
-                                    onPressed: () {
-                                      Navigator.pushNamed(context, ExamScreen.routeName,arguments: flashcards);
-                                    },
-                                    label: Text(AppLocalizations.of(context)!.startExam.toUpperCase())),
-                                const SizedBox(height: 12),
-                                (reviewFlashcards.isNotEmpty)
-                                    ? ElevatedButton.icon(
-                                        style: ElevatedButton.styleFrom(primary: Colors.grey),
-                                        icon: const Icon(Icons.play_arrow_outlined),
-                                        onPressed: () {
-                                          Navigator.pushNamed(context, ExamScreen.routeName,arguments:reviewFlashcards);
-                                        },
-                                        label: Text(AppLocalizations.of(context)!.startFailedExam.toUpperCase()))
-                                    : SizedBox.shrink()
-                              ],
-                            )
+                          ? SizedBox.shrink()
                           : Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 ElevatedButton.icon(
-                                    icon: const Icon(Icons.cloud_download),
-                                    onPressed: () {
-                                      Navigator.of(context).pushNamed(ImportScreen.routeName,arguments:context.read<GroupCubit>());
-                                    },
-                                    label: Text(AppLocalizations.of(context)!.importFromspreadsheet.toUpperCase())),
+                                  icon: const Icon(Icons.cloud_download),
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed(ImportScreen.routeName,arguments:context.read<GroupCubit>());
+                                  },
+                                  label: Text(AppLocalizations.of(context)!.importFromspreadsheet.toUpperCase())),
                                 const SizedBox(height: 12),
                                 ElevatedButton.icon(
                                   style: ElevatedButton.styleFrom(
                                       primary: Colors.grey),
                                   icon: const Icon(Icons.play_arrow),
                                   onPressed: () {
-                                    Navigator.of(context).pushNamed(
-                                        NewFlashcardScreen.routeName,
-                                        arguments: context.read<GroupCubit>());
+                                    Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,arguments: context.read<GroupCubit>());
                                   },
                                   label: Text(AppLocalizations.of(context)!.createFlashcard.toUpperCase())
                                 ),
@@ -184,17 +166,14 @@ class _GroupScreenState extends State<GroupScreen> {
                             ),
                     ),
                   ),
-                  (state is LoadFlashcardsInProgressState) ? const Center(child: CircularProgressIndicator()) : SizedBox.shrink()
+                  (state is LoadFlashcardsInProgressState) ? const Center(child: CircularProgressIndicator()) : const SizedBox.shrink()
                 ],
               ),
               floatingActionButton: FloatingActionButton.extended(
-                icon: Icon(Icons.add),
+                icon: const Icon(Icons.add),
                 label: Text(AppLocalizations.of(context)!.createFlashcard),
                 onPressed: (){
-                  Navigator.of(context).pushNamed(
-                      NewFlashcardScreen.routeName,
-                      arguments:
-                      context.read<GroupCubit>());
+                  Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,arguments:context.read<GroupCubit>());
                 },
               ),
             );
@@ -205,7 +184,10 @@ class _GroupScreenState extends State<GroupScreen> {
 }
 
 class GroupButton extends StatelessWidget {
-  const GroupButton({Key? key}) : super(key: key);
+  final GestureTapCallback? onTap;
+  final String label;
+  final IconData icon;
+  const GroupButton({required this.label, required this.icon, this.onTap,Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -214,11 +196,11 @@ class GroupButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             color: Colors.white,
           boxShadow: [
-            BoxShadow(
+            const BoxShadow(
               color: Colors.grey,
               blurRadius: 6.0, // soften the shadow
               spreadRadius: 0.0, //extend the shadow
-              offset: Offset(
+              offset: const Offset(
                 0.0, // Move to right 10  horizontally
                 2.0, // Move to bottom 10 Vertically
               ),
@@ -229,18 +211,16 @@ class GroupButton extends StatelessWidget {
             type: MaterialType.transparency,
             child: InkWell(
               //splashColor: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                onTap: () {
-
-                },
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                onTap: onTap,
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 24),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Icon(Icons.play_arrow,size: 40),
-                      Text(AppLocalizations.of(context)!.startExam.toUpperCase())
+                      Icon(icon,size: 40),
+                      Text(label)
                     ],
                   ),
                   height: 120,

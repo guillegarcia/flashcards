@@ -45,30 +45,27 @@ class _GroupsScreenState extends State<GroupsScreen> {
             return ListView(
               children: List.generate(groups.length, (index) {
                 Group group = groups[index];
-                return Hero(
-                  tag: group.id!,
-                  child: Container(
-                      margin: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: group.color
-                      ),
-                      child: Material(
-                          type: MaterialType.transparency,
-                          child: InkWell(
-                            //splashColor: Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(30)),
-                              onTap: () {
-                                Navigator.pushNamed(context, GroupScreen.routeName,arguments: group);
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 24),
-                                child: Text(group.name,style: const TextStyle(fontSize: 18)),
-                                height: 150,
-                              )
-                          )
-                      )
-                  ),
+                return Container(
+                    margin: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: group.color
+                    ),
+                    child: Material(
+                        type: MaterialType.transparency,
+                        child: InkWell(
+                          //splashColor: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            onTap: () {
+                              Navigator.pushNamed(context, GroupScreen.routeName,arguments: group);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 24),
+                              child: Text(group.name,style: const TextStyle(fontSize: 18)),
+                              height: 150,
+                            )
+                        )
+                    )
                 );
               })
             );
