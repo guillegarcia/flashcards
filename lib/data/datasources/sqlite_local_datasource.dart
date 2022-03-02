@@ -88,20 +88,20 @@ class SQLiteLocalDatasource implements LocalRepository{
   }
 
   @override
-  Future<List<Flashcard>> getFlashcardsByGroup(int groupId) async{
+  Future<List<Flashcard>> getFlashcardsByGroup(int groupId, Color color) async{
     print('getFlashcardsByGroup');
     final db = await database;
     List<Flashcard> flashcards = [];
     var result = await db.query("flashcards", columns: ['id','question','answer'],where: 'group_id=?',whereArgs: [groupId]);
     for(final row in result){
-      print('id recuperado: ${_flashcardFromMap(row).id}');
-      flashcards.add(_flashcardFromMap(row));
+      print('id recuperado: ${_flashcardFromMap(row,color).id}');
+      flashcards.add(_flashcardFromMap(row,color));
     }
     return flashcards;
   }
 
   @override
-  Future<List<Flashcard>> getFlashcardsForReviewByGroup(int groupId) async{
+  Future<List<Flashcard>> getFlashcardsForReviewByGroup(int groupId, Color color) async{
     print('getFlashcardsByGroup');
     final db = await database;
     List<Flashcard> flashcards = [];
@@ -109,7 +109,7 @@ class SQLiteLocalDatasource implements LocalRepository{
     var result = await db.rawQuery('select id,question,answer from flashcards join review on id=flashcard_id where group_id=?',[groupId]);
     for(final row in result){
       //print('id recuperado: ${_flashcardFromMap(row).id}');
-      flashcards.add(_flashcardFromMap(row));
+      flashcards.add(_flashcardFromMap(row,color));
     }
     return flashcards;
   }
@@ -154,11 +154,12 @@ class SQLiteLocalDatasource implements LocalRepository{
     );
   }
 
-  Flashcard _flashcardFromMap(Map<String, dynamic> map) {
+  Flashcard _flashcardFromMap(Map<String, dynamic> map,Color color) {
     return Flashcard(
         id: map['id'] ?? -1,
         question: map['question'] ?? '',
-        answer: map['answer'] ?? ''
+        answer: map['answer'] ?? '',
+        color: color
     );
   }
 

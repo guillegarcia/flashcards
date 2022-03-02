@@ -65,11 +65,17 @@ class _GroupScreenState extends State<GroupScreen> {
                     ListView.builder(
                       padding: const EdgeInsets.only(right: 16,left: 16,top: 350,bottom: 24),
                       //scrollDirection: Axis.horizonta,
-                      itemCount: flashcards.length,
+                      itemCount: flashcards.length+1,
                       itemBuilder: (context, index) {
-                        var flashcard = flashcards[index];
+                        if(index == 0){
+                          return Padding(
+                            padding: const EdgeInsets.only(left: 16.0,bottom: 8),
+                            child: Text(AppLocalizations.of(context)!.flashcards,style: TextStyle(fontSize: 18)),
+                          );
+                        }
+                        var flashcard = flashcards[index-1];
                         return Container(
-                            margin: EdgeInsets.all(8),
+                            margin: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                                 color: Colors.white),
@@ -125,12 +131,12 @@ class _GroupScreenState extends State<GroupScreen> {
                                 icon: Icons.play_arrow,
                                 onTap: (){Navigator.pushNamed(context, ExamScreen.routeName,arguments: flashcards);}
                               ),
-                              const SizedBox(width: 16),
-                              GroupButton(
+                              reviewFlashcards.isNotEmpty ? const SizedBox(width: 16) : const SizedBox.shrink(),
+                              reviewFlashcards.isNotEmpty ? GroupButton(
                                 label: AppLocalizations.of(context)!.startFailedExam.toUpperCase(),
                                   icon: Icons.play_arrow_outlined,
                                 onTap: (){Navigator.pushNamed(context, ExamScreen.routeName,arguments:reviewFlashcards);}
-                              ),
+                              ) : const SizedBox.shrink(),
                             ],
                           )
                         ],
@@ -219,11 +225,11 @@ class GroupButton extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(icon,size: 40),
-                      Text(label)
+                      Icon(icon,size: 45),
+                      Text(label,style: TextStyle(fontSize: 12),textAlign: TextAlign.center,)
                     ],
                   ),
-                  height: 120,
+                  height: 150,
                   width: 120,
                 )
             )

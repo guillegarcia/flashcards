@@ -149,26 +149,30 @@ class _ExamScreenState extends State<ExamScreen> {
 
 class FlashCardPageWidget extends StatelessWidget {
   final String text;
+  final Color? color;
+  final Color? textColor;
 
-  const FlashCardPageWidget(this.text,{Key? key}) : super(key: key);
+  const FlashCardPageWidget(this.text,{this.color,this.textColor,Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Center(child: Text(text,style:TextStyle(fontSize: 20))),
-    decoration: BoxDecoration(
-        color: Colors.white,
+      child: Center(child: Text(text,style: TextStyle(color:textColor ?? Colors.black,fontSize: 20))),
+      decoration: BoxDecoration(
+        color: color ?? Colors.white,
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
-        BoxShadow(
-          color: Colors.grey,
-          blurRadius: 10.0, // soften the shadow
-          spreadRadius: 1.0, //extend the shadow
-          offset: Offset(
-            0, // Move to right 10  horizontally
-            2.0, // Move to bottom 10 Vertically
-          ),
-        )
-      ]),
+          BoxShadow(
+            color: Colors.grey,
+            blurRadius: 5.0, // soften the shadow
+            spreadRadius: 0.0, //extend the shadow
+            offset: Offset(
+              0, // Move to right 10  horizontally
+              0.0, // Move to bottom 10 Vertically
+            ),
+          )
+        ]
+      ),
       height: 500,
       width: 300,
 
@@ -194,8 +198,8 @@ class _FlashCardWidgetState extends State<FlashCardWidget> {
   Widget build(BuildContext context) {
     return FlipCard(
       direction: FlipDirection.HORIZONTAL,
-      front: FlashCardPageWidget(widget.flashcard.question),
-      back: FlashCardPageWidget(widget.flashcard.answer),
+      front: FlashCardPageWidget(widget.flashcard.question,color:widget.flashcard.color,textColor: Colors.white,),
+      back: FlashCardPageWidget(widget.flashcard.answer,color:Colors.white),
       onFlipDone: widget.onAnswerShown,
       controller: widget.controller,
     );
