@@ -56,7 +56,7 @@ class _EditFlashcardScreenState extends State<EditFlashcardScreen> {
                     );
                     context.read<EditFlashcardCubit>().editFlashcard(flashcard);
                   }
-                }, child: Text(AppLocalizations.of(context)!.save,style: TextStyle(color: Colors.white))),
+                }, child: Text(AppLocalizations.of(context)!.save.toUpperCase(),style: const TextStyle(color: Colors.black))),
                 IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: (){
@@ -68,7 +68,7 @@ class _EditFlashcardScreenState extends State<EditFlashcardScreen> {
               ],
             ),
             body:
-            (state is EditFlashcardInProgressState || state is DeleteFlashcardInProgressState)?Center(child: CircularProgressIndicator()):
+            (state is EditFlashcardInProgressState || state is DeleteFlashcardInProgressState)? const Center(child: CircularProgressIndicator()):
             Container(
               padding: DesignConfig.screenPadding,
               child: Form(
@@ -100,8 +100,8 @@ class _EditFlashcardScreenState extends State<EditFlashcardScreen> {
                           return null;
                         }
                     ),
-                    (state is EditFlashcardErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.updateFlashcardErrorMessage):SizedBox.shrink(),
-                    (state is DeleteFlashcardErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.deleteFlashcardErrorMessage):SizedBox.shrink()
+                    (state is EditFlashcardErrorState) ? ErrorMessageWidget(AppLocalizations.of(context)!.updateFlashcardErrorMessage) : const SizedBox.shrink(),
+                    (state is DeleteFlashcardErrorState) ? ErrorMessageWidget(AppLocalizations.of(context)!.deleteFlashcardErrorMessage): const SizedBox.shrink()
                   ],
                 ),
               ),

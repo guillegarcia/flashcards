@@ -6,6 +6,7 @@ import 'package:flashcards/presentation/bloc/group/group_cubit.dart';
 import 'package:flashcards/presentation/bloc/groups/groups_cubit.dart';
 import 'package:flashcards/presentation/bloc/new_group/new_group_cubit.dart';
 import 'package:flashcards/presentation/screens/groups_screen.dart';
+import 'package:flashcards/presentation/widgets/color_picker.dart';
 import 'package:flashcards/presentation/widgets/error_message_widget.dart';
 import 'package:flashcards/presentation/widgets/form_field_label.dart';
 import 'package:flutter/material.dart';
@@ -25,53 +26,66 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
 
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
+  Color? _selectedColor;
 
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
-    EditGroupScreenArguments arguments = ModalRoute.of(context)!.settings.arguments as EditGroupScreenArguments;
+    EditGroupScreenArguments arguments = ModalRoute
+        .of(context)!
+        .settings
+        .arguments as EditGroupScreenArguments;
     _nameController.text = arguments.group.name;
     _descriptionController.text = arguments.group.description ?? '';
+    if (_selectedColor == null) {
+      setState(() {
+        _selectedColor = arguments.group.color;
+      });
+    }
 
     return BlocProvider(
-      create: (context) => EditGroupCubit(context.read<SQLiteLocalDatasource>(),
-          groupsBloc: context.read<GroupsCubit>()
-      ),
+      create: (context) =>
+          EditGroupCubit(context.read<SQLiteLocalDatasource>(),
+              groupsBloc: context.read<GroupsCubit>()
+          ),
       child: BlocConsumer<EditGroupCubit, EditGroupState>(
         listener: (context, state) {
-          if(state is UpdateSuccessState){
-            Navigator.of(context).pop();
-          } else if(state is DeleteGroupSuccessState) {
-            Navigator.of(context).pushNamedAndRemoveUntil(GroupsScreen.routeName,(Route<dynamic> route) => false);
+          if (state is UpdateSuccessState) {
+            Navigator.of(context).pop(_updatedGroup(arguments.group.id!));
+          } else if (state is DeleteGroupSuccessState) {
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                GroupsScreen.routeName, (Route<dynamic> route) => false);
           }
         },
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
               title: Text(AppLocalizations.of(context)!.editGroup),
+              backgroundColor: _selectedColor,
               actions: [
-                TextButton(onPressed: (){
-                  if(_formKey.currentState!.validate()) {
-                    context.read<EditGroupCubit>().updateGroup(Group(
-                      name: _nameController.text,
-                      description: _descriptionController.text,
-                      color: Colors.red,
-                      id: arguments.group.id
-                    ));
+                TextButton(onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    context.read<EditGroupCubit>().updateGroup(_updatedGroup(arguments.group.id!));
                   }
-                }, child: Text(AppLocalizations.of(context)!.save,style: TextStyle(color: Colors.white),)),
+                },
+                    child: Text(
+                        AppLocalizations.of(context)!.save.toUpperCase(),
+                        style: TextStyle(color: Colors.black))),
                 IconButton(
                   icon: const Icon(Icons.delete),
-                  onPressed: (){
-                    showConfirmationDialog(context,(){
-                      context.read<EditGroupCubit>().deleteGroup(arguments.group);
+                  onPressed: () {
+                    showConfirmationDialog(context, () {
+                      context.read<EditGroupCubit>().deleteGroup(
+                          arguments.group);
                     });
                   },
                 )
               ],
             ),
             body:
-            (state is UpdateInProgressState || state is DeleteGroupInProgressState)?Center(child: CircularProgressIndicator()):
+            (state is UpdateInProgressState ||
+                state is DeleteGroupInProgressState) ? Center(
+                child: CircularProgressIndicator()) :
             Container(
               padding: DesignConfig.screenPadding,
               child: Form(
@@ -81,9 +95,10 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                     FormFieldLabel(AppLocalizations.of(context)!.name),
                     TextFormField(
                         controller: _nameController,
-                        validator: (value){
+                        validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return AppLocalizations.of(context)!.valueCanNotBeEmpty;
+                            return AppLocalizations.of(context)!
+                                .valueCanNotBeEmpty;
                           }
                           return null;
                         }
@@ -92,15 +107,32 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                     FormFieldLabel(AppLocalizations.of(context)!.description),
                     TextFormField(
                         controller: _descriptionController,
-                        validator: (value){
+                        validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return AppLocalizations.of(context)!.valueCanNotBeEmpty;
+                            return AppLocalizations.of(context)!
+                                .valueCanNotBeEmpty;
                           }
                           return null;
                         }
                     ),
-                    (state is UpdateErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.updateGroupErrorMessage):SizedBox.shrink(),
-                    (state is DeleteGroupErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.deleteGroupErrorMessage):SizedBox.shrink()
+                    SizedBox(height: DesignConfig.formFieldSeparationHeight),
+                    FormFieldLabel(AppLocalizations.of(context)!.color),
+                    MyColorPicker(
+                        onSelectColor: (value) {
+                          setState(() {
+                            _selectedColor = value;
+                          });
+                        },
+                        availableColors: DesignConfig.availableColors,
+                        initialColor: _selectedColor!),
+                    (state is UpdateErrorState)
+                        ? ErrorMessageWidget(
+                        AppLocalizations.of(context)!.updateGroupErrorMessage)
+                        : SizedBox.shrink(),
+                    (state is DeleteGroupErrorState)
+                        ? ErrorMessageWidget(
+                        AppLocalizations.of(context)!.deleteGroupErrorMessage)
+                        : SizedBox.shrink()
                   ],
                 ),
               ),
@@ -108,6 +140,15 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
           );
         },
       ),
+    );
+  }
+
+  Group _updatedGroup(int groupId){
+    return Group(
+      name: _nameController.text,
+      description: _descriptionController.text,
+      color: _selectedColor!,
+      id: groupId,
     );
   }
 

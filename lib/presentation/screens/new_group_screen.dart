@@ -55,7 +55,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                     );
                     context.read<NewGroupCubit>().createGroup(group);
                   }
-                }, child: Text(AppLocalizations.of(context)!.save,style: TextStyle(color: Colors.white),))
+                }, child: Text(AppLocalizations.of(context)!.save.toUpperCase(),style: TextStyle(color: Colors.black),))
               ],
             ),
             body:
@@ -96,18 +96,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                             _selectedColor = value;
                           });
                         },
-                        availableColors: [
-                          Colors.blue,
-                          Colors.green,
-                          Colors.greenAccent,
-                          Colors.yellow,
-                          Colors.orange,
-                          Colors.red,
-                          Colors.purple,
-                          Colors.grey,
-                          Colors.deepOrange,
-                          Colors.teal
-                        ],
+                        availableColors: DesignConfig.availableColors,
                         initialColor: _selectedColor!),
                     (state is CreateErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.createGroupErrorMessage):SizedBox.shrink()
                   ],

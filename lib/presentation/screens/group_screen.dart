@@ -25,14 +25,15 @@ class GroupScreen extends StatefulWidget {
 }
 
 class _GroupScreenState extends State<GroupScreen> {
+  Group? group;
 
   @override
   Widget build(BuildContext context) {
-    Group group = ModalRoute.of(context)!.settings.arguments as Group;
+    if(group == null) group = ModalRoute.of(context)!.settings.arguments as Group;
 
     return BlocProvider(
         create: (context) =>
-            GroupCubit(context.read<SQLiteLocalDatasource>(), group: group),
+            GroupCubit(context.read<SQLiteLocalDatasource>(), group: group!),
         child: BlocBuilder<GroupCubit, GroupState>(
           builder: (context, state) {
               var flashcards = [];
@@ -52,10 +53,18 @@ class _GroupScreenState extends State<GroupScreen> {
                   actions: [
                     IconButton(
                       icon: const Icon(Icons.edit),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(EditGroupScreen.routeName,
-                            arguments: EditGroupScreenArguments(group: group,groupsCubit: context.read<GroupsCubit>())
+                      onPressed: () async {
+                        var editGroupResult = await Navigator.of(context).pushNamed(EditGroupScreen.routeName,
+                            arguments: EditGroupScreenArguments(group: group!,groupsCubit: context.read<GroupsCubit>())
                         );
+                        print("editGroupResult?? $editGroupResult");
+
+                        if(editGroupResult!=null && editGroupResult is Group){
+                          print(editGroupResult.name);
+                          setState(() {
+                            group = editGroupResult as Group;
+                          });
+                        }
                       },
                     )
                   ],
@@ -107,8 +116,8 @@ class _GroupScreenState extends State<GroupScreen> {
                       }
                   ),
                   Container(width: double.infinity, height: 220,decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(bottomRight: Radius.circular(90),bottomLeft: Radius.circular(90)),
-                      color: group.color
+                      borderRadius: const BorderRadius.only(bottomRight: Radius.circular(100),bottomLeft: Radius.circular(100)),
+                      color: group!.color
                   )),
                   Positioned(
                     top: 60,
@@ -119,9 +128,9 @@ class _GroupScreenState extends State<GroupScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(group.name,style: const TextStyle(fontSize: 32)),
+                          Text(group!.name,style: const TextStyle(fontSize: 32)),
                           const SizedBox(height: 16),
-                          Container(height:45,child: Text(group.description!)),
+                          Container(height:45,child: Text(group!.description!)),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.max,

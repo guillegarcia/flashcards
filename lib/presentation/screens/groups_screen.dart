@@ -43,10 +43,11 @@ class _GroupsScreenState extends State<GroupsScreen> {
               borderRadius: BorderRadius.circular(15.0),
             );
             return ListView(
+              padding: DesignConfig.screenPadding,
               children: List.generate(groups.length, (index) {
                 Group group = groups[index];
                 return Container(
-                    margin: const EdgeInsets.all(16),
+                    margin: const EdgeInsets.only(bottom: 16),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         color: group.color

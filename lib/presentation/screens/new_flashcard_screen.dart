@@ -52,7 +52,7 @@ class _NewFlashcardScreenState extends State<NewFlashcardScreen> {
                     );
                     context.read<NewFlashcardCubit>().createFlashcard(flashcard);
                   }
-                }, child: Text(AppLocalizations.of(context)!.save,style: TextStyle(color: Colors.white),))
+                }, child: Text(AppLocalizations.of(context)!.save.toUpperCase(),style: TextStyle(color: Colors.black),))
               ],
             ),
             body:

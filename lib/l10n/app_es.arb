@@ -1,6 +1,6 @@
 {
   "appName": "Simple flashcards",
-  "newGroup": "Nuevo grupo de preguntas",
+  "newGroup": "Nuevo grupo",
   "name": "Nombre",
   "save": "Guardar",
   "valueCanNotBeEmpty": "Este valor no puede estar vacío",
