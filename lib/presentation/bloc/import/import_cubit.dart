@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flashcards/config/app_config.dart';
@@ -32,7 +34,7 @@ class ImportCubit extends Cubit<ImportState> {
         // Await the http get response, then decode the json-formatted response.
         var response = await http.get(url);
         if (response.statusCode == 200) {
-          String csvResponse = response.body;
+          String csvResponse = utf8.decode(response.bodyBytes);
           print('csvResponse: $csvResponse');
 
           int rowsExceedMaxLengthCounter = 0;
