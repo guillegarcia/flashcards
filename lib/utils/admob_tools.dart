@@ -64,7 +64,7 @@ class AdmobTools{
   }
 
   static final AdRequest request = AdRequest(
-    keywords: <String>['Storytelling','Historias','Stories'],
+    keywords: <String>['Estudiar','Examen','Quis'],
     nonPersonalizedAds: false,
   );
 
@@ -74,9 +74,10 @@ class AdmobTools{
   Future _createInterstitialAd() async{
     print('createInterstitialAd');
     await InterstitialAd.load(
-        adUnitId: _debugMode
-            ? InterstitialAd.testAdUnitId
-            : _interstitialAdId,
+        adUnitId: _interstitialAdId,
+            //_debugMode
+            //? InterstitialAd.testAdUnitId
+            //: _interstitialAdId,
         request: request,
         adLoadCallback: InterstitialAdLoadCallback(
           onAdLoaded: (InterstitialAd ad) {
