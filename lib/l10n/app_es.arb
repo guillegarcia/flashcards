@@ -33,5 +33,6 @@
   "spreadsheetUrl": "URL de la hoja de cálculo de Google",
   "import": "Importar",
   "finish": "Terminar",
-  "color": "Color"
+  "color": "Color",
+  "exportFlashcards": "Exportar tarjetas"
 }

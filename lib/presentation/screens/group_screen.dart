@@ -8,6 +8,7 @@ import 'package:flashcards/presentation/bloc/groups/groups_cubit.dart';
 import 'package:flashcards/presentation/screens/edit_flashcard_screen.dart';
 import 'package:flashcards/presentation/screens/edit_group_screen.dart';
 import 'package:flashcards/presentation/screens/exam_screen.dart';
+import 'package:flashcards/presentation/screens/export_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -68,6 +69,27 @@ class _GroupScreenState extends State<GroupScreen> {
                         }
                       },
                     ),
+                    if (flashcards.isNotEmpty) PopupMenuButton(
+                      // add icon, by default "3 dot" icon
+                      // icon: Icon(Icons.book)
+                      itemBuilder: (context) {
+                        return [
+                          PopupMenuItem<String>(
+                            value: 'export',
+                            child: Text(AppLocalizations.of(context)!.exportFlashcards),
+                          ),
+                        ];
+                      },
+                      onSelected: (String value) {
+                        switch (value) {
+                          case 'export':
+                             Navigator.of(context).push(MaterialPageRoute(
+                                 builder: (context) => ExportScreen(flashcards: flashcards),
+                             ));
+                             break;
+                        }
+                      },
+                    )
                   ]
                 ),
                 body: Stack(
@@ -282,4 +304,3 @@ class StartReviewButtonsWidgets extends StatelessWidget {
     );
   }
 }
-

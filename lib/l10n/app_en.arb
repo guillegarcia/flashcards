@@ -38,5 +38,6 @@
   "spreadsheetUrl": "Spreadsheet URL",
   "import": "Import",
   "finish": "Finish",
-  "color": "Color"
+  "color": "Color",
+  "exportFlashcards": "Export flashcards"
 }
