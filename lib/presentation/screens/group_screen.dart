@@ -1,5 +1,7 @@
+import 'package:flashcards/config/app_config.dart';
 import 'package:flashcards/config/design_config.dart';
 import 'package:flashcards/data/datasources/sqlite_local_datasource.dart';
+import 'package:flashcards/domain/entities/flash_card.dart';
 import 'package:flashcards/domain/entities/group.dart';
 import 'package:flashcards/presentation/bloc/group/group_cubit.dart';
 import 'package:flashcards/presentation/bloc/groups/groups_cubit.dart';
@@ -12,6 +14,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../domain/entities/exam_data.dart';
 import 'import_screen.dart';
 import 'new_flashcard_screen.dart';
 
@@ -36,8 +39,8 @@ class _GroupScreenState extends State<GroupScreen> {
             GroupCubit(context.read<SQLiteLocalDatasource>(), group: group!),
         child: BlocBuilder<GroupCubit, GroupState>(
           builder: (context, state) {
-              var flashcards = [];
-              var reviewFlashcards = [];
+              List<Flashcard> flashcards = [];
+              List<Flashcard> reviewFlashcards = [];
               if (state is LoadFlashcardsSuccessState) {
                 flashcards = state.flashcards;
                 reviewFlashcards = state.reviewFlashcards;
@@ -57,23 +60,25 @@ class _GroupScreenState extends State<GroupScreen> {
                         var editGroupResult = await Navigator.of(context).pushNamed(EditGroupScreen.routeName,
                             arguments: EditGroupScreenArguments(group: group!,groupsCubit: context.read<GroupsCubit>())
                         );
-                        print("editGroupResult?? $editGroupResult");
 
                         if(editGroupResult!=null && editGroupResult is Group){
-                          print(editGroupResult.name);
                           setState(() {
                             group = editGroupResult as Group;
                           });
                         }
                       },
-                    )
-                  ],
+                    ),
+                  ]
                 ),
                 body: Stack(
                   children: [
-                    ListView.builder(
+
+                    //###### TEXTO PARA MOSTRAR CUANDO AUN NO HAY TARJETAS
+                    if(flashcards.isEmpty) const NoFlashCardsMessageWidget(),
+
+                    //###### LISTA DE TARJETAS PARA EDITAR ######
+                    if(flashcards.isNotEmpty) ListView.builder(
                       padding: const EdgeInsets.only(right: 16,left: 16,top: 350,bottom: 24),
-                      //scrollDirection: Axis.horizonta,
                       itemCount: flashcards.length+1,
                       itemBuilder: (context, index) {
                         if(index == 0){
@@ -97,18 +102,12 @@ class _GroupScreenState extends State<GroupScreen> {
                                       Navigator.of(context).pushNamed(
                                           EditFlashcardScreen.routeName,
                                           arguments: EditFlashcardScreenArguments(
-                                              flashcard: flashcards[index],
+                                              flashcard: flashcard,
                                               groupCubit: context.read< GroupCubit>()));
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(flashcard.question,style: const TextStyle(fontWeight: FontWeight.bold)),
-                                          Text(flashcard.answer),
-                                        ],
-                                      ),
+                                      child: Text(flashcard.question,style: const TextStyle(fontWeight: FontWeight.bold)),
                                     )
                                 )
                             )
@@ -119,6 +118,8 @@ class _GroupScreenState extends State<GroupScreen> {
                       borderRadius: const BorderRadius.only(bottomRight: Radius.circular(100),bottomLeft: Radius.circular(100)),
                       color: group!.color
                   )),
+
+                  //###### CABECERA #######
                   Positioned(
                     top: 60,
                     right: 0,
@@ -130,24 +131,10 @@ class _GroupScreenState extends State<GroupScreen> {
                         children: [
                           Text(group!.name,style: const TextStyle(fontSize: 32)),
                           const SizedBox(height: 16),
-                          Container(height:45,child: Text(group!.description!)),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              GroupButton(
-                                label: AppLocalizations.of(context)!.startExam.toUpperCase(),
-                                icon: Icons.play_arrow,
-                                onTap: (){Navigator.pushNamed(context, ExamScreen.routeName,arguments: flashcards);}
-                              ),
-                              reviewFlashcards.isNotEmpty ? const SizedBox(width: 16) : const SizedBox.shrink(),
-                              reviewFlashcards.isNotEmpty ? GroupButton(
-                                label: AppLocalizations.of(context)!.startFailedExam.toUpperCase(),
-                                  icon: Icons.play_arrow_outlined,
-                                onTap: (){Navigator.pushNamed(context, ExamScreen.routeName,arguments:reviewFlashcards);}
-                              ) : const SizedBox.shrink(),
-                            ],
-                          )
+                          SizedBox(height:45,child: Text(group!.description!)),
+
+                          //####### BOTONES PARA INICIAR REPASO #######
+                          StartReviewButtonsWidgets(flashcards: flashcards,reviewFlashcards: reviewFlashcards)
                         ],
                       ),
                     ),
@@ -198,11 +185,12 @@ class _GroupScreenState extends State<GroupScreen> {
   }
 }
 
-class GroupButton extends StatelessWidget {
+class DoExamButton extends StatelessWidget {
   final GestureTapCallback? onTap;
   final String label;
   final IconData icon;
-  const GroupButton({required this.label, required this.icon, this.onTap,Key? key}) : super(key: key);
+  final ExamData examData;
+  const DoExamButton({required this.examData,required this.label, required this.icon, this.onTap,Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -227,7 +215,11 @@ class GroupButton extends StatelessWidget {
             child: InkWell(
               //splashColor: Colors.white,
                 borderRadius: const BorderRadius.all(Radius.circular(20)),
-                onTap: onTap,
+                onTap: (){
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ExamScreen(examData: examData))
+                  );
+                },
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 24),
                   child: Column(
@@ -238,11 +230,55 @@ class GroupButton extends StatelessWidget {
                       Text(label,style: TextStyle(fontSize: 12),textAlign: TextAlign.center,)
                     ],
                   ),
-                  height: 150,
-                  width: 120,
+                  height: 140,
+                  width: 100,
                 )
             )
         )
+    );
+  }
+}
+
+class NoFlashCardsMessageWidget extends StatelessWidget {
+  const NoFlashCardsMessageWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(child:Text(AppLocalizations.of(context)!.thereAreNoFlashcards));
+  }
+}
+
+class StartReviewButtonsWidgets extends StatelessWidget {
+  final List<Flashcard> flashcards;
+  final List<Flashcard> reviewFlashcards;
+  const StartReviewButtonsWidgets({required this.flashcards, required this.reviewFlashcards, Key? key}) : super(key: key);
+
+  final double spaceWidthBetweenButtons = 16;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        flashcards.isNotEmpty ? DoExamButton(
+          label: AppLocalizations.of(context)!.startExam.toUpperCase(),
+          icon: Icons.play_arrow,
+          examData: ExamData(flashcards: flashcards),
+        ): const SizedBox.shrink(),
+        reviewFlashcards.isNotEmpty ? SizedBox(width: spaceWidthBetweenButtons) : const SizedBox.shrink(),
+        reviewFlashcards.isNotEmpty ? DoExamButton(
+          label: AppLocalizations.of(context)!.startFailedExam.toUpperCase(),
+          icon: Icons.play_arrow_outlined,
+          examData: ExamData(flashcards: reviewFlashcards),
+        ) : const SizedBox.shrink(),
+        flashcards.length>=AppConfig.quickReviewQuestionNumber ? SizedBox(width: spaceWidthBetweenButtons) : const SizedBox.shrink(),
+        flashcards.length>=AppConfig.quickReviewQuestionNumber ? DoExamButton(
+          label: AppLocalizations.of(context)!.startQuickExam.toUpperCase(),
+          icon: Icons.bolt,
+          examData: ExamData(flashcards: flashcards,isQuickExam:true),
+        ) : const SizedBox.shrink(),
+      ],
     );
   }
 }

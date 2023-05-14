@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
+import '../../domain/entities/exam_data.dart';
 import 'exam_screen.dart';
 import 'groups_screen.dart';
 
@@ -88,7 +89,11 @@ class _ResultScreenState extends State<ResultScreen> {
                     examResult.failedFlashcard.isNotEmpty ? OutlinedButton(
                       child: Text((AppLocalizations.of(context)!.repeatFailedCards).toUpperCase(),style: const TextStyle(fontSize: 18)),
                       onPressed: (){
-                        Navigator.pushNamed(context, ExamScreen.routeName,arguments: examResult.failedFlashcard);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => ExamScreen(
+                              examData: ExamData(flashcards: examResult.failedFlashcard)
+                          ))
+                        );
                       },
                     ) : SizedBox.shrink(),
                     OutlinedButton(

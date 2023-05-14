@@ -88,7 +88,6 @@ class MyApp extends StatelessWidget {
             EditFlashcardScreen.routeName: (context) => EditFlashcardScreen(),
             GroupScreen.routeName: (context) => GroupScreen(),
             EditGroupScreen.routeName: (context) => EditGroupScreen(),
-            ExamScreen.routeName: (context) => ExamScreen(),
             ResultScreen.routeName: (context) => ResultScreen(),
             ImportScreen.routeName: (context) => ImportScreen(),
           },

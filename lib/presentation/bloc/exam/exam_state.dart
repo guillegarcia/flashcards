@@ -11,11 +11,15 @@ class LoadingState extends ExamState {
 }
 
 class ShowCurrentFlashcardState extends ExamState {
+  final Flashcard flashcard;
+  final int currentStep;
+  final int totalSteps;
 
-  ShowCurrentFlashcardState(this.flashcard,this.currentStep);
-
-  Flashcard flashcard;
-  int currentStep;
+  const ShowCurrentFlashcardState({
+    required this.flashcard,
+    required this.currentStep,
+    required this.totalSteps
+  });
 
   @override
   List<Object> get props => [flashcard,currentStep];

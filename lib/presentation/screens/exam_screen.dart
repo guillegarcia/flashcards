@@ -10,10 +10,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
-class ExamScreen extends StatefulWidget {
-  const ExamScreen({Key? key}) : super(key: key);
+import '../../domain/entities/exam_data.dart';
 
-  static const routeName = '/exam_screen';
+class ExamScreen extends StatefulWidget {
+  final ExamData examData;
+
+  const ExamScreen({required this.examData,Key? key}) : super(key: key);
 
   @override
   _ExamScreenState createState() => _ExamScreenState();
@@ -23,18 +25,14 @@ class _ExamScreenState extends State<ExamScreen> {
 
   bool _showButtons = false;
   bool _visibleFlashCard = true;
-  FlipCardController _flashcardController = FlipCardController();
+  final FlipCardController _flashcardController = FlipCardController();
 
   @override
   Widget build(BuildContext context) {
-    List<Flashcard> flashcards = ModalRoute
-        .of(context)!
-        .settings
-        .arguments as List<Flashcard>;
 
     return BlocProvider(
       create: (context) => ExamCubit(
-        flashcards: flashcards,
+        examData: widget.examData,
         localRepository: context.read<SQLiteLocalDatasource>()
       ),
       child: Scaffold(
@@ -68,7 +66,7 @@ class _ExamScreenState extends State<ExamScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: StepProgressIndicator(
-                              totalSteps: flashcards.length,
+                              totalSteps: state.totalSteps,
                               currentStep: state.currentStep,
                               selectedColor: Theme.of(context).colorScheme.primary,
                               unselectedColor: Colors.grey,

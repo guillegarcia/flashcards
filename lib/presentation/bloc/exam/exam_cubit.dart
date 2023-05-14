@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flashcards/config/app_config.dart';
 import 'package:flashcards/data/repositories/local_repository.dart';
+import 'package:flashcards/domain/entities/exam_data.dart';
 import 'package:flashcards/domain/entities/exam_result.dart';
 import 'package:flashcards/domain/entities/flash_card.dart';
 
@@ -8,41 +10,33 @@ part 'exam_state.dart';
 
 class ExamCubit extends Cubit<ExamState> {
 
-  final List<Flashcard> flashcards;
+  late List<Flashcard> flashcards;
   int currentFlashcardIndex = 0;
   ExamResult examResult = ExamResult();
   final LocalRepository localRepository;
 
-  ExamCubit({required this.localRepository,required this.flashcards}) : super(flashcards.isNotEmpty ? LoadingState() : ErrorState()){
-    print('Constructor');
+  ExamCubit({required this.localRepository,required ExamData examData}) : super(examData.flashcards.isNotEmpty ? LoadingState() : ErrorState()){
+    flashcards = examFlashcards(examData);
+    emit(
+      ShowCurrentFlashcardState(
+        flashcard: flashcards.first,
+        currentStep: 1,
+        totalSteps: flashcards.length
+      )
+    );
+  }
+
+  List<Flashcard> examFlashcards(ExamData examData){
     //Random order
-    flashcards.shuffle();
-    emit(ShowCurrentFlashcardState(flashcards.first,1));
+    examData.flashcards.shuffle();
+    //If it is a quick exam, it will only use some cards
+    if(examData.isQuickExam){
+      return examData.flashcards.sublist(0,AppConfig.quickReviewQuestionNumber);
+    }
+    return examData.flashcards;
   }
 
   Flashcard _currentFlashcard() => flashcards[currentFlashcardIndex];
-
-  /*void updateGroup(Group group) async{
-    try{
-      print('updateGroup cubit ${group.name}');
-      emit(UpdateInProgressState());
-      await _localRepository.updateGroup(group);
-      if(groupsBloc.state is LoadSuccessState){
-        groupsBloc.loadGroups();//.addCreatedGroup(group);
-      }
-      emit(UpdateSuccessState());
-    } catch (e) {
-      emit(UpdateErrorState());
-    }
-  }*/
-
-  /*void showCurrentCardAnswer(){
-    emit(FlashcardAnswerState(flashcards[currentFlashcardIndex]));
-  }
-
-  void showCurrentCardQuestion(){
-    emit(FlashcardQuestionState(flashcards[currentFlashcardIndex]));
-  }*/
 
   void saveCurrentCardSuccess(){
     localRepository.removeFromReview(_currentFlashcard().id!);
@@ -60,7 +54,13 @@ class ExamCubit extends Cubit<ExamState> {
   void _showNextCard() {
     if(currentFlashcardIndex<flashcards.length-1) {
       currentFlashcardIndex++;
-      emit(ShowCurrentFlashcardState(flashcards[currentFlashcardIndex],currentFlashcardIndex+1));
+      emit(
+        ShowCurrentFlashcardState(
+          flashcard: flashcards[currentFlashcardIndex],
+          currentStep: currentFlashcardIndex+1,
+          totalSteps: flashcards.length
+        )
+      );
     } else {
       emit(FinishState(examResult));
     }
