@@ -23,13 +23,22 @@ class _ExportScreenState extends State<ExportScreen> {
         child: BlocBuilder<ExportCubit, ExportState>(
           builder: (context, state) {
             if (state is ExportInProgressState)
-              return Container(
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
+              return Center(
+                child: CircularProgressIndicator(),
               );
             if (state is ExportSuccessState)
-              return Text('SUCCESS');
+              return Container(
+                child: Column(
+                  children: [
+                    Text('Exportado!'),
+                    Text('Path ${state.csvPath}'),
+                    ElevatedButton(onPressed: (){
+                        context.read<ExportCubit>().shareCsv(state.csvPath);
+                      }, child: Text('Compartir')
+                    )
+                  ],
+                ),
+              );
             return Text('ERROR');
           },
         ),

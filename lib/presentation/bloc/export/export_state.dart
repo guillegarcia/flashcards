@@ -4,5 +4,9 @@ part of 'export_cubit.dart';
 abstract class ExportState {}
 
 class ExportInProgressState extends ExportState {}
-class ExportSuccessState extends ExportState {}
+class ExportSuccessState extends ExportState {
+  String csvPath;
+
+  ExportSuccessState({required this.csvPath});
+}
 class ExportErrorState extends ExportState {}
