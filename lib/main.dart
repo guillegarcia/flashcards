@@ -89,7 +89,6 @@ class MyApp extends StatelessWidget {
             GroupScreen.routeName: (context) => GroupScreen(),
             EditGroupScreen.routeName: (context) => EditGroupScreen(),
             ResultScreen.routeName: (context) => ResultScreen(),
-            ImportScreen.routeName: (context) => ImportScreen(),
           },
           initialRoute: GroupsScreen.routeName,
         ),

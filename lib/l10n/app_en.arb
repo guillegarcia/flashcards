@@ -36,8 +36,11 @@
   "thereAreNoFlashcards": "It's time to create a flashcard!",
   "importFromspreadsheet": "Import from Google Spreadsheet",
   "spreadsheetUrl": "Spreadsheet URL",
-  "import": "Import",
+  "importFlashcards": "Import flashcards",
   "finish": "Finish",
   "color": "Color",
-  "exportFlashcards": "Export flashcards"
+  "exportFlashcards": "Export flashcards",
+  "exportInitialMessage": "Export your questions and share them with anyone you want! Create a CSV file, perfect for backups and sharing your questions with other users. Simply import it into their app, and they'll have your questions. It's easy and compatible with spreadsheets!",
+  "exportSuccessMessage": "The file has been successfully exported. Save it or share it however you like!",
+  "share": "Share"
 }

@@ -31,8 +31,11 @@
   "thereAreNoFlashcards": "¡Es el momento crear tarjetas!",
   "importFromspreadsheet": "Importar de hoja de cálculo de Google",
   "spreadsheetUrl": "URL de la hoja de cálculo de Google",
-  "import": "Importar",
+  "importFlashcards": "Importar tarjetas",
   "finish": "Terminar",
   "color": "Color",
-  "exportFlashcards": "Exportar tarjetas"
+  "exportFlashcards": "Exportar tarjetas",
+  "exportInitialMessage": "¡Exporta tus preguntas y compártelas con quien quieras! Crea un archivo CSV, perfecto para hacer copias de seguridad y también para compartir tus preguntas con otros usuarios. Simplemente tienen que importarlo en su app y podrán tener tus preguntas. ¡Es fácil y compatible con hojas de cálculo!",
+  "exportSuccessMessage": "El fichero se ha exportado bien. ¡Guárdalo o compártelo como quieras!",
+  "share": "Compartir"
 }

@@ -12,15 +12,14 @@ part 'export_state.dart';
 class ExportCubit extends Cubit<ExportState> {
   final List<Flashcard> flashcards;
 
-  ExportCubit({required this.flashcards}) : super(ExportInProgressState()){
-    exportFlashcards();
-  }
+  ExportCubit({required this.flashcards}) : super(ExportInitialState());
 
   void exportFlashcards() async{
     try {
       print('exporting!');
       String csvPath = await _flashcardsListToCSV(flashcards);
       emit(ExportSuccessState(csvPath:csvPath));
+      shareCsv(csvPath);
     } catch (e) {
       emit(ExportErrorState());
     }

@@ -78,6 +78,10 @@ class _GroupScreenState extends State<GroupScreen> {
                             value: 'export',
                             child: Text(AppLocalizations.of(context)!.exportFlashcards),
                           ),
+                          PopupMenuItem<String>(
+                            value: 'import',
+                            child: Text(AppLocalizations.of(context)!.importFlashcards),
+                          ),
                         ];
                       },
                       onSelected: (String value) {
@@ -87,6 +91,10 @@ class _GroupScreenState extends State<GroupScreen> {
                                  builder: (context) => ExportScreen(flashcards: flashcards),
                              ));
                              break;
+                          case 'import':
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ImportScreen(groupCubit: context.read<GroupsCubit>()),
+                            ));
                         }
                       },
                     )
@@ -161,45 +169,11 @@ class _GroupScreenState extends State<GroupScreen> {
                       ),
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 40),
-                      child: flashcards.isNotEmpty
-                          ? SizedBox.shrink()
-                          : Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                ElevatedButton.icon(
-                                  icon: const Icon(Icons.cloud_download),
-                                  onPressed: () {
-                                    Navigator.of(context).pushNamed(ImportScreen.routeName,arguments:context.read<GroupCubit>());
-                                  },
-                                  label: Text(AppLocalizations.of(context)!.importFromspreadsheet.toUpperCase())),
-                                const SizedBox(height: 12),
-                                ElevatedButton.icon(
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Colors.grey),
-                                  icon: const Icon(Icons.play_arrow),
-                                  onPressed: () {
-                                    Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,arguments: context.read<GroupCubit>());
-                                  },
-                                  label: Text(AppLocalizations.of(context)!.createFlashcard.toUpperCase())
-                                ),
-                              ],
-                            ),
-                    ),
-                  ),
                   (state is LoadFlashcardsInProgressState) ? const Center(child: CircularProgressIndicator()) : const SizedBox.shrink()
                 ],
               ),
-              floatingActionButton: FloatingActionButton.extended(
-                icon: const Icon(Icons.add),
-                label: Text(AppLocalizations.of(context)!.createFlashcard),
-                onPressed: (){
-                  Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,arguments:context.read<GroupCubit>());
-                },
-              ),
+              floatingActionButton: (state is LoadFlashcardsSuccessState) ?
+                   GroupFAB(showImportButton: flashcards.isEmpty): const SizedBox.shrink(),
             );
       }
     )
@@ -249,7 +223,7 @@ class DoExamButton extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Icon(icon,size: 45),
-                      Text(label,style: TextStyle(fontSize: 12),textAlign: TextAlign.center,)
+                      Text(label,style: const TextStyle(fontSize: 12),textAlign: TextAlign.center)
                     ],
                   ),
                   height: 140,
@@ -301,6 +275,47 @@ class StartReviewButtonsWidgets extends StatelessWidget {
           examData: ExamData(flashcards: flashcards,isQuickExam:true),
         ) : const SizedBox.shrink(),
       ],
+    );
+  }
+}
+
+class GroupFAB extends StatelessWidget {
+  bool showImportButton;
+  GroupFAB({this.showImportButton = false, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if(showImportButton) {
+      return Wrap(
+        direction: Axis.vertical,
+        children: [
+          FloatingActionButton.extended(
+            icon: const Icon(Icons.add),
+            label: Text(AppLocalizations.of(context)!.createFlashcard),
+            onPressed: () {
+              Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,
+                  arguments: context.read<GroupCubit>());
+            },
+          ),
+          const SizedBox(height: 16),
+          FloatingActionButton.extended(
+            icon: const Icon(Icons.add),
+            label: Text(AppLocalizations.of(context)!.importFlashcards),
+            onPressed: () {
+              Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,
+                  arguments: context.read<GroupCubit>());
+            },
+          ),
+        ],
+      );
+    }
+    return FloatingActionButton.extended(
+      icon: const Icon(Icons.add),
+      label: Text(AppLocalizations.of(context)!.createFlashcard),
+      onPressed: () {
+        Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,
+            arguments: context.read<GroupCubit>());
+      },
     );
   }
 }

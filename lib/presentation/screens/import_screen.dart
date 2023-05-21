@@ -8,9 +8,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ImportScreen extends StatefulWidget {
-  const ImportScreen({Key? key}) : super(key: key);
+  var groupCubit;
 
-  static const routeName = '/import_screen';
+  ImportScreen({required this.groupCubit, Key? key}) : super(key: key);
 
   @override
   _ImportScreenState createState() => _ImportScreenState();
@@ -24,11 +24,10 @@ class _ImportScreenState extends State<ImportScreen> {
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
     _urlController.text = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-AdUnsxTHpU2XZ_IM9iMs-37Flnjh6ydQtuq0Un-x522PZJTe6Li8rhpj14ZJXjoLFtGpJMMIoOEO/pub?output=csv';
-    GroupCubit groupCubit = ModalRoute.of(context)!.settings.arguments as GroupCubit;
 
     return BlocProvider(
       create: (context) => ImportCubit(context.read<SQLiteLocalDatasource>(),
-          groupBloc: groupCubit
+          groupBloc: widget.groupCubit
       ),
       child: BlocBuilder<ImportCubit, ImportState>(
         builder: (context, state) {
@@ -60,7 +59,7 @@ class _ImportScreenState extends State<ImportScreen> {
                         if(_formKey.currentState!.validate()) {
                           context.read<ImportCubit>().importFromSpreadsheet('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-AdUnsxTHpU2XZ_IM9iMs-37Flnjh6ydQtuq0Un-x522PZJTe6Li8rhpj14ZJXjoLFtGpJMMIoOEO/pub?output=csv');
                         }
-                      }, icon: const Icon(Icons.cloud_download), label: Text(AppLocalizations.of(context)!.import.toUpperCase())),
+                      }, icon: const Icon(Icons.cloud_download), label: Text(AppLocalizations.of(context)!.importFlashcards.toUpperCase())),
                       SizedBox(height: DesignConfig.formFieldSeparationHeight),
                       (state is ImportLoadingState)?Center(child: CircularProgressIndicator()):SizedBox.shrink(),
                       (state is ImportSuccessState)?Text('Importadas: ${state.importedFlashcards.length}'):SizedBox.shrink(),
