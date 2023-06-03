@@ -1,25 +1,25 @@
-part of 'import_cubit.dart';
+part of 'import_from_spreadsheet_cubit.dart';
 
-abstract class ImportState extends Equatable {
-  const ImportState();
+abstract class ImportFromSpreadsheetState extends Equatable {
+  const ImportFromSpreadsheetState();
 }
 
-class ImportInitial extends ImportState {
+class ImportInitial extends ImportFromSpreadsheetState {
   @override
   List<Object> get props => [];
 }
 
-class ImportErrorState extends ImportState {
+class ImportErrorState extends ImportFromSpreadsheetState {
   @override
   List<Object> get props => [];
 }
 
-class ImportLoadingState extends ImportState {
+class ImportLoadingState extends ImportFromSpreadsheetState {
   @override
   List<Object> get props => [];
 }
 
-class ImportSuccessState extends ImportState {
+class ImportSuccessState extends ImportFromSpreadsheetState {
   final List<Flashcard> importedFlashcards;
   final int rowsExceedMaxLengthCounter;
   final int rowsWithLessThanTwoColumnsCounter;

@@ -35,6 +35,7 @@
   "thereAreNoGroups": "You don't have any deck yet. Create the first one :)!",
   "thereAreNoFlashcards": "It's time to create a flashcard!",
   "importFromspreadsheet": "Import from Google Spreadsheet",
+  "importFromCSV": "Import from CSV",
   "spreadsheetUrl": "Spreadsheet URL",
   "importFlashcards": "Import flashcards",
   "finish": "Finish",

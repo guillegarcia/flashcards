@@ -9,9 +9,7 @@ import 'package:flashcards/presentation/screens/edit_flashcard_screen.dart';
 import 'package:flashcards/presentation/screens/edit_group_screen.dart';
 import 'package:flashcards/presentation/screens/exam_screen.dart';
 import 'package:flashcards/presentation/screens/export_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -92,8 +90,9 @@ class _GroupScreenState extends State<GroupScreen> {
                              ));
                              break;
                           case 'import':
+                            GroupCubit groupCubit = context.read<GroupCubit>();
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ImportScreen(groupCubit: context.read<GroupsCubit>()),
+                                builder: (context) => ImportScreen(groupCubit: groupCubit),
                             ));
                         }
                       },
@@ -173,7 +172,7 @@ class _GroupScreenState extends State<GroupScreen> {
                 ],
               ),
               floatingActionButton: (state is LoadFlashcardsSuccessState) ?
-                   GroupFAB(showImportButton: flashcards.isEmpty): const SizedBox.shrink(),
+                   GroupFAB(showImportButton: flashcards.isEmpty, groupCubit: context.read<GroupCubit>(),): const SizedBox.shrink(),
             );
       }
     )
@@ -281,7 +280,8 @@ class StartReviewButtonsWidgets extends StatelessWidget {
 
 class GroupFAB extends StatelessWidget {
   bool showImportButton;
-  GroupFAB({this.showImportButton = false, Key? key}) : super(key: key);
+  GroupCubit groupCubit;
+  GroupFAB({required this.groupCubit, this.showImportButton = false, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -302,8 +302,9 @@ class GroupFAB extends StatelessWidget {
             icon: const Icon(Icons.add),
             label: Text(AppLocalizations.of(context)!.importFlashcards),
             onPressed: () {
-              Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,
-                  arguments: context.read<GroupCubit>());
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ImportScreen(groupCubit: groupCubit),
+              ));
             },
           ),
         ],

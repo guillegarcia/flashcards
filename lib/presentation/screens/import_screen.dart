@@ -1,78 +1,77 @@
-import 'package:flashcards/config/design_config.dart';
-import 'package:flashcards/data/datasources/sqlite_local_datasource.dart';
-import 'package:flashcards/presentation/bloc/group/group_cubit.dart';
-import 'package:flashcards/presentation/bloc/import/import_cubit.dart';
-import 'package:flashcards/presentation/widgets/form_field_label.dart';
+import 'package:flashcards/presentation/screens/import_from_spreadsheet_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class ImportScreen extends StatefulWidget {
-  var groupCubit;
+import '../../config/design_config.dart';
+import '../bloc/group/group_cubit.dart';
 
-  ImportScreen({required this.groupCubit, Key? key}) : super(key: key);
+class ImportScreen extends StatelessWidget {
 
-  @override
-  _ImportScreenState createState() => _ImportScreenState();
-}
+  final GroupCubit groupCubit;
 
-class _ImportScreenState extends State<ImportScreen> {
-
-  final _urlController = TextEditingController();
+  const ImportScreen({required this.groupCubit, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-    _urlController.text = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-AdUnsxTHpU2XZ_IM9iMs-37Flnjh6ydQtuq0Un-x522PZJTe6Li8rhpj14ZJXjoLFtGpJMMIoOEO/pub?output=csv';
-
-    return BlocProvider(
-      create: (context) => ImportCubit(context.read<SQLiteLocalDatasource>(),
-          groupBloc: widget.groupCubit
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.importFlashcards),
       ),
-      child: BlocBuilder<ImportCubit, ImportState>(
-        builder: (context, state) {
-          return Scaffold(
-              appBar: AppBar(
-                title: Text(
-                    AppLocalizations.of(context)!.importFromspreadsheet),
-              ),
-              body: Container(
-                padding: DesignConfig.screenPadding,
-                child: Form(
-                  key: _formKey,
-                  child: ListView(
-                    children: [
-                      FormFieldLabel(
-                          AppLocalizations.of(context)!.spreadsheetUrl),
-                      TextFormField(
-                          controller: _urlController,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return AppLocalizations.of(context)!
-                                  .valueCanNotBeEmpty;
-                            }
-                            return null;
-                          }
-                      ),
-                      SizedBox(height: DesignConfig.formFieldSeparationHeight),
-                      ElevatedButton.icon(onPressed: (){
-                        if(_formKey.currentState!.validate()) {
-                          context.read<ImportCubit>().importFromSpreadsheet('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-AdUnsxTHpU2XZ_IM9iMs-37Flnjh6ydQtuq0Un-x522PZJTe6Li8rhpj14ZJXjoLFtGpJMMIoOEO/pub?output=csv');
-                        }
-                      }, icon: const Icon(Icons.cloud_download), label: Text(AppLocalizations.of(context)!.importFlashcards.toUpperCase())),
-                      SizedBox(height: DesignConfig.formFieldSeparationHeight),
-                      (state is ImportLoadingState)?Center(child: CircularProgressIndicator()):SizedBox.shrink(),
-                      (state is ImportSuccessState)?Text('Importadas: ${state.importedFlashcards.length}'):SizedBox.shrink(),
-                      (state is ImportSuccessState && state.maxFlashcardInGroupReached)?Text('maxFlashcardInGroupReached'):SizedBox.shrink(),
-                      (state is ImportSuccessState && state.rowsExceedMaxLengthCounter > 0)?Text('rowsExceedMaxLengthCounter: ${state.rowsExceedMaxLengthCounter}'):SizedBox.shrink(),
-                      (state is ImportSuccessState && state.rowsWithLessThanTwoColumnsCounter > 0)?Text('rowsWithLessThanTwoColumnsCounter: ${state.rowsWithLessThanTwoColumnsCounter}'):SizedBox.shrink(),
-                      //(state is DeleteGroupErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.deleteGroupErrorMessage):SizedBox.shrink()
-                    ],
-                  ),
-                ),
+      body: Container(
+        padding: DesignConfig.screenPadding,
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ImportOptionWidget(
+              optionTitle:AppLocalizations.of(context)!.importFromCSV,
+              onTap: (){
+
+              },
+            ),
+            ImportOptionWidget(
+              optionTitle:AppLocalizations.of(context)!.importFromspreadsheet,
+              onTap: (){
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ImportFromSpreadsheetScreen(groupCubit: groupCubit),
+                ));
+              },
+            ),
+          ],
+        ),
+      )
+    );
+  }
+
+}
+
+class ImportOptionWidget extends StatelessWidget {
+  final String optionTitle;
+  final GestureTapCallback? onTap;
+  const ImportOptionWidget({required this.optionTitle, required this.onTap, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        width: double.infinity,
+          margin: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: Colors.black12
+          ),
+          child: Material(
+              type: MaterialType.transparency,
+              child: InkWell(
+                //splashColor: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  onTap: onTap,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 16,horizontal: 24),
+                    child: Text(optionTitle),
+                  )
               )
-          );
-        },
+          )
       ),
     );
   }

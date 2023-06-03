@@ -9,10 +9,10 @@ import 'package:flashcards/presentation/bloc/group/group_cubit.dart';
 import 'package:csv/csv.dart';
 import 'package:http/http.dart' as http;
 
-part 'import_state.dart';
+part 'import_from_spreadsheet_state.dart';
 
-class ImportCubit extends Cubit<ImportState> {
-  ImportCubit(this._localRepository,{required GroupCubit this.groupBloc}) : super(ImportInitial());
+class ImportFromSpreadsheetCubit extends Cubit<ImportFromSpreadsheetState> {
+  ImportFromSpreadsheetCubit(this._localRepository,{required GroupCubit this.groupBloc}) : super(ImportInitial());
 
   final GroupCubit groupBloc;
   final LocalRepository _localRepository;
