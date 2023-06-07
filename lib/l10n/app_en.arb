@@ -44,5 +44,7 @@
   "exportInitialMessage": "Export your flashcards and share them with anyone you want! Create a CSV file, perfect for backups and sharing your questions with other users. Simply import it into their app, and they'll have your questions. It's easy and compatible with spreadsheets!",
   "exportSuccessMessage": "The file has been successfully exported. Save it or share it however you like!",
   "share": "Share",
-  "importFromCsvInitialMessage": "Import your flashcard from a CSV file"
+  "importFromCsvInitialMessage": "Import your flashcard from a CSV file",
+  "importFromCsvSuccessMessage": "The flashcard have been imported successfully!",
+  "volver": "Return"
 }

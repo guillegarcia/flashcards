@@ -83,11 +83,12 @@ class ImportFromCsvSuccessStateContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextAndButtonFullPageWidget(
-        text: 'VOLVER',//TODO: TRADUCIR y mejorar
-        buttonText: AppLocalizations.of(context)!.share.toUpperCase(),
+        text: AppLocalizations.of(context)!.importFromCsvSuccessMessage,
+        buttonText: AppLocalizations.of(context)!.volver.toUpperCase(),
         buttonOnPressed: (){
-          //TODO: volver a grupo
-          print('volver');
+          //Dos pop pra saltar la selección del tipo de import
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
         }
     );
   }
@@ -98,6 +99,7 @@ class ImportFromCsvErrorStateContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: Mejorar texto
     return Text('ERROR');
   }
 }

@@ -39,5 +39,7 @@
   "exportInitialMessage": "¡Exporta tus preguntas y compártelas con quien quieras! Crea un archivo CSV, perfecto para hacer copias de seguridad y también para compartir tus preguntas con otros usuarios. Simplemente tienen que importarlo en su app y podrán tener tus preguntas. ¡Es fácil y compatible con hojas de cálculo!",
   "exportSuccessMessage": "El fichero se ha exportado bien. ¡Guárdalo o compártelo como quieras!",
   "share": "Compartir",
-  "importFromCsvInitialMessage": "Importa tarjetas desde un fichero CSV"
+  "importFromCsvInitialMessage": "Importa tarjetas desde un fichero CSV",
+  "importFromCsvSuccessMessage": "¡Las tarjetas se han importado correctamente!",
+  "volver": "Volver"
 }
