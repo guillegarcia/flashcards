@@ -27,7 +27,7 @@ class ExportCubit extends Cubit<ExportState> {
 
   Future<String> _flashcardsListToCSV(List<Flashcard> flashcards) async {
     String csvData = const ListToCsvConverter().convert(_listOfFlashCardsToListForCsv(flashcards));
-    final String directory = (await getApplicationSupportDirectory()).path;
+    final String directory = (await getApplicationDocumentsDirectory()).path;
     final path = "$directory/flashcards-${DateTime.now()}.csv";
     print(path);
     final File file = File(path);

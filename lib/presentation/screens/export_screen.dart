@@ -6,6 +6,8 @@ import '../../config/design_config.dart';
 import '../../domain/entities/flash_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../widgets/text_and_button_full_page_widget.dart';
+
 class ExportScreen extends StatefulWidget {
   final List<Flashcard> flashcards;
 
@@ -94,31 +96,5 @@ class ExportErrorStateContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text('ERROR');
-  }
-}
-
-class TextAndButtonFullPageWidget extends StatelessWidget {
-  String text;
-  String buttonText;
-  VoidCallback buttonOnPressed;
-  TextAndButtonFullPageWidget({required this.text, required this.buttonOnPressed, required this.buttonText, Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(32.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(text,style: TextStyle(fontSize: 18)),
-          ElevatedButton(
-              onPressed: buttonOnPressed,
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size.fromHeight(50), // NEW
-              ),
-              child: Text(buttonText))
-        ],
-      ),
-    );
   }
 }

@@ -6,7 +6,7 @@ abstract class ExportState {}
 class ExportInitialState extends ExportState {}
 class ExportInProgressState extends ExportState {}
 class ExportSuccessState extends ExportState {
-  String csvPath;
+  final String csvPath;
 
   ExportSuccessState({required this.csvPath});
 }

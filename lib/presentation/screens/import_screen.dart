@@ -1,3 +1,4 @@
+import 'package:flashcards/presentation/screens/import_from_csv_screen.dart';
 import 'package:flashcards/presentation/screens/import_from_spreadsheet_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -26,7 +27,9 @@ class ImportScreen extends StatelessWidget {
             ImportOptionWidget(
               optionTitle:AppLocalizations.of(context)!.importFromCSV,
               onTap: (){
-
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ImportFromCSVScreen(groupCubit: groupCubit),
+                ));
               },
             ),
             ImportOptionWidget(
