@@ -22,7 +22,7 @@ class ShowCurrentFlashcardState extends ExamState {
   });
 
   @override
-  List<Object> get props => [flashcard,currentStep];
+  List<Object> get props => [currentStep];
 }
 /*
 class FlashcardQuestionState extends ExamState {

@@ -25,7 +25,8 @@ class _ExamScreenState extends State<ExamScreen> {
 
   bool _showButtons = false;
   bool _visibleFlashCard = true;
-  final FlipCardController _flashcardController = FlipCardController();
+  FlipCardController _flashcardController = FlipCardController();
+
   final ButtonStyle resultButtonStyle = ElevatedButton.styleFrom(
       backgroundColor: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 48,vertical: 24)
@@ -51,7 +52,7 @@ class _ExamScreenState extends State<ExamScreen> {
                       context.read<ExamCubit>().finish();
                     },
                     child: Text(AppLocalizations.of(context)!.finish.toUpperCase(),
-                      style: TextStyle(color: Colors.grey),
+                      style: const TextStyle(color: Colors.black),
                     )
                   );
                 },
@@ -61,81 +62,15 @@ class _ExamScreenState extends State<ExamScreen> {
           body: Container(
             child: BlocConsumer<ExamCubit, ExamState>(
               builder: (context, state) {
-                if(state is ShowCurrentFlashcardState) {
-                  return Stack(
-                      children: [
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: StepProgressIndicator(
-                              totalSteps: state.totalSteps,
-                              currentStep: state.currentStep,
-                              selectedColor: state.flashcard.color!,
-                              unselectedColor: Colors.grey,
-                            ),
-                          ),
-                        ),
-                        Center(child: AnimatedOpacity(
-                          opacity: _visibleFlashCard ? 1.0 : 0.0,
-                          duration: const Duration(milliseconds: 200),
-                          child: FlashCardWidget(
-                              flashcard:state.flashcard,
-                              controller: _flashcardController,
-                              onAnswerShown: (onAnswerSide){
-                                setState(() {
-                                  _showButtons = onAnswerSide;
-                                });
-                              }
-                            ),
-                        )
-                        ),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: _showButtons ? Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                ElevatedButton(
-                                  style: resultButtonStyle,
-                                  onPressed: () async {
-                                    setState(() {
-                                      _visibleFlashCard = false;
-                                    });
-                                    await Future.delayed(const Duration(milliseconds: 200));
-                                    //_flashcardController.toggleCard();
-                                    context.read<ExamCubit>().saveCurrentCardFailed();
-                                  }, child: const Icon(Icons.close,color: Colors.redAccent,)),
-                                ElevatedButton(
-                                  style: resultButtonStyle,
-                                  onPressed: () async {
-                                    setState(() {
-                                      _visibleFlashCard = false;
-                                    });
-                                    //_flashcardController.skew(1,curve: Curves.easeIn,duration: Duration(milliseconds: 1));
-                                    await Future.delayed(const Duration(milliseconds: 200));
-
-                                    context.read<ExamCubit>().saveCurrentCardSuccess();
-                                  }, child: const Icon(Icons.check,color: Colors.green,)),
-                              ],
-                            ),
-                          ) : SizedBox.shrink(),
-                        )
-                      ]
-                  );
-                } else if(state is LoadingState) {
-                  return const Center(
-                    child: CircularProgressIndicator()
-                  );
-                } else {
-                  return Container();
-                }
+                return _buildExamPageContent(context, state);
               },
               listener: (context, state) {
+                print('listener $state');
                 if(state is ShowCurrentFlashcardState){
                   setState(() {
-                    _flashcardController.skew(1,curve: Curves.easeIn,duration: const Duration(milliseconds: 1));
+                    _showButtons = false;
+                    _flashcardController.toggleCardWithoutAnimation();
+                    //_flashcardController.skew(1,curve: Curves.easeIn,duration: const Duration(milliseconds: 1));
                     _visibleFlashCard = true;
                   });
                 }
@@ -147,6 +82,82 @@ class _ExamScreenState extends State<ExamScreen> {
           ),
       ),
     );
+  }
+
+  _buildExamPageContent(BuildContext context, ExamState state) {
+    if(state is LoadingState) {
+      print('LoadingState');
+      return const Center(
+          child: CircularProgressIndicator()
+      );
+    } else if(state is ShowCurrentFlashcardState) {
+      print('build new ShowCurrentFlashcardState');
+
+      return Stack(
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: StepProgressIndicator(
+                  totalSteps: state.totalSteps,
+                  currentStep: state.currentStep,
+                  selectedColor: state.flashcard.color!,
+                  unselectedColor: Colors.grey,
+                ),
+              ),
+            ),
+            Center(
+              child: AnimatedOpacity(
+                opacity: _visibleFlashCard ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 200),
+                child: FlashCardWidget(
+                  flashcard: state.flashcard,
+                  controller: _flashcardController,
+                  onAnswerShown: (onAnswerSide){
+                    setState(() {
+                      _showButtons = onAnswerSide;
+                    });
+                  }
+                )
+              ),
+              //)
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: _showButtons ? Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                        style: resultButtonStyle,
+                        onPressed: () async {
+                          setState(() {
+                            _visibleFlashCard = false;
+                          });
+                          await Future.delayed(const Duration(milliseconds: 200));
+                          context.read<ExamCubit>().saveCurrentCardFailed();
+                        }, child: const Icon(Icons.close,color: Colors.redAccent,)),
+                    ElevatedButton(
+                        style: resultButtonStyle,
+                        onPressed: () async {
+                          setState(() {
+                            _visibleFlashCard = false;
+                          });
+                          await Future.delayed(const Duration(milliseconds: 200));
+                          context.read<ExamCubit>().saveCurrentCardSuccess();
+                        }, child: const Icon(Icons.check,color: Colors.green,)),
+                  ],
+                ),
+              ) : const SizedBox.shrink(),
+            )
+          ]
+      );
+    } else {
+      //TODO: ERROR
+      return Container();
+    }
   }
 }
 
@@ -164,7 +175,7 @@ class FlashCardPageWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: color ?? Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.grey,
             blurRadius: 5.0, // soften the shadow
@@ -183,28 +194,22 @@ class FlashCardPageWidget extends StatelessWidget {
   }
 }
 
-class FlashCardWidget extends StatefulWidget {
+class FlashCardWidget extends StatelessWidget {
 
   final Flashcard flashcard;
   final BoolCallback? onAnswerShown;
   final FlipCardController controller;
   const FlashCardWidget({required this.flashcard, required this.controller, this.onAnswerShown, Key? key}) : super(key: key);
 
-
-  @override
-  _FlashCardWidgetState createState() => _FlashCardWidgetState();
-}
-
-class _FlashCardWidgetState extends State<FlashCardWidget> {
-
   @override
   Widget build(BuildContext context) {
     return FlipCard(
       direction: FlipDirection.HORIZONTAL,
-      front: FlashCardPageWidget(widget.flashcard.question,color:widget.flashcard.color,textColor: Colors.white,),
-      back: FlashCardPageWidget(widget.flashcard.answer,color:Colors.white),
-      onFlipDone: widget.onAnswerShown,
-      controller: widget.controller,
+      front: FlashCardPageWidget(
+        flashcard.question, color: flashcard.color, textColor: Colors.white,),
+      back: FlashCardPageWidget(flashcard.answer, color: Colors.white),
+      onFlipDone: onAnswerShown,
+      controller: controller,
     );
   }
 }

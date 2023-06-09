@@ -52,7 +52,9 @@ class ExamCubit extends Cubit<ExamState> {
   }
 
   void _showNextCard() {
+    print('_showNextCard');
     if(currentFlashcardIndex<flashcards.length-1) {
+      emit(LoadingState());
       currentFlashcardIndex++;
       emit(
         ShowCurrentFlashcardState(
