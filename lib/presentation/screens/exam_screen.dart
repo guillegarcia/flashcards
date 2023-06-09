@@ -26,10 +26,13 @@ class _ExamScreenState extends State<ExamScreen> {
   bool _showButtons = false;
   bool _visibleFlashCard = true;
   final FlipCardController _flashcardController = FlipCardController();
+  final ButtonStyle resultButtonStyle = ElevatedButton.styleFrom(
+      backgroundColor: Colors.white,
+      padding: const EdgeInsets.symmetric(horizontal: 48,vertical: 24)
+  );
 
   @override
   Widget build(BuildContext context) {
-
     return BlocProvider(
       create: (context) => ExamCubit(
         examData: widget.examData,
@@ -68,7 +71,7 @@ class _ExamScreenState extends State<ExamScreen> {
                             child: StepProgressIndicator(
                               totalSteps: state.totalSteps,
                               currentStep: state.currentStep,
-                              selectedColor: Theme.of(context).colorScheme.primary,
+                              selectedColor: state.flashcard.color!,
                               unselectedColor: Colors.grey,
                             ),
                           ),
@@ -95,24 +98,26 @@ class _ExamScreenState extends State<ExamScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 ElevatedButton(
-                                    onPressed: () async {
-                                      setState(() {
-                                        _visibleFlashCard = false;
-                                      });
-                                      await Future.delayed(const Duration(milliseconds: 200));
-                                      //_flashcardController.toggleCard();
-                                      context.read<ExamCubit>().saveCurrentCardFailed();
-                                    }, child: Text('NO')),
+                                  style: resultButtonStyle,
+                                  onPressed: () async {
+                                    setState(() {
+                                      _visibleFlashCard = false;
+                                    });
+                                    await Future.delayed(const Duration(milliseconds: 200));
+                                    //_flashcardController.toggleCard();
+                                    context.read<ExamCubit>().saveCurrentCardFailed();
+                                  }, child: const Icon(Icons.close,color: Colors.redAccent,)),
                                 ElevatedButton(
-                                    onPressed: () async {
-                                      setState(() {
-                                        _visibleFlashCard = false;
-                                      });
-                                      //_flashcardController.skew(1,curve: Curves.easeIn,duration: Duration(milliseconds: 1));
-                                      await Future.delayed(const Duration(milliseconds: 200));
+                                  style: resultButtonStyle,
+                                  onPressed: () async {
+                                    setState(() {
+                                      _visibleFlashCard = false;
+                                    });
+                                    //_flashcardController.skew(1,curve: Curves.easeIn,duration: Duration(milliseconds: 1));
+                                    await Future.delayed(const Duration(milliseconds: 200));
 
-                                      context.read<ExamCubit>().saveCurrentCardSuccess();
-                                    }, child: Text('OK')),
+                                    context.read<ExamCubit>().saveCurrentCardSuccess();
+                                  }, child: const Icon(Icons.check,color: Colors.green,)),
                               ],
                             ),
                           ) : SizedBox.shrink(),
