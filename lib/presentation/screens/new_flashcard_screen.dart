@@ -65,6 +65,7 @@ class _NewFlashcardScreenState extends State<NewFlashcardScreen> {
                   children: [
                     FormFieldLabel(AppLocalizations.of(context)!.question),
                     TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
                         autofocus: true,
                         maxLines: 3,
                         maxLength: AppConfig.flashcardTextMaxLength,
@@ -79,6 +80,7 @@ class _NewFlashcardScreenState extends State<NewFlashcardScreen> {
                     SizedBox(height: DesignConfig.formFieldSeparationHeight),
                     FormFieldLabel(AppLocalizations.of(context)!.answer),
                     TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
                         maxLines: 3,
                         maxLength: AppConfig.flashcardTextMaxLength,
                         controller: _answerController,

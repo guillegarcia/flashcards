@@ -77,28 +77,30 @@ class _EditFlashcardScreenState extends State<EditFlashcardScreen> {
                   children: [
                     FormFieldLabel(AppLocalizations.of(context)!.question),
                     TextFormField(
-                        maxLines: 3,
-                        maxLength: AppConfig.flashcardTextMaxLength,
-                        controller: _questionController,
-                        validator: (value){
-                          if (value == null || value.isEmpty) {
-                            return AppLocalizations.of(context)!.valueCanNotBeEmpty;
-                          }
-                          return null;
+                      textCapitalization: TextCapitalization.sentences,
+                      maxLines: 3,
+                      maxLength: AppConfig.flashcardTextMaxLength,
+                      controller: _questionController,
+                      validator: (value){
+                        if (value == null || value.isEmpty) {
+                          return AppLocalizations.of(context)!.valueCanNotBeEmpty;
                         }
+                        return null;
+                      }
                     ),
                     SizedBox(height: DesignConfig.formFieldSeparationHeight),
                     FormFieldLabel(AppLocalizations.of(context)!.answer),
                     TextFormField(
-                        maxLines: 3,
-                        maxLength: AppConfig.flashcardTextMaxLength,
-                        controller: _answerController,
-                        validator: (value){
-                          if (value == null || value.isEmpty) {
-                            return AppLocalizations.of(context)!.valueCanNotBeEmpty;
-                          }
-                          return null;
+                      textCapitalization: TextCapitalization.sentences,
+                      maxLines: 3,
+                      maxLength: AppConfig.flashcardTextMaxLength,
+                      controller: _answerController,
+                      validator: (value){
+                        if (value == null || value.isEmpty) {
+                          return AppLocalizations.of(context)!.valueCanNotBeEmpty;
                         }
+                        return null;
+                      }
                     ),
                     (state is EditFlashcardErrorState) ? ErrorMessageWidget(AppLocalizations.of(context)!.updateFlashcardErrorMessage) : const SizedBox.shrink(),
                     (state is DeleteFlashcardErrorState) ? ErrorMessageWidget(AppLocalizations.of(context)!.deleteFlashcardErrorMessage): const SizedBox.shrink()

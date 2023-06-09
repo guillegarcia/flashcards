@@ -68,6 +68,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                   children: [
                     FormFieldLabel(AppLocalizations.of(context)!.name),
                     TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
                       autofocus: true,
                       controller: _nameController,
                       validator: (value){
@@ -80,6 +81,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                     SizedBox(height: DesignConfig.formFieldSeparationHeight),
                     FormFieldLabel(AppLocalizations.of(context)!.description),
                     TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
                       controller: _descriptionController,
                       validator: (value){
                         if (value == null || value.isEmpty) {
