@@ -171,6 +171,7 @@ class FlashCardPageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.all(16),
       child: Center(child: Text(text,style: TextStyle(color:textColor ?? Colors.black,fontSize: 20))),
       decoration: BoxDecoration(
         color: color ?? Colors.white,
