@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../bloc/import_from_spreadsheet/import_from_spreadsheet_cubit.dart';
+import '../widgets/text_and_button_full_page_widget.dart';
 
 class ImportFromSpreadsheetScreen extends StatefulWidget {
   GroupCubit groupCubit;
@@ -59,6 +60,7 @@ class ImportInitialStateContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: Quitar
     _urlController.text = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-AdUnsxTHpU2XZ_IM9iMs-37Flnjh6ydQtuq0Un-x522PZJTe6Li8rhpj14ZJXjoLFtGpJMMIoOEO/pub?output=csv';
     return Form(
       key: formKey,
@@ -108,13 +110,21 @@ class ImportSuccessStateContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text('Importadas: ${state.importedFlashcards.length}'),
-        if(state.maxFlashcardInGroupReached) Text('maxFlashcardInGroupReached'),
-        if(state.rowsExceedMaxLengthCounter > 0) Text('rowsExceedMaxLengthCounter: ${state.rowsExceedMaxLengthCounter}'),
-        if(state.rowsWithLessThanTwoColumnsCounter > 0) Text('rowsWithLessThanTwoColumnsCounter: ${state.rowsWithLessThanTwoColumnsCounter}')
-      ],
+    String resultInfoText = '';
+    resultInfoText += 'Importadas: ${state.importedFlashcards.length}';
+    if(state.maxFlashcardInGroupReached) resultInfoText +='\nmaxFlashcardInGroupReached';
+    if(state.rowsExceedMaxLengthCounter > 0) resultInfoText +='\nrowsExceedMaxLengthCounter: ${state.rowsExceedMaxLengthCounter}';
+    if(state.rowsWithLessThanTwoColumnsCounter > 0) resultInfoText +='\nrowsWithLessThanTwoColumnsCounter: ${state.rowsWithLessThanTwoColumnsCounter}';
+
+    return TextAndButtonFullPageWidget(
+        text: AppLocalizations.of(context)!.importFromSpreadsheetSuccessMessage,
+        subText: resultInfoText,
+        buttonText: AppLocalizations.of(context)!.volver.toUpperCase(),
+        buttonOnPressed: (){
+          //Dos pop pra saltar la selección del tipo de import
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+        }
     );
   }
 }
