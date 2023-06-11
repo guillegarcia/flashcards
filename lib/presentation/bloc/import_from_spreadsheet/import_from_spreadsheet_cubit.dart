@@ -50,8 +50,8 @@ class ImportFromSpreadsheetCubit extends Cubit<ImportFromSpreadsheetState> {
           for (var flashcardImportedInfo in flashcardsImportedInfo) {
             rowCounter++;
             if(flashcardImportedInfo != null && flashcardsImportedInfo.length>=2) {
-              String question = flashcardImportedInfo[0];
-              String answer = flashcardImportedInfo[1];
+              String question = flashcardImportedInfo[0].toString();
+              String answer = flashcardImportedInfo[1].toString();
 
               if (question.length <= AppConfig.flashcardTextMaxLength &&
                   question.length <= AppConfig.flashcardTextMaxLength) {
@@ -73,7 +73,7 @@ class ImportFromSpreadsheetCubit extends Cubit<ImportFromSpreadsheetState> {
 
           groupBloc.loadFlashcards();
 
-          // TODO: Contador de tarjetas que no se han creado porque la pregunta ya existía
+          // TODO: Contador de tarjetas que no se han creado porque la pregunta ya existía?
 
           emit(ImportSuccessState(
             importedFlashcards: importedFlashcards,
@@ -83,6 +83,7 @@ class ImportFromSpreadsheetCubit extends Cubit<ImportFromSpreadsheetState> {
           ));
         }
       } catch (e) {
+        print("Error al importar de google: ${e.toString()}");
         emit(ImportErrorState());
       }
     }
