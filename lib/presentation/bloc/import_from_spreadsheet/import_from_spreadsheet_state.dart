@@ -4,7 +4,7 @@ abstract class ImportFromSpreadsheetState extends Equatable {
   const ImportFromSpreadsheetState();
 }
 
-class ImportInitial extends ImportFromSpreadsheetState {
+class ImportInitialState extends ImportFromSpreadsheetState {
   @override
   List<Object> get props => [];
 }

@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 part 'import_from_spreadsheet_state.dart';
 
 class ImportFromSpreadsheetCubit extends Cubit<ImportFromSpreadsheetState> {
-  ImportFromSpreadsheetCubit(this._localRepository,{required this.groupBloc}) : super(ImportInitial());
+  ImportFromSpreadsheetCubit(this._localRepository,{required this.groupBloc}) : super(ImportInitialState());
 
   final GroupCubit groupBloc;
   final LocalRepository _localRepository;
