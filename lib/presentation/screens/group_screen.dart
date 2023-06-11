@@ -12,6 +12,7 @@ import 'package:flashcards/presentation/screens/export_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../domain/entities/exam_data.dart';
 import 'import_screen.dart';
@@ -216,12 +217,12 @@ class DoExamButton extends StatelessWidget {
                   );
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 24),
+                  padding: const EdgeInsets.symmetric(vertical: 24,horizontal: 20),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(icon,size: 45),
+                      FaIcon(icon,size: 35),
                       Text(label,style: const TextStyle(fontSize: 12),textAlign: TextAlign.center)
                     ],
                   ),
@@ -258,19 +259,19 @@ class StartReviewButtonsWidgets extends StatelessWidget {
       children: [
         flashcards.isNotEmpty ? DoExamButton(
           label: AppLocalizations.of(context)!.startExam.toUpperCase(),
-          icon: Icons.play_arrow,
+          icon: FontAwesomeIcons.play,
           examData: ExamData(flashcards: flashcards),
         ): const SizedBox.shrink(),
         reviewFlashcards.isNotEmpty ? SizedBox(width: spaceWidthBetweenButtons) : const SizedBox.shrink(),
         reviewFlashcards.isNotEmpty ? DoExamButton(
           label: AppLocalizations.of(context)!.startFailedExam.toUpperCase(),
-          icon: Icons.play_arrow_outlined,
+          icon: FontAwesomeIcons.repeat,
           examData: ExamData(flashcards: reviewFlashcards),
         ) : const SizedBox.shrink(),
         flashcards.length>=AppConfig.quickReviewQuestionNumber ? SizedBox(width: spaceWidthBetweenButtons) : const SizedBox.shrink(),
         flashcards.length>=AppConfig.quickReviewQuestionNumber ? DoExamButton(
           label: AppLocalizations.of(context)!.startQuickExam.toUpperCase(),
-          icon: Icons.bolt,
+          icon: FontAwesomeIcons.bolt,
           examData: ExamData(flashcards: flashcards,isQuickExam:true),
         ) : const SizedBox.shrink(),
       ],
