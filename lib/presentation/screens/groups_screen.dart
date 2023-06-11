@@ -25,7 +25,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.flashcardsGroups),
+        title: Text(AppLocalizations.of(context)!.flashcardsGroups)
       ),
       body: BlocBuilder<GroupsCubit, GroupsState>(
         builder: (context, state) {

@@ -35,12 +35,13 @@ class MyApp extends StatelessWidget {
           title: 'Simple flashcards',
           theme: theme.copyWith(
               colorScheme: theme.colorScheme.copyWith(
-                  primary: Colors.green,
+                  primary: Colors.black,
                   secondary: Colors.black,
-                  onPrimary: Colors.black
+                  //onPrimary: Colors.black
               ),
               appBarTheme: const AppBarTheme(
                 backgroundColor: Colors.white,
+                foregroundColor: Colors.black
               ),
               inputDecorationTheme: new InputDecorationTheme(
                   border: OutlineInputBorder(
