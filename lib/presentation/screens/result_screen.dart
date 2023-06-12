@@ -64,7 +64,7 @@ class _ResultScreenState extends State<ResultScreen> {
                   totalSteps: totalSteps,
                   currentStep: examResult.rightCounter,
                   stepSize: 25,
-                  selectedColor: Theme.of(context).colorScheme.primary,
+                  selectedColor: _resultColor(examResult.rightCounter,totalSteps),
                   unselectedColor: Colors.grey[200],
                   padding: 0,
                   width: 250,
@@ -80,27 +80,34 @@ class _ResultScreenState extends State<ResultScreen> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
+                padding: const EdgeInsets.only(bottom: 16.0,left: 16,right: 16),
                 child: Column(
                   //crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,
                   //mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    examResult.failedFlashcard.isNotEmpty ? OutlinedButton(
-                      child: Text((AppLocalizations.of(context)!.repeatFailedCards).toUpperCase(),style: const TextStyle(fontSize: 18)),
-                      onPressed: (){
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => ExamScreen(
-                              examData: ExamData(flashcards: examResult.failedFlashcard)
-                          ))
-                        );
-                      },
-                    ) : SizedBox.shrink(),
-                    OutlinedButton(
-                      child: Text((AppLocalizations.of(context)!.goHome).toUpperCase(),style: const TextStyle(fontSize: 18)),
-                      onPressed: (){
-                        Navigator.pushNamedAndRemoveUntil(context, GroupsScreen.routeName, (route) => false);
-                      },
+                    examResult.failedFlashcard.isNotEmpty ? Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.only(bottom: 8),
+                      child: ElevatedButton(
+                        child: Text((AppLocalizations.of(context)!.repeatFailedCards).toUpperCase(),style: const TextStyle(fontSize: 18)),
+                        onPressed: (){
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => ExamScreen(
+                                examData: ExamData(flashcards: examResult.failedFlashcard)
+                            ))
+                          );
+                        },
+                      ),
+                    ) : const SizedBox.shrink(),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        child: Text((AppLocalizations.of(context)!.goHome).toUpperCase(),style: const TextStyle(fontSize: 18)),
+                        onPressed: (){
+                          Navigator.pushNamedAndRemoveUntil(context, GroupsScreen.routeName, (route) => false);
+                        },
+                      ),
                     )
                   ],
                 ),
@@ -110,5 +117,13 @@ class _ResultScreenState extends State<ResultScreen> {
         ),
       ),
     );
+  }
+
+  Color _resultColor(int rightCounter, int totalSteps) {
+    double minimumToPass = totalSteps/2;
+    if(rightCounter>=minimumToPass){
+      return Colors.green;
+    }
+    return Colors.black54;
   }
 }

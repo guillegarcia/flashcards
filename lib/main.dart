@@ -8,10 +8,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'data/datasources/sqlite_local_datasource.dart';
 import 'presentation/screens/edit_flashcard_screen.dart';
 import 'presentation/screens/edit_group_screen.dart';
-import 'presentation/screens/exam_screen.dart';
 import 'presentation/screens/group_screen.dart';
 import 'presentation/screens/groups_screen.dart';
-import 'presentation/screens/import_screen.dart';
 import 'presentation/screens/new_group_screen.dart';
 import 'presentation/screens/result_screen.dart';
 import 'presentation/screens/sample_screen.dart';
@@ -63,33 +61,33 @@ class MyApp extends StatelessWidget {
               elevatedButtonTheme: ElevatedButtonThemeData(
                   style: ElevatedButton.styleFrom(
                     elevation: 6,
-                    padding: EdgeInsets.symmetric(vertical: 16,horizontal: 28),
-                    textStyle: TextStyle(fontSize: 14),
+                    padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 28),
+                    textStyle: const TextStyle(fontSize: 14),
                     shape:RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(30.0),
                     ),
                   )
               )
           ),
-          localizationsDelegates: [
+          localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: [
+          supportedLocales: const [
             Locale('en', ''), // English, no country code
             Locale('es', ''), // Spanish, no country code
           ],
           routes: {
-            SampleScreen.routeName: (context) => SampleScreen(),
-            GroupsScreen.routeName: (context) => GroupsScreen(),
-            NewGroupScreen.routeName: (context) => NewGroupScreen(),
-            NewFlashcardScreen.routeName: (context) => NewFlashcardScreen(),
-            EditFlashcardScreen.routeName: (context) => EditFlashcardScreen(),
-            GroupScreen.routeName: (context) => GroupScreen(),
-            EditGroupScreen.routeName: (context) => EditGroupScreen(),
-            ResultScreen.routeName: (context) => ResultScreen(),
+            SampleScreen.routeName: (context) => const SampleScreen(),
+            GroupsScreen.routeName: (context) => const GroupsScreen(),
+            NewGroupScreen.routeName: (context) => const NewGroupScreen(),
+            NewFlashcardScreen.routeName: (context) => const NewFlashcardScreen(),
+            EditFlashcardScreen.routeName: (context) => const EditFlashcardScreen(),
+            GroupScreen.routeName: (context) => const GroupScreen(),
+            EditGroupScreen.routeName: (context) => const EditGroupScreen(),
+            ResultScreen.routeName: (context) => const ResultScreen(),
           },
           initialRoute: GroupsScreen.routeName,
         ),

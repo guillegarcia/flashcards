@@ -25,6 +25,7 @@
   "result": "Resultado",
   "goHome": "Salir",
   "flashcards": "Tarjetas",
+  "repeatFailedCards": "Repetir falladas",
   "startFailedExam": "Repasar falladas",
   "flashcardsGroups": "Grupos de tarjetas",
   "thereAreNoGroups": "No tienes ningún grupo de tarjetas aún. ¡Vamos, crea el primero :)!",
