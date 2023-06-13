@@ -10,37 +10,54 @@ import 'exam_screen.dart';
 import 'groups_screen.dart';
 
 class ResultScreen extends StatefulWidget {
-  const ResultScreen({Key? key}) : super(key: key);
+  ExamResult examResult;
 
-  static const routeName = '/result_screen';
+  ResultScreen({required this.examResult, Key? key}) : super(key: key);
 
   @override
   _ResultScreenState createState() => _ResultScreenState();
 }
 
-class _ResultScreenState extends State<ResultScreen> {
+class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderStateMixin {
 
   AdmobTools? admobTools;
+  late Animation<int> animation;
+  late AnimationController controller;
+  late int totalSteps;
+  late double percent;
 
   @override
   void initState() {
+    //Admob
     admobTools = AdmobTools();
     admobTools!.adAction();
     super.initState();
+
+    //Init data
+    totalSteps = widget.examResult.failedFlashcard.length + widget.examResult.rightCounter;
+    percent = double.parse((100 * widget.examResult.rightCounter / (totalSteps)).toStringAsFixed(2));
+
+    //Animacion
+    controller = AnimationController(duration: const Duration(milliseconds: 900), vsync: this);
+    animation = IntTween(begin: 1, end: widget.examResult.rightCounter).animate(controller)..addListener(() {
+      print('Tween listener');
+      setState(() {});
+    });
+    controller.forward();
   }
+
+
 
   @override
   void dispose() {
     admobTools!.disposeInterstitialAd();
+    controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    ExamResult examResult = ModalRoute.of(context)!.settings.arguments as ExamResult;
-    int totalSteps = examResult.failedFlashcard.length +examResult.rightCounter;
-    double percent = double.parse((100*examResult.rightCounter/(totalSteps)).toStringAsFixed(2));
     admobTools!.screenIsReadyToShowAd();
 
     return Scaffold(
@@ -62,19 +79,19 @@ class _ResultScreenState extends State<ResultScreen> {
                 const SizedBox(height: 24),
                 CircularStepProgressIndicator(
                   totalSteps: totalSteps,
-                  currentStep: examResult.rightCounter,
+                  currentStep: animation.value,
                   stepSize: 25,
-                  selectedColor: _resultColor(examResult.rightCounter,totalSteps),
+                  selectedColor: _resultColor(widget.examResult.rightCounter,totalSteps),
                   unselectedColor: Colors.grey[200],
                   padding: 0,
                   width: 250,
                   height: 250,
-                  selectedStepSize: 25,
+                  selectedStepSize: 25.0,
                   roundedCap: (_, __) => true,
                   child: Center(child: Text('$percent%',style: const TextStyle(fontSize: 40),)),
                 ),
                 const SizedBox(height: 24),
-                Text('${examResult.rightCounter} / $totalSteps',style: const TextStyle(color: Colors.grey, fontSize: 30),)
+                Text('${widget.examResult.rightCounter} / $totalSteps',style: const TextStyle(color: Colors.grey, fontSize: 30),)
               ],
             ),
             Align(
@@ -86,7 +103,7 @@ class _ResultScreenState extends State<ResultScreen> {
                   mainAxisSize: MainAxisSize.min,
                   //mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    examResult.failedFlashcard.isNotEmpty ? Container(
+                    widget.examResult.failedFlashcard.isNotEmpty ? Container(
                       width: double.infinity,
                       padding: EdgeInsets.only(bottom: 8),
                       child: ElevatedButton(
@@ -94,7 +111,7 @@ class _ResultScreenState extends State<ResultScreen> {
                         onPressed: (){
                           Navigator.of(context).push(
                             MaterialPageRoute(builder: (context) => ExamScreen(
-                                examData: ExamData(flashcards: examResult.failedFlashcard)
+                                examData: ExamData(flashcards: widget.examResult.failedFlashcard)
                             ))
                           );
                         },

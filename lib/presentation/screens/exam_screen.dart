@@ -75,7 +75,9 @@ class _ExamScreenState extends State<ExamScreen> {
                   });
                 }
                 if(state is FinishState){
-                  Navigator.pushNamedAndRemoveUntil(context, ResultScreen.routeName,ModalRoute.withName(GroupsScreen.routeName), arguments: state.examResult);
+                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+                      builder: (context) => ResultScreen(examResult: state.examResult),
+                  ),(Route route) => false);
                 }
               },
             ),

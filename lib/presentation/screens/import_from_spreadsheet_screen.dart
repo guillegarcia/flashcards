@@ -72,7 +72,7 @@ class ImportInitialStateContent extends StatelessWidget {
             children: [
               Text(AppLocalizations.of(context)!.importFromSpreadsheetInitialMessage),
               SizedBox(height: DesignConfig.formFieldSeparationHeight),
-              Image.asset('images/spreadsheet-sample.png'),
+              Image.asset('assets/images/spreadsheet-sample.png'),
               SizedBox(height: DesignConfig.formFieldSeparationHeight),
               FormFieldLabel(AppLocalizations.of(context)!.spreadsheetUrl),
               TextFormField(
