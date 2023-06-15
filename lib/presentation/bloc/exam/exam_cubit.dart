@@ -38,14 +38,21 @@ class ExamCubit extends Cubit<ExamState> {
 
   Flashcard _currentFlashcard() => flashcards[currentFlashcardIndex];
 
+  void _useFlascardColor(Flashcard flashcard){
+    if(flashcard.color!=null && examResult.color != flashcard.color) examResult.color = flashcard.color!;
+  }
+
   void saveCurrentCardSuccess(){
-    localRepository.removeFromReview(_currentFlashcard().id!);
+    Flashcard currentFlashcard = _currentFlashcard();
+    _useFlascardColor(currentFlashcard);
+    localRepository.removeFromReview(currentFlashcard.id!);
     examResult.rightCounter++;
     _showNextCard();
   }
 
   void saveCurrentCardFailed(){
     Flashcard currentFlashcard = _currentFlashcard();
+    _useFlascardColor(currentFlashcard);
     localRepository.markForReview(currentFlashcard.id!);
     examResult.failedFlashcard.add(currentFlashcard);
     _showNextCard();
@@ -56,9 +63,12 @@ class ExamCubit extends Cubit<ExamState> {
     if(currentFlashcardIndex<flashcards.length-1) {
       emit(LoadingState());
       currentFlashcardIndex++;
+
+      Flashcard flashcard = flashcards[currentFlashcardIndex];
+
       emit(
         ShowCurrentFlashcardState(
-          flashcard: flashcards[currentFlashcardIndex],
+          flashcard: flashcard,
           currentStep: currentFlashcardIndex+1,
           totalSteps: flashcards.length
         )

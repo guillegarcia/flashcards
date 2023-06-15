@@ -24,7 +24,7 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
   late Animation<int> animation;
   late AnimationController controller;
   late int totalSteps;
-  late double percent;
+  late int percent;
 
   @override
   void initState() {
@@ -35,18 +35,15 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
 
     //Init data
     totalSteps = widget.examResult.failedFlashcard.length + widget.examResult.rightCounter;
-    percent = double.parse((100 * widget.examResult.rightCounter / (totalSteps)).toStringAsFixed(2));
+    percent =(100 * widget.examResult.rightCounter / (totalSteps)).round();
 
     //Animacion
     controller = AnimationController(duration: const Duration(milliseconds: 900), vsync: this);
     animation = IntTween(begin: 1, end: widget.examResult.rightCounter).animate(controller)..addListener(() {
-      print('Tween listener');
       setState(() {});
     });
     controller.forward();
   }
-
-
 
   @override
   void dispose() {
@@ -61,6 +58,7 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
     admobTools!.screenIsReadyToShowAd();
 
     return Scaffold(
+      backgroundColor: widget.examResult.color,
       body: Padding(
         padding: DesignConfig.screenPadding,
         child: Stack(
@@ -81,17 +79,17 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
                   totalSteps: totalSteps,
                   currentStep: animation.value,
                   stepSize: 25,
-                  selectedColor: _resultColor(widget.examResult.rightCounter,totalSteps),
-                  unselectedColor: Colors.grey[200],
+                  selectedColor: Colors.white,
+                  unselectedColor: Colors.grey,
                   padding: 0,
                   width: 250,
                   height: 250,
                   selectedStepSize: 25.0,
                   roundedCap: (_, __) => true,
-                  child: Center(child: Text('$percent%',style: const TextStyle(fontSize: 40),)),
+                  child: Center(child: Text('$percent%',style: const TextStyle(fontSize: 40,color: Colors.white),)),
                 ),
                 const SizedBox(height: 24),
-                Text('${widget.examResult.rightCounter} / $totalSteps',style: const TextStyle(color: Colors.grey, fontSize: 30),)
+                Text('${animation.value} / $totalSteps',style: const TextStyle(color: Colors.white, fontSize: 30),)
               ],
             ),
             Align(
@@ -134,13 +132,5 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
         ),
       ),
     );
-  }
-
-  Color _resultColor(int rightCounter, int totalSteps) {
-    double minimumToPass = totalSteps/2;
-    if(rightCounter>=minimumToPass){
-      return Colors.green;
-    }
-    return Colors.black54;
   }
 }
