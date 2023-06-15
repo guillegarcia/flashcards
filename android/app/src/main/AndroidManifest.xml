@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.greenstarapps.flashcards.flashcards">
    <application
-        android:label="flashcards"
+        android:label="My Flashcards"
         android:icon="@mipmap/launcher_icon">
 
         <meta-data

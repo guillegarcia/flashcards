@@ -1,5 +1,5 @@
 {
-  "appName": "Simple flashcards",
+  "appName": "My Flashcards",
   "newGroup": "Nuevo grupo",
   "name": "Nombre",
   "save": "Guardar",
@@ -27,7 +27,7 @@
   "flashcards": "Tarjetas",
   "repeatFailedCards": "Repetir falladas",
   "startFailedExam": "Repasar falladas",
-  "flashcardsGroupsTitle": "Flashcards",
+  "flashcardsGroupsTitle": "My Flashcards",
   "flashcardsGroupsSubTitle": "Selecciona un grupo para repasar",
   "thereAreNoGroups": "No tienes ningún grupo de tarjetas aún. ¡Vamos, crea el primero :)!",
   "thereAreNoFlashcards": "¡Es el momento crear tarjetas!",

@@ -103,7 +103,9 @@ class SetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Hero(
+      tag: 'set${set.id!}',
+      child: Container(
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
@@ -112,19 +114,19 @@ class SetWidget extends StatelessWidget {
         child: Material(
             type: MaterialType.transparency,
             child: InkWell(
-              //splashColor: Colors.white,
-                borderRadius: const BorderRadius.all(Radius.circular(30)),
-                onTap: () {
-                  Navigator.pushNamed(context, GroupScreen.routeName,arguments: set);
-                },
-                child: Container(
-                  alignment: Alignment.bottomRight,
-                  padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 24),
-                  child: Text(set.name,style: const TextStyle(fontSize: 18,color: Colors.white)),
-                  height: 150,
-                )
+              borderRadius: const BorderRadius.all(Radius.circular(30)),
+              onTap: () {
+                Navigator.pushNamed(context, GroupScreen.routeName,arguments: set);
+              },
+              child: Container(
+                alignment: Alignment.bottomRight,
+                padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 24),
+                child: Text(set.name,style: const TextStyle(fontSize: 18,color: Colors.white)),
+                height: 150,
+              ),
             )
         )
+      )
     );
   }
 }

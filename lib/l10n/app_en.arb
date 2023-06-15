@@ -3,7 +3,7 @@
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   },
-  "appName": "Simple flashcards",
+  "appName": "My Flashcards",
   "newGroup": "New set",
   "name": "Name",
   "save": "Save",
@@ -31,7 +31,7 @@
   "flashcards": "Cards",
   "repeatFailedCards": "Repeat failed",
   "startFailedExam": "Review failed",
-  "flashcardsGroupsTitle": "Flashcards",
+  "flashcardsGroupsTitle": "My Flashcards",
   "flashcardsGroupsSubTitle": "Pick a set to practise",
   "thereAreNoGroups": "You don't have any set yet. Create the first one :)!",
   "thereAreNoFlashcards": "It's time to create a flashcard!",

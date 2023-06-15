@@ -89,12 +89,10 @@ class SQLiteLocalDatasource implements LocalRepository{
 
   @override
   Future<List<Flashcard>> getFlashcardsByGroup(int groupId, Color color) async{
-    print('getFlashcardsByGroup');
     final db = await database;
     List<Flashcard> flashcards = [];
     var result = await db.query("flashcards", columns: ['id','question','answer'],where: 'group_id=?',whereArgs: [groupId]);
     for(final row in result){
-      print('id recuperado: ${_flashcardFromMap(row,color).id}');
       flashcards.add(_flashcardFromMap(row,color));
     }
     return flashcards;
@@ -102,13 +100,11 @@ class SQLiteLocalDatasource implements LocalRepository{
 
   @override
   Future<List<Flashcard>> getFlashcardsForReviewByGroup(int groupId, Color color) async{
-    print('getFlashcardsByGroup');
     final db = await database;
     List<Flashcard> flashcards = [];
     //var result = await db.query("flashcards", columns: ['id','question','answer'],where: 'group_id=?',whereArgs: [groupId]);
     var result = await db.rawQuery('select id,question,answer from flashcards join review on id=flashcard_id where group_id=?',[groupId]);
     for(final row in result){
-      //print('id recuperado: ${_flashcardFromMap(row).id}');
       flashcards.add(_flashcardFromMap(row,color));
     }
     return flashcards;
@@ -139,19 +135,19 @@ class SQLiteLocalDatasource implements LocalRepository{
   Future<void> updateFlashcard(Flashcard flashcard) async{
     final db = await database;
     Map<String,dynamic> values = _flashcardToMap(flashcard);
-    print('SQLite update flashcard: ${flashcard.id}, ${flashcard.question}, ${flashcard.answer}');
     await db.update("flashcards",values,where: 'id=?',whereArgs: [flashcard.id]);
   }
 
   Group _groupFromMap(Map<String, dynamic> map) {
-    print('Grupo MAPA: $map');
     var color = Color(map['color'] ?? Colors.green);
-    return Group(
+    Group group = Group(
       id: map['id'] ?? -1,
       name: map['name'] ?? '',
       description: map['description'] ?? '',
       color: color,
     );
+    print('Grupo recuperado ${group.id} ${group.name}');
+    return group;
   }
 
   Flashcard _flashcardFromMap(Map<String, dynamic> map,Color color) {

@@ -16,5 +16,7 @@ class DesignConfig {
     Color(0xffFFD07E),
     Color(0xffE58050),
   ];
+  static const Color badAnswerColor = Color(0xffc55653);
+  static const Color rightAnswerColor = Color(0xff74C2AF);
 
 }

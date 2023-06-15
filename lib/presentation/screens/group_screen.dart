@@ -142,10 +142,13 @@ class _GroupScreenState extends State<GroupScreen> {
                         );
                       }
                   ),
-                  Container(width: double.infinity, height: 220,decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(bottomRight: Radius.circular(100),bottomLeft: Radius.circular(100)),
-                      color: group!.color
-                  )),
+                  Hero(
+                    tag: 'set${group!.id!}',
+                    child: Container(width: double.infinity, height: 220,decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(bottomRight: Radius.circular(100),bottomLeft: Radius.circular(100)),
+                        color: group!.color
+                    )),
+                  ),
 
                   //###### CABECERA #######
                   Positioned(
@@ -289,6 +292,7 @@ class GroupFAB extends StatelessWidget {
         children: [
           FloatingActionButton.extended(
             icon: const Icon(Icons.add),
+            heroTag: 'create',//Cuando hay varios FAB y un Hero en la página se lia si no le ponemos un heroTag único a cada FAB y da un error
             label: Text(AppLocalizations.of(context)!.createFlashcard),
             onPressed: () {
               Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,
@@ -298,6 +302,7 @@ class GroupFAB extends StatelessWidget {
           const SizedBox(height: 16),
           FloatingActionButton.extended(
             icon: const Icon(Icons.add),
+            heroTag: 'import',//Cuando hay varios FAB y un Hero en la página se lia si no le ponemos un heroTag único a cada FAB y da un error
             label: Text(AppLocalizations.of(context)!.importFlashcards),
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(

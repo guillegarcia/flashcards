@@ -1,3 +1,4 @@
+import 'package:flashcards/config/design_config.dart';
 import 'package:flashcards/data/datasources/sqlite_local_datasource.dart';
 import 'package:flashcards/domain/entities/flash_card.dart';
 import 'package:flashcards/presentation/bloc/exam/exam_cubit.dart';
@@ -140,7 +141,7 @@ class _ExamScreenState extends State<ExamScreen> {
                           });
                           await Future.delayed(const Duration(milliseconds: 200));
                           context.read<ExamCubit>().saveCurrentCardFailed();
-                        }, child: const Icon(Icons.close,color: Colors.redAccent,)),
+                        }, child: const Icon(Icons.close,color: DesignConfig.badAnswerColor)),
                     ElevatedButton(
                         style: resultButtonStyle,
                         onPressed: () async {
@@ -149,7 +150,7 @@ class _ExamScreenState extends State<ExamScreen> {
                           });
                           await Future.delayed(const Duration(milliseconds: 200));
                           context.read<ExamCubit>().saveCurrentCardSuccess();
-                        }, child: const Icon(Icons.check,color: Colors.green,)),
+                        }, child: const Icon(Icons.check,color: DesignConfig.rightAnswerColor)),
                   ],
                 ),
               ) : const SizedBox.shrink(),
