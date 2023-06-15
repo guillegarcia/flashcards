@@ -24,118 +24,122 @@ class _GroupsScreenState extends State<GroupsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.flashcardsGroups)
-      ),
-      body: BlocBuilder<GroupsCubit, GroupsState>(
-        builder: (context, state) {
-          print(state);
-          if (state is LoadInProgressState) {
-            return Container(
-              child: Center(child: CircularProgressIndicator()),
-            );
-          } else if (state is LoadSuccessState) {
-            final groups = state.groups;
-            MediaQueryData queryData = MediaQuery.of(context);
-            double deckWidth = queryData.size.width / 2 - DesignConfig.screenPadding.horizontal;
-            double deckHeight = 150;
-            final deckborder = RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            );
-            return ListView(
-              padding: DesignConfig.screenPadding,
-              children: List.generate(groups.length, (index) {
-                Group group = groups[index];
-                return Container(
-                    margin: const EdgeInsets.only(bottom: 16),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: group.color
-                    ),
-                    child: Material(
-                        type: MaterialType.transparency,
-                        child: InkWell(
-                          //splashColor: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                            onTap: () {
-                              Navigator.pushNamed(context, GroupScreen.routeName,arguments: group);
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 24),
-                              child: Text(group.name,style: const TextStyle(fontSize: 18)),
-                              height: 150,
-                            )
-                        )
-                    )
-                );
-              })
-            );
-            return groups.length > 0 ? GridView.count(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              children: List.generate(groups.length, (index) {
-                Group group = groups[index];
-                return Stack(
-                  children: [
-                    Positioned(
-                      top: 10,
-                      child: Card(
-                        shape: deckborder,
-                        child: SizedBox(
-                          width: deckWidth,
-                          height: deckHeight,
-                        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const GroupsHeaderWidget(),
+          Expanded(
+            child: BlocBuilder<GroupsCubit, GroupsState>(
+              builder: (context, state) {
+                if (state is LoadInProgressState) {
+                  return Container(
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                } else if (state is LoadSuccessState) {
+                  final groups = state.groups;
+                  MediaQueryData queryData = MediaQuery.of(context);
+                  double deckWidth = queryData.size.width / 2 - DesignConfig.screenPadding.horizontal;
+                  double deckHeight = 150;
+                  final deckborder = RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  );
+                  return ListView(
+                    padding: DesignConfig.screenPadding,
+                    children: List.generate(groups.length, (index) {
+                      Group group = groups[index];
+                      return Container(
+                          margin: const EdgeInsets.only(bottom: 16),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: group.color
+                          ),
+                          child: Material(
+                              type: MaterialType.transparency,
+                              child: InkWell(
+                                //splashColor: Colors.white,
+                                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                                  onTap: () {
+                                    Navigator.pushNamed(context, GroupScreen.routeName,arguments: group);
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 24),
+                                    child: Text(group.name,style: const TextStyle(fontSize: 18)),
+                                    height: 150,
+                                  )
+                              )
+                          )
+                      );
+                    })
+                  );
+                  return groups.length > 0 ? GridView.count(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    children: List.generate(groups.length, (index) {
+                      Group group = groups[index];
+                      return Stack(
+                        children: [
+                          Positioned(
+                            top: 10,
+                            child: Card(
+                              shape: deckborder,
+                              child: SizedBox(
+                                width: deckWidth,
+                                height: deckHeight,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 5,
+                            child: Card(
+                              shape: deckborder,
+                              child: SizedBox(
+                                width: deckWidth,
+                                height: deckHeight,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 0,
+                            child: Card(
+                              shape: deckborder,
+                              child: InkWell(
+                                child: Container(
+                                    width: deckWidth,
+                                    height: deckHeight,
+                                    padding: const EdgeInsets.all(16),
+                                    child: Center(child: Text(group.name))),
+                                onTap: (){
+                                  Navigator.pushNamed(context, GroupScreen.routeName,arguments: group);
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
+                    padding: DesignConfig.screenPadding,
+                  ) : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 24.0,horizontal: 48),
+                        child: Text(AppLocalizations.of(context)!.thereAreNoGroups,style: TextStyle(color: Colors.grey),textAlign: TextAlign.center,),
                       ),
-                    ),
-                    Positioned(
-                      top: 5,
-                      child: Card(
-                        shape: deckborder,
-                        child: SizedBox(
-                          width: deckWidth,
-                          height: deckHeight,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 0,
-                      child: Card(
-                        shape: deckborder,
-                        child: InkWell(
-                          child: Container(
-                              width: deckWidth,
-                              height: deckHeight,
-                              padding: const EdgeInsets.all(16),
-                              child: Center(child: Text(group.name))),
-                          onTap: (){
-                            Navigator.pushNamed(context, GroupScreen.routeName,arguments: group);
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              }),
-              padding: DesignConfig.screenPadding,
-            ) : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24.0,horizontal: 48),
-                  child: Text(AppLocalizations.of(context)!.thereAreNoGroups,style: TextStyle(color: Colors.grey),textAlign: TextAlign.center,),
-                ),
-                Text('😉',style: TextStyle(fontSize: 40),)
-              ],
-            );
-          } else if (state is LoadErrorState) {
-            return Container(
-              child: Text('GroupsLoadErrorState'),
-            );
-          } else {
-            return Container();
-          }
-        },
+                      Text('😉',style: TextStyle(fontSize: 40),)
+                    ],
+                  );
+                } else if (state is LoadErrorState) {
+                  return Container(
+                    child: Text('GroupsLoadErrorState'),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(child: Icon(Icons.add),onPressed: (){
         //context.read<GroupsCubit>().
@@ -144,3 +148,31 @@ class _GroupsScreenState extends State<GroupsScreen> {
     );
   }
 }
+
+class GroupsHeaderWidget extends StatelessWidget {
+  const GroupsHeaderWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 60,bottom: 28,left: 24,right: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(AppLocalizations.of(context)!.flashcardsGroupsTitle,
+            style: const TextStyle(
+              fontSize: 32
+            )
+          ),
+          const SizedBox(height: 4),
+          Text(AppLocalizations.of(context)!.flashcardsGroupsSubTitle,
+            style: const TextStyle(
+              fontSize: 18
+            )
+          )
+        ],
+      ),
+    );
+  }
+}
+
