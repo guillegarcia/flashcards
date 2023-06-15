@@ -109,13 +109,13 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                     TextFormField(
                       textCapitalization: TextCapitalization.sentences,
                       controller: _descriptionController,
-                      validator: (value) {
+                      /*validator: (value) {
                         if (value == null || value.isEmpty) {
                           return AppLocalizations.of(context)!
                               .valueCanNotBeEmpty;
                         }
                         return null;
-                      }
+                      }*/
                     ),
                     SizedBox(height: DesignConfig.formFieldSeparationHeight),
                     FormFieldLabel(AppLocalizations.of(context)!.color),

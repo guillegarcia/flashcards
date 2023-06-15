@@ -6,16 +6,15 @@ class DesignConfig {
   static const EdgeInsetsGeometry screenPadding = EdgeInsets.symmetric(vertical: 18,horizontal: 16);
   static double formFieldSeparationHeight = 16;
   static const List<Color> availableColors = [
-    Colors.blue,
-    Colors.green,
-    Colors.greenAccent,
-    Colors.yellow,
-    Colors.orange,
-    Colors.red,
-    Colors.purple,
-    Colors.grey,
-    Colors.deepOrange,
-    Colors.teal
+    Colors.teal,
+    Color(0xff6786C5),
+    Color(0xffF18C8D),
+    Color(0xff74C2AF),
+    Color(0xffCB8764),
+    Color(0xffc55653),
+    Color(0xff82B3CD),
+    Color(0xffFFD07E),
+    Color(0xffE58050),
   ];
 
 }

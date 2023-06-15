@@ -24,7 +24,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
 
-  Color? _selectedColor = Colors.green;
+  Color? _selectedColor = Colors.teal;
 
   @override
   Widget build(BuildContext context) {
@@ -83,12 +83,12 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                     TextFormField(
                       textCapitalization: TextCapitalization.sentences,
                       controller: _descriptionController,
-                      validator: (value){
+                      /*validator: (value){
                         if (value == null || value.isEmpty) {
                           return AppLocalizations.of(context)!.valueCanNotBeEmpty;
                         }
                         return null;
-                      }
+                      }*/
                     ),
                     SizedBox(height: DesignConfig.formFieldSeparationHeight),
                     FormFieldLabel(AppLocalizations.of(context)!.color),

@@ -52,7 +52,6 @@ class _GroupScreenState extends State<GroupScreen> {
                   foregroundColor: Colors.black,
                   backgroundColor: Colors.transparent,
                   elevation: 0,
-                  //title: ,
                   actions: [
                     IconButton(
                       icon: const Icon(Icons.edit),
@@ -102,7 +101,6 @@ class _GroupScreenState extends State<GroupScreen> {
                 ),
                 body: Stack(
                   children: [
-
                     //###### TEXTO PARA MOSTRAR CUANDO AUN NO HAY TARJETAS
                     if(flashcards.isEmpty) const NoFlashCardsMessageWidget(),
 
@@ -127,7 +125,7 @@ class _GroupScreenState extends State<GroupScreen> {
                                 type: MaterialType.transparency,
                                 child: InkWell(
                                   //splashColor: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                                    borderRadius: const BorderRadius.all(Radius.circular(20)),
                                     onTap: () {
                                       Navigator.of(context).pushNamed(
                                           EditFlashcardScreen.routeName,
@@ -159,10 +157,9 @@ class _GroupScreenState extends State<GroupScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(group!.name,style: const TextStyle(fontSize: 32)),
+                          Text(group!.name,style: const TextStyle(fontSize: 32,color: Colors.white)),
                           const SizedBox(height: 16),
-                          SizedBox(height:45,child: Text(group!.description!)),
-
+                          SizedBox(height:45,child: Text(group!.description!,style: const TextStyle(color: Colors.white),)),
                           //####### BOTONES PARA INICIAR REPASO #######
                           StartReviewButtonsWidgets(flashcards: flashcards,reviewFlashcards: reviewFlashcards)
                         ],
