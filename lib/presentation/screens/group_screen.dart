@@ -27,8 +27,20 @@ class GroupScreen extends StatefulWidget {
   _GroupScreenState createState() => _GroupScreenState();
 }
 
-class _GroupScreenState extends State<GroupScreen> {
+class _GroupScreenState extends State<GroupScreen> with SingleTickerProviderStateMixin{
   Group? group;
+  bool _reviewButtonsVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(const Duration(milliseconds: 300), () {
+      setState(() {
+        _reviewButtonsVisible = true;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +176,11 @@ class _GroupScreenState extends State<GroupScreen> {
                           const SizedBox(height: 40),
                           //SizedBox(height:45,child: Text(group!.description!,style: const TextStyle(color: Colors.white),)),
                           //####### BOTONES PARA INICIAR REPASO #######
-                          StartReviewButtonsWidgets(flashcards: flashcards,reviewFlashcards: reviewFlashcards)
+                          AnimatedOpacity(
+                            opacity: _reviewButtonsVisible ? 1.0 : 0.0,
+                            duration: Duration(milliseconds: 200),
+                            child: StartReviewButtonsWidgets(flashcards: flashcards,reviewFlashcards: reviewFlashcards)
+                          )
                         ],
                       ),
                     ),
