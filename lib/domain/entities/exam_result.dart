@@ -5,5 +5,4 @@ class ExamResult {
   Color color = Colors.green;
   int rightCounter = 0;
   List<Flashcard> failedFlashcard = [];
-
 }

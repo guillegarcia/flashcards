@@ -24,7 +24,10 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
   late Animation<int> animation;
   late AnimationController controller;
   late int totalSteps;
+  late int failedCounter;
   late int percent;
+
+  TextStyle resultTextStyle = const TextStyle(color: Colors.white, fontSize: 20);
 
   @override
   void initState() {
@@ -34,7 +37,8 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
     super.initState();
 
     //Init data
-    totalSteps = widget.examResult.failedFlashcard.length + widget.examResult.rightCounter;
+    failedCounter = widget.examResult.failedFlashcard.length;
+    totalSteps = failedCounter + widget.examResult.rightCounter;
     percent =(100 * widget.examResult.rightCounter / (totalSteps)).round();
 
     //Animacion
@@ -66,36 +70,42 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 56),
-                Container(
-                  alignment: Alignment.center,
-                  width: double.infinity,
-                    child: Text(AppLocalizations.of(context)!.result,
-                      style: const TextStyle(fontSize: 30),
-                    )
-                ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 100,width: double.infinity),
                 CircularStepProgressIndicator(
                   totalSteps: totalSteps,
                   currentStep: animation.value,
                   stepSize: 25,
                   selectedColor: Colors.white,
-                  unselectedColor: Colors.grey,
+                  unselectedColor: Colors.black54,
                   padding: 0,
                   width: 250,
                   height: 250,
                   selectedStepSize: 25.0,
-                  roundedCap: (_, __) => true,
+                  //roundedCap: (_, __) => true,
                   child: Center(child: Text('$percent%',style: const TextStyle(fontSize: 40,color: Colors.white),)),
                 ),
-                const SizedBox(height: 24),
-                Text('${animation.value} / $totalSteps',style: const TextStyle(color: Colors.white, fontSize: 30),)
+                const SizedBox(height: 48),
+                Container(
+                    padding: EdgeInsets.all(16.0), // Espacio interno de 16 unidades en todos los lados
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.3), // Color blanco con 50% de transparencia
+                      borderRadius: BorderRadius.circular(10.0), // Bordes redondeados con un radio de 10 unidades
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(AppLocalizations.of(context)!.resultTotalCounter+': $totalSteps',style: resultTextStyle),
+                        Text(AppLocalizations.of(context)!.resultRightCounter+': ${animation.value}',style: resultTextStyle),
+                        Text(AppLocalizations.of(context)!.resultFailedCounter+': $failedCounter',style: resultTextStyle),
+                      ],
+                    ),
+                ),
               ],
             ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 16.0,left: 16,right: 16),
+                padding: const EdgeInsets.only(bottom: 16.0,left: 32,right: 32),
                 child: Column(
                   //crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,
@@ -103,25 +113,25 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
                   children: [
                     widget.examResult.failedFlashcard.isNotEmpty ? Container(
                       width: double.infinity,
-                      padding: EdgeInsets.only(bottom: 8),
-                      child: ElevatedButton(
-                        child: Text((AppLocalizations.of(context)!.repeatFailedCards).toUpperCase(),style: const TextStyle(fontSize: 18)),
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: ResultButtonWidget(
+                        buttonText: AppLocalizations.of(context)!.repeatFailedCards.toUpperCase(),
                         onPressed: (){
                           Navigator.of(context).push(
                             MaterialPageRoute(builder: (context) => ExamScreen(
-                                examData: ExamData(flashcards: widget.examResult.failedFlashcard)
+                              examData: ExamData(flashcards: widget.examResult.failedFlashcard)
                             ))
                           );
-                        },
-                      ),
+                        }
+                      )
                     ) : const SizedBox.shrink(),
                     SizedBox(
                       width: double.infinity,
-                      child: ElevatedButton(
-                        child: Text((AppLocalizations.of(context)!.goHome).toUpperCase(),style: const TextStyle(fontSize: 18)),
+                      child: ResultButtonWidget(
+                        buttonText: AppLocalizations.of(context)!.goHome.toUpperCase(),
                         onPressed: (){
                           Navigator.pushNamedAndRemoveUntil(context, GroupsScreen.routeName, (route) => false);
-                        },
+                        }
                       ),
                     )
                   ],
@@ -131,6 +141,21 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
           ],
         ),
       ),
+    );
+  }
+}
+
+class ResultButtonWidget extends StatelessWidget {
+  final String buttonText;
+  final VoidCallback? onPressed;
+  ResultButtonWidget({required this.buttonText, this.onPressed, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      child: Text(buttonText,style: const TextStyle(fontSize: 18)),
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(backgroundColor: Colors.black.withOpacity(0.6)),
     );
   }
 }
