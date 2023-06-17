@@ -78,18 +78,12 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                         return null;
                       }
                     ),
-                    SizedBox(height: DesignConfig.formFieldSeparationHeight),
+                    /*SizedBox(height: DesignConfig.formFieldSeparationHeight),
                     FormFieldLabel(AppLocalizations.of(context)!.description),
                     TextFormField(
                       textCapitalization: TextCapitalization.sentences,
-                      controller: _descriptionController,
-                      /*validator: (value){
-                        if (value == null || value.isEmpty) {
-                          return AppLocalizations.of(context)!.valueCanNotBeEmpty;
-                        }
-                        return null;
-                      }*/
-                    ),
+                      controller: _descriptionController
+                    ),*/
                     SizedBox(height: DesignConfig.formFieldSeparationHeight),
                     FormFieldLabel(AppLocalizations.of(context)!.color),
                     MyColorPicker(

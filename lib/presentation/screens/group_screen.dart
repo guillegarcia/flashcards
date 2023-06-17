@@ -161,8 +161,8 @@ class _GroupScreenState extends State<GroupScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(group!.name,style: const TextStyle(fontSize: 32,color: Colors.white)),
-                          const SizedBox(height: 16),
-                          SizedBox(height:45,child: Text(group!.description!,style: const TextStyle(color: Colors.white),)),
+                          const SizedBox(height: 40),
+                          //SizedBox(height:45,child: Text(group!.description!,style: const TextStyle(color: Colors.white),)),
                           //####### BOTONES PARA INICIAR REPASO #######
                           StartReviewButtonsWidgets(flashcards: flashcards,reviewFlashcards: reviewFlashcards)
                         ],
