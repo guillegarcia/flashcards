@@ -61,7 +61,8 @@ class ImportInitialStateContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //TODO: Quitar
-    _urlController.text = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-AdUnsxTHpU2XZ_IM9iMs-37Flnjh6ydQtuq0Un-x522PZJTe6Li8rhpj14ZJXjoLFtGpJMMIoOEO/pub?output=csv';
+    //_urlController.text = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-AdUnsxTHpU2XZ_IM9iMs-37Flnjh6ydQtuq0Un-x522PZJTe6Li8rhpj14ZJXjoLFtGpJMMIoOEO/pub?output=csv';
+    _urlController.text = 'https://docs.google.com/spreadsheets/d/1eVnad5KFhU4BkIzTNnUIsez0TwAOu3dQqvVdFVHmKHI/edit?usp=sharing';
     return Form(
       key: formKey,
       child: Column(

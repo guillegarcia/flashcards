@@ -43,7 +43,7 @@
   "importFromCsvInitialMessage": "Importa tarjetas desde un fichero CSV",
   "importFromCsvSuccessMessage": "¡Las tarjetas se han importado correctamente!",
   "volver": "Volver",
-  "importFromSpreadsheetInitialMessage": "Puedes utilizar una hoja de cálculo de Google para preparar tus preguntas. Es muy simple: Prepara una hoja con dos columnas, una para escribir las preguntas y otra para respuestas. Después asegurate de que se pueda compartir por URL para que la app pueda acceder a su contenido ¡y ya está!.",
+  "importFromSpreadsheetInitialMessage": "Puedes utilizar una hoja de cálculo de Google para preparar tus preguntas. Es muy simple: Prepara una hoja con dos columnas, en la primera escribe las preguntas y en la segunda las respuestas. Después asegúrate de que se pueda compartir por URL para que la app pueda acceder a su contenido ¡y ya está!.",
   "importFromSpreadsheetSuccessMessage": "¡La importación ha terminado correctamente! vuelve para ver tus nuevas tarjetas y comenzar a repasar",
   "resultTotalCounter": "Total de preguntas",
   "resultRightCounter": "Preguntas acertadas",

@@ -24,10 +24,6 @@ class ImportFromSpreadsheetCubit extends Cubit<ImportFromSpreadsheetState> {
 
       List<Flashcard> importedFlashcards = [];
       try {
-        //Buscar el spreadsheet
-
-        //Existe?
-
         //Obtener datos como CSV
         var url = Uri.parse(spreadsheetUrl);
 
@@ -42,9 +38,7 @@ class ImportFromSpreadsheetCubit extends Cubit<ImportFromSpreadsheetState> {
           bool maxFlashcardInGroupReached = false;
 
           //Recuperar la información
-          List<
-              List<dynamic>> flashcardsImportedInfo = const CsvToListConverter()
-              .convert(csvResponse);
+          List<List<dynamic>> flashcardsImportedInfo = const CsvToListConverter().convert(csvResponse);
 
           int rowCounter = 0;
           for (var flashcardImportedInfo in flashcardsImportedInfo) {
@@ -81,6 +75,9 @@ class ImportFromSpreadsheetCubit extends Cubit<ImportFromSpreadsheetState> {
             rowsWithLessThanTwoColumnsCounter: rowsWithLessThanTwoColumnsCounter,
             maxFlashcardInGroupReached: maxFlashcardInGroupReached,
           ));
+        } else {
+          print("Error al recuperar por URL");
+          emit(ImportErrorState());
         }
       } catch (e) {
         print("Error al importar de google: ${e.toString()}");
