@@ -38,12 +38,12 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
 
     //Init data
     failedCounter = widget.examResult.failedFlashcard.length;
-    totalSteps = failedCounter + widget.examResult.rightCounter;
-    percent =(100 * widget.examResult.rightCounter / (totalSteps)).round();
+    totalSteps = widget.examResult.totalSteps();
+    percent = (100 * widget.examResult.rightCounter / (totalSteps)).round();
 
     //Animacion
     controller = AnimationController(duration: const Duration(milliseconds: 900), vsync: this);
-    animation = IntTween(begin: 1, end: widget.examResult.rightCounter).animate(controller)..addListener(() {
+    animation = IntTween(begin: 0, end: widget.examResult.rightCounter).animate(controller)..addListener(() {
       setState(() {});
     });
     controller.forward();
@@ -58,7 +58,6 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-
     admobTools!.screenIsReadyToShowAd();
 
     return Scaffold(
@@ -86,19 +85,19 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
                 ),
                 const SizedBox(height: 48),
                 Container(
-                    padding: EdgeInsets.all(16.0), // Espacio interno de 16 unidades en todos los lados
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.3), // Color blanco con 50% de transparencia
-                      borderRadius: BorderRadius.circular(10.0), // Bordes redondeados con un radio de 10 unidades
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(AppLocalizations.of(context)!.resultTotalCounter+': $totalSteps',style: resultTextStyle),
-                        Text(AppLocalizations.of(context)!.resultRightCounter+': ${animation.value}',style: resultTextStyle),
-                        Text(AppLocalizations.of(context)!.resultFailedCounter+': $failedCounter',style: resultTextStyle),
-                      ],
-                    ),
+                  padding: EdgeInsets.all(16.0), // Espacio interno de 16 unidades en todos los lados
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.3), // Color blanco con 50% de transparencia
+                    borderRadius: BorderRadius.circular(10.0), // Bordes redondeados con un radio de 10 unidades
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(AppLocalizations.of(context)!.resultTotalCounter+': $totalSteps',style: resultTextStyle),
+                      Text(AppLocalizations.of(context)!.resultRightCounter+': ${animation.value}',style: resultTextStyle),
+                      Text(AppLocalizations.of(context)!.resultFailedCounter+': $failedCounter',style: resultTextStyle),
+                    ],
+                  ),
                 ),
               ],
             ),
