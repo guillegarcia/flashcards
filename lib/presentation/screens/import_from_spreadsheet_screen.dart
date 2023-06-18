@@ -61,42 +61,60 @@ class ImportInitialStateContent extends StatelessWidget {
   Widget build(BuildContext context) {
     //TODO: Quitar
     //_urlController.text = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-AdUnsxTHpU2XZ_IM9iMs-37Flnjh6ydQtuq0Un-x522PZJTe6Li8rhpj14ZJXjoLFtGpJMMIoOEO/pub?output=csv';
-    _urlController.text = 'https://docs.google.com/spreadsheets/d/1eVnad5KFhU4BkIzTNnUIsez0TwAOu3dQqvVdFVHmKHI/gviz/tq?tqx=out:csv';
+    _urlController.text = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSHZYd6sGhJuLAmeX02pi43fTumUY9QKQFbbzMctP4oYuGSOymRvs9NnGKwAaJTtzDPGH8vrih3J3Tk/pub?output=csv';
+
+    //Archivo -> Compartir -> publicar en web
+    //"Valores separados por comas (csv)"
+    //Copia el enlace y pégalo aquí
+
     return Form(
       key: formKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(AppLocalizations.of(context)!.importFromSpreadsheetInitialMessage),
-              SizedBox(height: DesignConfig.formFieldSeparationHeight),
-              Image.asset('assets/images/spreadsheet-sample.png'),
-              SizedBox(height: DesignConfig.formFieldSeparationHeight),
-              FormFieldLabel(AppLocalizations.of(context)!.spreadsheetUrl),
-              TextFormField(
-                  controller: _urlController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return AppLocalizations.of(context)!.valueCanNotBeEmpty;
-                    }
-                    return null;
-                  }
-              ),
-            ],
-          ),
-
-          ElevatedButton(
-            onPressed: (){
-              if(formKey.currentState!.validate()) {
-                context.read<ImportFromSpreadsheetCubit>().importFromSpreadsheet(_urlController.text);
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size.fromHeight(50), // NEW
+          Expanded(
+            child: ListView(
+              children: [
+                Text(AppLocalizations.of(context)!.importFromSpreadsheetInitialMessage),
+                SizedBox(height: DesignConfig.formFieldSeparationHeight),
+                const ImageWithBorder('assets/images/spreadsheet-sample.png'),
+                SizedBox(height: DesignConfig.formFieldSeparationHeight),
+                Text(AppLocalizations.of(context)!.importFromSpreadsheetInitialMessagePart2),
+                SizedBox(height: DesignConfig.formFieldSeparationHeight),
+                const ImageWithBorder('assets/images/spreadsheet-publish.png'),
+                SizedBox(height: DesignConfig.formFieldSeparationHeight),
+                Text(AppLocalizations.of(context)!.importFromSpreadsheetInitialMessagePart3),
+                SizedBox(height: DesignConfig.formFieldSeparationHeight),
+                const ImageWithBorder('assets/images/spreadsheet-publish2.png'),
+                SizedBox(height: DesignConfig.formFieldSeparationHeight),
+              ],
             ),
-            child: Text(AppLocalizations.of(context)!.importFlashcards.toUpperCase())
+          ),
+          SizedBox(height: DesignConfig.formFieldSeparationHeight),
+          FormFieldLabel(AppLocalizations.of(context)!.spreadsheetUrl),
+          TextFormField(
+              controller: _urlController,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return AppLocalizations.of(context)!.valueCanNotBeEmpty;
+                }
+                return null;
+              }
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top:32),
+            child: ElevatedButton(
+              onPressed: (){
+                if(formKey.currentState!.validate()) {
+                  context.read<ImportFromSpreadsheetCubit>().importFromSpreadsheet(_urlController.text);
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size.fromHeight(50), // NEW
+              ),
+              child: Text(AppLocalizations.of(context)!.importFlashcards.toUpperCase())
+            ),
           ),
         ],
       ),
@@ -131,5 +149,23 @@ class ImportErrorStateContent extends StatelessWidget {
   Widget build(BuildContext context) {
     //TODO:
     return const Text('ERROR');
+  }
+}
+
+class ImageWithBorder extends StatelessWidget {
+  final String imagePath;
+  const ImageWithBorder(this.imagePath,{ Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey, // Color del borde
+          width: 2.0, // Ancho del borde
+        ),
+      ),
+      child: Image.asset(imagePath),
+    );
   }
 }
