@@ -61,7 +61,7 @@ class ImportInitialStateContent extends StatelessWidget {
   Widget build(BuildContext context) {
     //TODO: Quitar
     //_urlController.text = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-AdUnsxTHpU2XZ_IM9iMs-37Flnjh6ydQtuq0Un-x522PZJTe6Li8rhpj14ZJXjoLFtGpJMMIoOEO/pub?output=csv';
-    _urlController.text = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSHZYd6sGhJuLAmeX02pi43fTumUY9QKQFbbzMctP4oYuGSOymRvs9NnGKwAaJTtzDPGH8vrih3J3Tk/pub?output=csv';
+    _urlController.text = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSHZYd6sGhJuLAmeX02pi43fTumUY9QKQFbbzMctP4oYuGSOymRvs9NnGKwAaJTtzDPGH8vrih3J3Tk/pub?output=csv&cache=1';
 
     //Archivo -> Compartir -> publicar en web
     //"Valores separados por comas (csv)"

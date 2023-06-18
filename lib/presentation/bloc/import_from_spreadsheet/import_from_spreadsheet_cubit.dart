@@ -31,7 +31,7 @@ class ImportFromSpreadsheetCubit extends Cubit<ImportFromSpreadsheetState> {
         // Await the http get response, then decode the json-formatted response.
         var response = await http.get(url);
         if (response.statusCode == 200) {
-          String csvResponse = response.body;
+          String csvResponse = utf8.decode(response.bodyBytes);
           print('csvResponse spreadsheet: $csvResponse');
 
           int rowsExceedMaxLengthCounter = 0;

@@ -13,15 +13,15 @@ class ImportSuccessWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String resultInfoText = '';
-    resultInfoText += 'Importadas: ${importResult.flashcards.length}';
+    //String resultInfoText = '';
+    //resultInfoText += 'Importadas: ${importResult.flashcards.length}';
     //if(state.maxFlashcardInGroupReached) resultInfoText +='\nmaxFlashcardInGroupReached';
     //if(state.rowsExceedMaxLengthCounter > 0) resultInfoText +='\nrowsExceedMaxLengthCounter: ${state.rowsExceedMaxLengthCounter}';
     //if(state.rowsWithLessThanTwoColumnsCounter > 0) resultInfoText +='\nrowsWithLessThanTwoColumnsCounter: ${state.rowsWithLessThanTwoColumnsCounter}';
 
     return TextAndButtonFullPageWidget(
         text: AppLocalizations.of(context)!.importFromSpreadsheetSuccessMessage,
-        extraInfo: Text(resultInfoText),
+        extraInfo: ImportDetailWidget(importResult),
         buttonText: AppLocalizations.of(context)!.volver.toUpperCase(),
         buttonOnPressed: (){
           //Dos pop pra saltar la selección del tipo de import
@@ -33,18 +33,18 @@ class ImportSuccessWidget extends StatelessWidget {
 }
 
 class ImportDetailWidget extends StatelessWidget {
-  final int importedFlascardsCounter;
-  final List<String> maxLengthErrorValues;
-  const ImportDetailWidget({required this.importedFlascardsCounter, required this.maxLengthErrorValues, Key? key}) : super(key: key);
+  final ImportFlashcardsFromCsvResult importResult;
+  const ImportDetailWidget(this.importResult,{Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     //TODO: Traducciones
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('IMPORTADAS: $importedFlascardsCounter'),
-        if(maxLengthErrorValues.isNotEmpty)
-          Text('No se han importado ${maxLengthErrorValues.length} valores por superar el tamaño máximo permitido ${AppConfig.flashcardTextMaxLength}. Por ejemplo "${maxLengthErrorValues[0]}"'),
+        Text('IMPORTADAS: ${importResult.flashcards.length}'),
+        if(importResult.maxLengthErrorValues.isNotEmpty)
+          Text('No se han importado ${importResult.maxLengthErrorValues.length} valores por superar el tamaño máximo permitido'),
       ],
     );
   }

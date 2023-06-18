@@ -51,8 +51,8 @@ class ImportFlashcardsFromCsv {
         //Si alguno de los valores es vacío se ignoran
         if(question.isNotEmpty && answer.isNotEmpty) {
           //Si alguno de los valroes sobrepara el límite de tamaño se ignoran y se informa al usuario
-          if(question.length>AppConfig.flashcardTextMaxLength || answer.length>AppConfig.flashcardTextMaxLength) {
-            print('pregunta supera el limite');
+          if(question.length > AppConfig.flashcardTextMaxLength || answer.length > AppConfig.flashcardTextMaxLength) {
+            print('pregunta supera el limite ${question.length}');
             if(question.length > AppConfig.flashcardTextMaxLength) maxLengthErrorValues.add(question);
             if(answer.length > AppConfig.flashcardTextMaxLength) maxLengthErrorValues.add(answer);
           } else {
