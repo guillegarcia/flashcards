@@ -2,12 +2,11 @@ import 'package:flashcards/config/design_config.dart';
 import 'package:flashcards/data/datasources/sqlite_local_datasource.dart';
 import 'package:flashcards/presentation/bloc/group/group_cubit.dart';
 import 'package:flashcards/presentation/widgets/form_field_label.dart';
+import 'package:flashcards/presentation/widgets/import_success_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import '../bloc/import_from_spreadsheet/import_from_spreadsheet_cubit.dart';
-import '../widgets/text_and_button_full_page_widget.dart';
 
 class ImportFromSpreadsheetScreen extends StatefulWidget {
   GroupCubit groupCubit;
@@ -62,7 +61,7 @@ class ImportInitialStateContent extends StatelessWidget {
   Widget build(BuildContext context) {
     //TODO: Quitar
     //_urlController.text = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-AdUnsxTHpU2XZ_IM9iMs-37Flnjh6ydQtuq0Un-x522PZJTe6Li8rhpj14ZJXjoLFtGpJMMIoOEO/pub?output=csv';
-    _urlController.text = 'https://docs.google.com/spreadsheets/d/1eVnad5KFhU4BkIzTNnUIsez0TwAOu3dQqvVdFVHmKHI/edit?usp=sharing';
+    _urlController.text = 'https://docs.google.com/spreadsheets/d/1eVnad5KFhU4BkIzTNnUIsez0TwAOu3dQqvVdFVHmKHI/gviz/tq?tqx=out:csv';
     return Form(
       key: formKey,
       child: Column(
@@ -91,7 +90,7 @@ class ImportInitialStateContent extends StatelessWidget {
           ElevatedButton(
             onPressed: (){
               if(formKey.currentState!.validate()) {
-                context.read<ImportFromSpreadsheetCubit>().importFromSpreadsheet('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-AdUnsxTHpU2XZ_IM9iMs-37Flnjh6ydQtuq0Un-x522PZJTe6Li8rhpj14ZJXjoLFtGpJMMIoOEO/pub?output=csv');
+                context.read<ImportFromSpreadsheetCubit>().importFromSpreadsheet(_urlController.text);
               }
             },
             style: ElevatedButton.styleFrom(
@@ -111,22 +110,7 @@ class ImportSuccessStateContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String resultInfoText = '';
-    resultInfoText += 'Importadas: ${state.importedFlashcards.length}';
-    if(state.maxFlashcardInGroupReached) resultInfoText +='\nmaxFlashcardInGroupReached';
-    if(state.rowsExceedMaxLengthCounter > 0) resultInfoText +='\nrowsExceedMaxLengthCounter: ${state.rowsExceedMaxLengthCounter}';
-    if(state.rowsWithLessThanTwoColumnsCounter > 0) resultInfoText +='\nrowsWithLessThanTwoColumnsCounter: ${state.rowsWithLessThanTwoColumnsCounter}';
-
-    return TextAndButtonFullPageWidget(
-        text: AppLocalizations.of(context)!.importFromSpreadsheetSuccessMessage,
-        subText: resultInfoText,
-        buttonText: AppLocalizations.of(context)!.volver.toUpperCase(),
-        buttonOnPressed: (){
-          //Dos pop pra saltar la selección del tipo de import
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
-        }
-    );
+    return ImportSuccessWidget(importResult: state.importResult);
   }
 }
 

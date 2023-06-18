@@ -6,8 +6,8 @@ abstract class ImportFromCsvState {}
 class ImportFromCsvInitialState extends ImportFromCsvState {}
 class ImportFromCsvInProgressState extends ImportFromCsvState {}
 class ImportFromCsvSuccessState extends ImportFromCsvState {
-  final List<Flashcard> flashcards;
+  final ImportFlashcardsFromCsvResult importResult;
 
-  ImportFromCsvSuccessState({required this.flashcards});
+  ImportFromCsvSuccessState({required this.importResult});
 }
 class ImportFromCsvErrorState extends ImportFromCsvState {}

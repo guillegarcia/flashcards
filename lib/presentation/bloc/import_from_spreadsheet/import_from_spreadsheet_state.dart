@@ -20,18 +20,12 @@ class ImportLoadingState extends ImportFromSpreadsheetState {
 }
 
 class ImportSuccessState extends ImportFromSpreadsheetState {
-  final List<Flashcard> importedFlashcards;
-  final int rowsExceedMaxLengthCounter;
-  final int rowsWithLessThanTwoColumnsCounter;
-  final bool maxFlashcardInGroupReached;
+  final ImportFlashcardsFromCsvResult importResult;
 
   const ImportSuccessState({
-    required this.importedFlashcards,
-    required this.rowsExceedMaxLengthCounter,
-    required this.rowsWithLessThanTwoColumnsCounter,
-    required this.maxFlashcardInGroupReached,
+    required this.importResult
   });
 
   @override
-  List<Object> get props => [importedFlashcards];
+  List<Object> get props => [importResult];
 }

@@ -8,6 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../bloc/group/group_cubit.dart';
 import '../bloc/import_from_csv/import_from_csv_cubit.dart';
+import '../widgets/import_success_widget.dart';
 import '../widgets/text_and_button_full_page_widget.dart';
 
 class ImportFromCSVScreen extends StatefulWidget {
@@ -82,15 +83,7 @@ class ImportFromCsvSuccessStateContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextAndButtonFullPageWidget(
-        text: AppLocalizations.of(context)!.importFromCsvSuccessMessage,
-        buttonText: AppLocalizations.of(context)!.volver.toUpperCase(),
-        buttonOnPressed: (){
-          //Dos pop pra saltar la selección del tipo de import
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
-        }
-    );
+    return ImportSuccessWidget(importResult: state.importResult);
   }
 }
 
