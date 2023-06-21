@@ -44,7 +44,7 @@ class _GroupScreenState extends State<GroupScreen> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    if(group == null) group = ModalRoute.of(context)!.settings.arguments as Group;
+    group = ModalRoute.of(context)!.settings.arguments as Group;
 
     return BlocProvider(
         create: (context) =>
@@ -123,8 +123,14 @@ class _GroupScreenState extends State<GroupScreen> with SingleTickerProviderStat
                       itemBuilder: (context, index) {
                         if(index == 0){
                           return Padding(
-                            padding: const EdgeInsets.only(left: 16.0,bottom: 8),
-                            child: Text(AppLocalizations.of(context)!.flashcards,style: TextStyle(fontSize: 18)),
+                            padding: const EdgeInsets.only(left: 16.0,bottom: 8,right: 16.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(AppLocalizations.of(context)!.flashcards,style: const TextStyle(fontSize: 18)),
+                                Text('${flashcards.length}/${AppConfig.maxFlashcardInGroup}',style: const TextStyle(fontSize: 14, color:Colors.black12)),
+                              ],
+                            ),
                           );
                         }
                         var flashcard = flashcards[index-1];
