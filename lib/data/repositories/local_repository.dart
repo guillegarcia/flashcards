@@ -28,4 +28,6 @@ abstract class LocalRepository {
 
   Future<void> removeFromReview(int flashcardId);
 
+  Future<bool> existsFlashcard(Flashcard flashcard, int groupId);
+
 }

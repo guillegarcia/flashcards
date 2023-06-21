@@ -9,11 +9,14 @@ class ImportFlashcardsFromCsv {
   final String csvString;
   final int groupId;
   //Strings que superan el tamaño máximo de texto permitido
-  List<String> maxLengthErrorValues = [];
+  int maxLengthErrorCounter = 0;
 
   ImportFlashcardsFromCsv({required this.csvString, required this.groupId, required this.localRepository});
 
-  ImportFlashcardsFromCsvResult execute() {
+  Future<ImportFlashcardsFromCsvResult> execute() async{
+
+    int flashcardsCreatedCounter = 0;
+    int flashcardsRepeatedCounter = 0;
 
     //String de CSV a lista de listas dinámicas
     List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(csvString);
@@ -26,14 +29,22 @@ class ImportFlashcardsFromCsv {
 
     //Guardamos en base de datos
     for(Flashcard flashcard in flashcards){
-      //insertar en base de datos
-      print('Guardando ${flashcard.question} en bbdd');
-      localRepository.insertFlashcard(flashcard, groupId);
+      //Solo se inserta si no está repetida
+      if(await localRepository.existsFlashcard(flashcard, groupId)){
+        print('existe!! ${flashcard.question}');
+        flashcardsRepeatedCounter++;
+      } else {
+        print('Guardando ${flashcard.question} en bbdd');
+        await localRepository.insertFlashcard(flashcard, groupId);
+        flashcardsCreatedCounter++;
+      }
     }
 
     ImportFlashcardsFromCsvResult result = ImportFlashcardsFromCsvResult(
-      flashcards: flashcards,
-      maxLengthErrorValues: maxLengthErrorValues
+      //flashcards: flashcards,
+      flashcardsCreatedCounter:flashcardsCreatedCounter,
+      flashcardsRepeatedCounter: flashcardsRepeatedCounter,
+      maxLengthErrorCounter: maxLengthErrorCounter
     );
 
     return result;
@@ -53,8 +64,7 @@ class ImportFlashcardsFromCsv {
           //Si alguno de los valroes sobrepara el límite de tamaño se ignoran y se informa al usuario
           if(question.length > AppConfig.flashcardTextMaxLength || answer.length > AppConfig.flashcardTextMaxLength) {
             print('pregunta supera el limite ${question.length}');
-            if(question.length > AppConfig.flashcardTextMaxLength) maxLengthErrorValues.add(question);
-            if(answer.length > AppConfig.flashcardTextMaxLength) maxLengthErrorValues.add(answer);
+            maxLengthErrorCounter++;
           } else {
             print('Leido flashcard $question');
             Flashcard flashcard = Flashcard(question: question, answer: answer);
@@ -69,15 +79,14 @@ class ImportFlashcardsFromCsv {
 }
 
 class ImportFlashcardsFromCsvResult {
-  List<Flashcard> flashcards;
-  List<String> maxLengthErrorValues;
-  ImportFlashcardsFromCsvResult({required this.flashcards, required this.maxLengthErrorValues});
-  //FlashCards que sobrepasan el límite de tamaño en preguntas o respuestas
+  //List<Flashcard> flashcards;
+  final int flashcardsCreatedCounter;
+  final int flashcardsRepeatedCounter;
+  final int maxLengthErrorCounter;
+  ImportFlashcardsFromCsvResult({required this.flashcardsCreatedCounter, required this.flashcardsRepeatedCounter, required this.maxLengthErrorCounter});
   //Columnas ignoradas de más
   //Filas con columnas de menos
   //Filas ignoradas por sobrepasar el límite de pregutnas
 }
 
-//TODO: Fuera de la responsabilida de esta clase al insertarlas en un grupo:
-//Preguntas repetidas que ya exiten => no se importan
-//Sobreparaso el límite de preguntas contando las que ya tiene el grupo
+//TODO: Sobreparaso el límite de preguntas contando las que ya tiene el grupo

@@ -25,6 +25,7 @@ class ImportFromSpreadsheetCubit extends Cubit<ImportFromSpreadsheetState> {
 
       List<Flashcard> importedFlashcards = [];
       try {
+        //TODO: Evitar el cacheo (si hacemos cambios en un excel no se actualiza a o ser que le meta un parámetro get co un cambio)
         //Obtener datos como CSV
         var url = Uri.parse(spreadsheetUrl);
 
@@ -39,7 +40,7 @@ class ImportFromSpreadsheetCubit extends Cubit<ImportFromSpreadsheetState> {
           bool maxFlashcardInGroupReached = false;
 
           ImportFlashcardsFromCsv csvToFlashcards = ImportFlashcardsFromCsv(csvString: csvResponse,groupId: groupId,localRepository: _localRepository);
-          ImportFlashcardsFromCsvResult importResult = csvToFlashcards.execute();
+          ImportFlashcardsFromCsvResult importResult = await csvToFlashcards.execute();
 
           groupBloc.loadFlashcards();
 

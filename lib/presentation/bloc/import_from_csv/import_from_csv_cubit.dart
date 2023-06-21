@@ -35,7 +35,7 @@ class ImportFromCsvCubit extends Cubit<ImportFromCsvState> {
           int groupId = (groupBloc.group.id!);
 
           ImportFlashcardsFromCsv importFlashcards = ImportFlashcardsFromCsv(csvString: csvString, groupId: groupId, localRepository: localRepository);
-          ImportFlashcardsFromCsvResult importResult = importFlashcards.execute();
+          ImportFlashcardsFromCsvResult importResult = await importFlashcards.execute();
 
           groupBloc.loadFlashcards();
 

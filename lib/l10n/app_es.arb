@@ -49,5 +49,9 @@
   "importFromSpreadsheetSuccessMessage": "¡La importación ha terminado correctamente! vuelve para ver tus nuevas tarjetas y comenzar a repasar",
   "resultTotalCounter": "Total de preguntas",
   "resultRightCounter": "Preguntas acertadas",
-  "resultFailedCounter": "Preguntas falladas"
+  "resultFailedCounter": "Preguntas falladas",
+  "importDetail": "Detalle de la importación",
+  "createdFlashcardsImportMessage": "Tarjetas creadas",
+  "repeatedFlashcardsImportMessage": "Tarjetas no se han creado porque ya existen",
+  "maxLengthErrorImportMessage": "Tarjetas no se ha creado porque han superado el límite de caracteres"
 }

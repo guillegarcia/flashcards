@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flashcards/config/app_config.dart';
 import 'package:flashcards/domain/use_cases/import_flashcards_from_csv.dart';
 import 'package:flashcards/presentation/widgets/text_and_button_full_page_widget.dart';
@@ -13,11 +11,6 @@ class ImportSuccessWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //String resultInfoText = '';
-    //resultInfoText += 'Importadas: ${importResult.flashcards.length}';
-    //if(state.maxFlashcardInGroupReached) resultInfoText +='\nmaxFlashcardInGroupReached';
-    //if(state.rowsExceedMaxLengthCounter > 0) resultInfoText +='\nrowsExceedMaxLengthCounter: ${state.rowsExceedMaxLengthCounter}';
-    //if(state.rowsWithLessThanTwoColumnsCounter > 0) resultInfoText +='\nrowsWithLessThanTwoColumnsCounter: ${state.rowsWithLessThanTwoColumnsCounter}';
 
     return TextAndButtonFullPageWidget(
         text: AppLocalizations.of(context)!.importFromSpreadsheetSuccessMessage,
@@ -38,13 +31,16 @@ class ImportDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Traducciones
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('IMPORTADAS: ${importResult.flashcards.length}'),
-        if(importResult.maxLengthErrorValues.isNotEmpty)
-          Text('No se han importado ${importResult.maxLengthErrorValues.length} valores por superar el tamaño máximo permitido'),
+        Text(AppLocalizations.of(context)!.importDetail,style: const TextStyle(fontWeight: FontWeight.bold,decoration: TextDecoration.underline)),
+        if(importResult.flashcardsCreatedCounter>0)
+          Text('${importResult.flashcardsCreatedCounter} ${AppLocalizations.of(context)!.createdFlashcardsImportMessage}'),
+        if(importResult.flashcardsRepeatedCounter>0)
+          Text('${importResult.flashcardsRepeatedCounter} ${AppLocalizations.of(context)!.repeatedFlashcardsImportMessage}'),
+        if(importResult.maxLengthErrorCounter>0)
+          Text('${importResult.maxLengthErrorCounter} ${AppLocalizations.of(context)!.maxLengthErrorImportMessage} (${AppConfig.flashcardTextMaxLength})'),
       ],
     );
   }

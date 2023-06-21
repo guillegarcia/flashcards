@@ -53,5 +53,9 @@
   "importFromSpreadsheetSuccessMessage": "The import has finished successfully! come back to see your new cards and start practising",
   "resultTotalCounter": "Number of questions",
   "resultRightCounter": "Correct answers",
-  "resultFailedCounter": "Failed answers"
+  "resultFailedCounter": "Failed answers",
+  "importDetail": "Import detail",
+  "createdFlashcardsImportMessage": "Created flashcards",
+  "repeatedFlashcardsImportMessage": "Flashcards have not been created because they already exist",
+  "maxLengthErrorImportMessage": "Flashcards have not been created because they have exceeded the character limit"
 }

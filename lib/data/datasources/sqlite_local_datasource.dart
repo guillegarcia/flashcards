@@ -187,4 +187,15 @@ class SQLiteLocalDatasource implements LocalRepository{
     }
     return result;
   }
+
+  @override
+  Future<bool> existsFlashcard(Flashcard flashcard, int groupId) async {
+    bool exists = false;
+    final db = await database;
+    var result = await db.query("flashcards", columns: ['id'],where: 'group_id=? AND question=?',whereArgs: [groupId,flashcard.question]);
+    if (result.isNotEmpty) {
+      exists=true;
+    }
+    return exists;
+  }
 }
