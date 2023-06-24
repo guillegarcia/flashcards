@@ -36,11 +36,13 @@ class ImportDetailWidget extends StatelessWidget {
       children: [
         Text(AppLocalizations.of(context)!.importDetail,style: const TextStyle(fontWeight: FontWeight.bold,decoration: TextDecoration.underline)),
         if(importResult.flashcardsCreatedCounter>0)
-          Text('${importResult.flashcardsCreatedCounter} ${AppLocalizations.of(context)!.createdFlashcardsImportMessage}'),
+          Text('- ${importResult.flashcardsCreatedCounter} ${AppLocalizations.of(context)!.createdFlashcardsImportMessage}'),
         if(importResult.flashcardsRepeatedCounter>0)
-          Text('${importResult.flashcardsRepeatedCounter} ${AppLocalizations.of(context)!.repeatedFlashcardsImportMessage}'),
+          Text('- ${importResult.flashcardsRepeatedCounter} ${AppLocalizations.of(context)!.repeatedFlashcardsImportMessage}'),
         if(importResult.maxLengthErrorCounter>0)
-          Text('${importResult.maxLengthErrorCounter} ${AppLocalizations.of(context)!.maxLengthErrorImportMessage} (${AppConfig.flashcardTextMaxLength})'),
+          Text('- ${importResult.maxLengthErrorCounter} ${AppLocalizations.of(context)!.maxLengthErrorImportMessage} (${AppConfig.flashcardTextMaxLength})'),
+        if(importResult.flashcardsLimitReached)
+          Text('- ${AppLocalizations.of(context)!.flashcardsLimitReachedImportMessage} (${AppConfig.maxFlashcardInGroup})'),
       ],
     );
   }

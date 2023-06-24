@@ -1,3 +1,4 @@
+import 'package:flashcards/config/app_config.dart';
 import 'package:flashcards/data/repositories/local_repository.dart';
 import 'package:flashcards/domain/entities/flash_card.dart';
 import 'package:flashcards/domain/entities/group.dart';
@@ -6,6 +7,8 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:io';
+
+import '../../domain/exceptions/flashcards_limit_reached_excepcion.dart';
 
 class SQLiteLocalDatasource implements LocalRepository{
 
@@ -128,7 +131,26 @@ class SQLiteLocalDatasource implements LocalRepository{
   @override
   Future<int> insertFlashcard(Flashcard flashcard,int groupId) async {
     final db = await database;
+
+    //Comprobamos primero si se ha llegado al máximo de tarjetas
+    int count = await _flashcardsCount(groupId);
+    if(count>=AppConfig.maxFlashcardInGroup){
+      throw const FlashcardsLimitReachedException();
+    }
+
     return await db.insert("flashcards", _flashcardToMap(flashcard,groupId: groupId));
+  }
+
+  Future<int> _flashcardsCount(int groupId) async{
+    final db = await database;
+    int counter = 0;
+    var result = await db.rawQuery('SELECT COUNT(*) FROM flashcards WHERE group_id = ?',[groupId]);
+    int? queryCountValue = Sqflite.firstIntValue(result);
+    if(queryCountValue!=null){
+      counter = queryCountValue;
+    }
+    print('flashcardsCount $counter');
+    return counter;
   }
 
   @override

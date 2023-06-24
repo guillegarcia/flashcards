@@ -57,5 +57,6 @@
   "importDetail": "Import detail",
   "createdFlashcardsImportMessage": "Created flashcards",
   "repeatedFlashcardsImportMessage": "Flashcards have not been created because they already exist",
-  "maxLengthErrorImportMessage": "Flashcards have not been created because they have exceeded the character limit"
+  "maxLengthErrorImportMessage": "Flashcards have not been created because they have exceeded the character limit",
+  "flashcardsLimitReachedImportMessage": "Some flashcards have not been imported because the limit allowed per set has been reached"
 }

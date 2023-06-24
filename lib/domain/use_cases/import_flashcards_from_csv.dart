@@ -1,6 +1,7 @@
 import 'package:csv/csv.dart';
 import 'package:flashcards/config/app_config.dart';
 import 'package:flashcards/domain/entities/flash_card.dart';
+import 'package:flashcards/domain/exceptions/flashcards_limit_reached_excepcion.dart';
 
 import '../../data/repositories/local_repository.dart';
 
@@ -8,6 +9,7 @@ class ImportFlashcardsFromCsv {
   final LocalRepository localRepository;
   final String csvString;
   final int groupId;
+
   //Strings que superan el tamaño máximo de texto permitido
   int maxLengthErrorCounter = 0;
 
@@ -17,6 +19,7 @@ class ImportFlashcardsFromCsv {
 
     int flashcardsCreatedCounter = 0;
     int flashcardsRepeatedCounter = 0;
+    bool flashcardsLimitReached = false;
 
     //String de CSV a lista de listas dinámicas
     List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(csvString);
@@ -35,13 +38,17 @@ class ImportFlashcardsFromCsv {
         flashcardsRepeatedCounter++;
       } else {
         print('Guardando ${flashcard.question} en bbdd');
-        await localRepository.insertFlashcard(flashcard, groupId);
-        flashcardsCreatedCounter++;
+        try {
+          await localRepository.insertFlashcard(flashcard, groupId);
+          flashcardsCreatedCounter++;
+        } on FlashcardsLimitReachedException {
+          flashcardsLimitReached = true;
+        }
       }
     }
 
     ImportFlashcardsFromCsvResult result = ImportFlashcardsFromCsvResult(
-      //flashcards: flashcards,
+      flashcardsLimitReached: flashcardsLimitReached,
       flashcardsCreatedCounter:flashcardsCreatedCounter,
       flashcardsRepeatedCounter: flashcardsRepeatedCounter,
       maxLengthErrorCounter: maxLengthErrorCounter
@@ -79,14 +86,11 @@ class ImportFlashcardsFromCsv {
 }
 
 class ImportFlashcardsFromCsvResult {
-  //List<Flashcard> flashcards;
+  final bool flashcardsLimitReached;
   final int flashcardsCreatedCounter;
   final int flashcardsRepeatedCounter;
   final int maxLengthErrorCounter;
-  ImportFlashcardsFromCsvResult({required this.flashcardsCreatedCounter, required this.flashcardsRepeatedCounter, required this.maxLengthErrorCounter});
+  ImportFlashcardsFromCsvResult({required this.flashcardsCreatedCounter, required this.flashcardsRepeatedCounter, required this.maxLengthErrorCounter, required this.flashcardsLimitReached});
   //Columnas ignoradas de más
   //Filas con columnas de menos
-  //Filas ignoradas por sobrepasar el límite de pregutnas
 }
-
-//TODO: Sobreparaso el límite de preguntas contando las que ya tiene el grupo

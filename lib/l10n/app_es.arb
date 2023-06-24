@@ -53,5 +53,6 @@
   "importDetail": "Detalle de la importación",
   "createdFlashcardsImportMessage": "Tarjetas creadas",
   "repeatedFlashcardsImportMessage": "Tarjetas no se han creado porque ya existen",
-  "maxLengthErrorImportMessage": "Tarjetas no se ha creado porque han superado el límite de caracteres"
+  "maxLengthErrorImportMessage": "Tarjetas no se han creado porque superan el límite de caracteres",
+  "flashcardsLimitReachedImportMessage": "No se han importado todas las tarjetas porque se ha alcanzado el límite permitido por grupo"
 }
