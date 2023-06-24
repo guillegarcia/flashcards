@@ -94,7 +94,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                         },
                         availableColors: DesignConfig.availableColors,
                         initialColor: _selectedColor!),
-                    (state is CreateErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.createGroupErrorMessage):SizedBox.shrink()
+                    (state is CreateErrorState)?ErrorMessageWidget(message: AppLocalizations.of(context)!.createGroupErrorMessage):SizedBox.shrink()
                   ],
                 ),
               ),

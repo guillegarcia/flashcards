@@ -146,7 +146,7 @@ class SQLiteLocalDatasource implements LocalRepository{
     int counter = 0;
     var result = await db.rawQuery('SELECT COUNT(*) FROM flashcards WHERE group_id = ?',[groupId]);
     int? queryCountValue = Sqflite.firstIntValue(result);
-    if(queryCountValue!=null){
+    if(queryCountValue!=null) {
       counter = queryCountValue;
     }
     print('flashcardsCount $counter');

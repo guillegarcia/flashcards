@@ -1,10 +1,8 @@
 import 'package:flashcards/config/design_config.dart';
-import 'package:flashcards/data/datasources/sqlite_local_datasource.dart';
-import 'package:flashcards/data/repositories/local_repository.dart';
 import 'package:flashcards/domain/entities/group.dart';
 import 'package:flashcards/presentation/bloc/groups/groups_cubit.dart';
-import 'package:flashcards/presentation/bloc/groups/groups_cubit.dart';
 import 'package:flashcards/presentation/screens/new_group_screen.dart';
+import 'package:flashcards/presentation/widgets/error_message_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -24,46 +22,20 @@ class _GroupsScreenState extends State<GroupsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const GroupsHeaderWidget(),
-          Expanded(
-            child: BlocBuilder<GroupsCubit, GroupsState>(
-              builder: (context, state) {
-                if (state is LoadInProgressState) {
-                  return Container(
-                    child: Center(child: CircularProgressIndicator()),
-                  );
-                } else if (state is LoadSuccessState) {
-                  final groups = state.groups;
-                  MediaQueryData queryData = MediaQuery.of(context);
-                  double setWidth = queryData.size.width / 2 - DesignConfig.screenPadding.horizontal;
-                  double setHeight = 150;
-                  final setborder = RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  );
-                  return ListView(
-                    padding: DesignConfig.screenPadding,
-                    children: List.generate(groups.length, (index) {
-                      Group group = groups[index];
-                      return SetWidget(group);
-                    })
-                  );
-                } else if (state is LoadErrorState) {
-                  return Container(
-                    child: Text('GroupsLoadErrorState'),
-                  );
-                } else {
-                  return Container();
-                }
-              },
-            ),
-          ),
-        ],
+      body: BlocBuilder<GroupsCubit, GroupsState>(
+        builder: (context, state) {
+          if (state is LoadInProgressState) {
+            return const LoadInProgressContent();
+          } else if (state is LoadSuccessState) {
+            return LoadSuccessContent(state);
+          } else if (state is LoadErrorState) {
+            return const ErrorMessageWidget();
+          } else {
+            return Container();
+          }
+        },
       ),
-      floatingActionButton: FloatingActionButton(child: Icon(Icons.add),onPressed: (){
-        //context.read<GroupsCubit>().
+      floatingActionButton: FloatingActionButton(child: const Icon(Icons.add),onPressed: (){
         Navigator.of(context).pushNamed(NewGroupScreen.routeName);
       }),
     );
@@ -127,6 +99,74 @@ class SetWidget extends StatelessWidget {
             )
         )
       )
+    );
+  }
+}
+
+class LoadInProgressContent extends StatelessWidget {
+  const LoadInProgressContent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(child: CircularProgressIndicator());
+  }
+}
+
+class LoadSuccessContent extends StatelessWidget {
+  final LoadSuccessState state;
+  const LoadSuccessContent(this.state,{Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final groups = state.groups;
+    if(groups.isEmpty){
+      return const NoGroupMessageWidget();
+    } else {
+      return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const GroupsHeaderWidget(),
+            Expanded(
+                child: ListView(
+                    padding: DesignConfig.screenPadding,
+                    children: List.generate(groups.length, (index) {
+                      Group group = groups[index];
+                      return SetWidget(group);
+                    })
+                )
+            )
+          ]
+      );
+    }
+  }
+}
+
+class NoGroupMessageWidget extends StatelessWidget {
+  const NoGroupMessageWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(AppLocalizations.of(context)!.noGroupsTitle+' 🙂',
+                style: const TextStyle(
+                    fontSize: 32
+                )
+            ),
+            const SizedBox(height: 12),
+            Text(AppLocalizations.of(context)!.noGroupsMessage,
+                style: const TextStyle(
+                    fontSize: 18
+                )
+            )
+          ],
+        ),
+      ),
     );
   }
 }

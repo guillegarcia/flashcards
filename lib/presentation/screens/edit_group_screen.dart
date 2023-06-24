@@ -104,12 +104,6 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                         return null;
                       }
                     ),
-                    /*SizedBox(height: DesignConfig.formFieldSeparationHeight),
-                    FormFieldLabel(AppLocalizations.of(context)!.description),
-                    TextFormField(
-                      textCapitalization: TextCapitalization.sentences,
-                      controller: _descriptionController,
-                    ),*/
                     SizedBox(height: DesignConfig.formFieldSeparationHeight),
                     FormFieldLabel(AppLocalizations.of(context)!.color),
                     MyColorPicker(
@@ -121,11 +115,11 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                         availableColors: DesignConfig.availableColors,
                         initialColor: _selectedColor!),
                     (state is UpdateErrorState)
-                        ? ErrorMessageWidget(
+                        ? ErrorMessageWidget(message:
                         AppLocalizations.of(context)!.updateGroupErrorMessage)
                         : SizedBox.shrink(),
                     (state is DeleteGroupErrorState)
-                        ? ErrorMessageWidget(
+                        ? ErrorMessageWidget(message:
                         AppLocalizations.of(context)!.deleteGroupErrorMessage)
                         : SizedBox.shrink()
                   ],

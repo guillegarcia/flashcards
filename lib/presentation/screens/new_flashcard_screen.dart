@@ -91,7 +91,7 @@ class _NewFlashcardScreenState extends State<NewFlashcardScreen> {
                           return null;
                         }
                     ),
-                    (state is CreateFlashcardErrorState)?ErrorMessageWidget(AppLocalizations.of(context)!.createFlashcardErrorMessage):SizedBox.shrink()
+                    (state is CreateFlashcardErrorState)?ErrorMessageWidget(message: AppLocalizations.of(context)!.createFlashcardErrorMessage):SizedBox.shrink()
                   ],
                 ),
               ),

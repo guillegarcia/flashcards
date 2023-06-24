@@ -1,5 +1,9 @@
 {
   "appName": "My Flashcards",
+  "somethingWentWrong": "Vaya! Algo ha ido mal 🙈",
+  "genericErrorMessage": "Por favor inténtalo de nuevo y si continuas teniendo problemas escríbemos para que podamos ayudarte 🙏",
+  "noGroupsTitle": "Hola!",
+  "noGroupsMessage": "Crea tu primer grupo de preguntas para comenzar a repasar",
   "newGroup": "Nuevo grupo",
   "name": "Nombre",
   "save": "Guardar",

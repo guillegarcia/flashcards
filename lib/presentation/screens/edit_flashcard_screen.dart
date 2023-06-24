@@ -4,7 +4,6 @@ import 'package:flashcards/data/datasources/sqlite_local_datasource.dart';
 import 'package:flashcards/domain/entities/flash_card.dart';
 import 'package:flashcards/presentation/bloc/edit_flashcard/edit_flashcard_cubit.dart';
 import 'package:flashcards/presentation/bloc/group/group_cubit.dart';
-import 'package:flashcards/presentation/bloc/new_flashcard/new_flashcard_cubit.dart';
 import 'package:flashcards/presentation/widgets/error_message_widget.dart';
 import 'package:flashcards/presentation/widgets/form_field_label.dart';
 import 'package:flutter/material.dart';
@@ -102,8 +101,8 @@ class _EditFlashcardScreenState extends State<EditFlashcardScreen> {
                         return null;
                       }
                     ),
-                    (state is EditFlashcardErrorState) ? ErrorMessageWidget(AppLocalizations.of(context)!.updateFlashcardErrorMessage) : const SizedBox.shrink(),
-                    (state is DeleteFlashcardErrorState) ? ErrorMessageWidget(AppLocalizations.of(context)!.deleteFlashcardErrorMessage): const SizedBox.shrink()
+                    (state is EditFlashcardErrorState) ? ErrorMessageWidget(message:AppLocalizations.of(context)!.updateFlashcardErrorMessage) : const SizedBox.shrink(),
+                    (state is DeleteFlashcardErrorState) ? ErrorMessageWidget(message:AppLocalizations.of(context)!.deleteFlashcardErrorMessage): const SizedBox.shrink()
                   ],
                 ),
               ),
