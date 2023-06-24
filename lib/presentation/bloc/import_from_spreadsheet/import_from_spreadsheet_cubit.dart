@@ -2,12 +2,10 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flashcards/config/app_config.dart';
 import 'package:flashcards/data/repositories/local_repository.dart';
 import 'package:flashcards/domain/entities/flash_card.dart';
 import 'package:flashcards/domain/use_cases/import_flashcards_from_csv.dart';
 import 'package:flashcards/presentation/bloc/group/group_cubit.dart';
-import 'package:csv/csv.dart';
 import 'package:http/http.dart' as http;
 
 part 'import_from_spreadsheet_state.dart';
@@ -34,10 +32,6 @@ class ImportFromSpreadsheetCubit extends Cubit<ImportFromSpreadsheetState> {
         if (response.statusCode == 200) {
           String csvResponse = utf8.decode(response.bodyBytes);
           print('csvResponse spreadsheet: $csvResponse');
-
-          int rowsExceedMaxLengthCounter = 0;
-          int rowsWithLessThanTwoColumnsCounter = 0;
-          bool maxFlashcardInGroupReached = false;
 
           ImportFlashcardsFromCsv csvToFlashcards = ImportFlashcardsFromCsv(csvString: csvResponse,groupId: groupId,localRepository: _localRepository);
           ImportFlashcardsFromCsvResult importResult = await csvToFlashcards.execute();

@@ -195,7 +195,8 @@ class _GroupScreenState extends State<GroupScreen> with SingleTickerProviderStat
                 ],
               ),
               floatingActionButton: (state is LoadFlashcardsSuccessState) ?
-                   GroupFAB(showImportButton: flashcards.isEmpty, groupCubit: context.read<GroupCubit>(),): const SizedBox.shrink(),
+                  (flashcards.length < AppConfig.maxFlashcardInGroup) ? GroupFAB(showImportButton: flashcards.isEmpty, groupCubit: context.read<GroupCubit>(),) : const SizedBox.shrink()
+                  : const SizedBox.shrink(),
             );
       }
     )
@@ -312,15 +313,7 @@ class GroupFAB extends StatelessWidget {
       return Wrap(
         direction: Axis.vertical,
         children: [
-          FloatingActionButton.extended(
-            icon: const Icon(Icons.add),
-            heroTag: 'create',//Cuando hay varios FAB y un Hero en la página se lia si no le ponemos un heroTag único a cada FAB y da un error
-            label: Text(AppLocalizations.of(context)!.createFlashcard),
-            onPressed: () {
-              Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,
-                  arguments: context.read<GroupCubit>());
-            },
-          ),
+          const FabCreateFlashcard(),
           const SizedBox(height: 16),
           FloatingActionButton.extended(
             icon: const Icon(Icons.add),
@@ -335,8 +328,18 @@ class GroupFAB extends StatelessWidget {
         ],
       );
     }
+    return const FabCreateFlashcard();
+  }
+}
+
+class FabCreateFlashcard extends StatelessWidget {
+  const FabCreateFlashcard({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return FloatingActionButton.extended(
       icon: const Icon(Icons.add),
+      heroTag: 'create',//Cuando hay varios FAB y un Hero en la página se lia si no le ponemos un heroTag único a cada FAB y da un error
       label: Text(AppLocalizations.of(context)!.createFlashcard),
       onPressed: () {
         Navigator.of(context).pushNamed(NewFlashcardScreen.routeName,
