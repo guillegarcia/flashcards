@@ -7,7 +7,7 @@ import 'package:flashcards/presentation/bloc/group/group_cubit.dart';
 part 'edit_flashcard_state.dart';
 
 class EditFlashcardCubit extends Cubit<EditFlashcardState> {
-  EditFlashcardCubit(this._localRepository,{required GroupCubit this.groupBloc}) : super(EditFlashcardInitial());
+  EditFlashcardCubit(this._localRepository,{required this.groupBloc}) : super(EditFlashcardInitial());
 
   final GroupCubit groupBloc;
   final LocalRepository _localRepository;
