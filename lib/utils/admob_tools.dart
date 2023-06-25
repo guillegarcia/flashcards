@@ -16,7 +16,7 @@ class AdmobTools{
 
   final bool _debugMode = false;
 
-  final _actionsNumberToShowAd = 2;
+  final _actionsNumberToShowAd = 3;
   final bool showInFirstAction = true;
   int actionsCounter = 0;
   bool firstActionDone = false;
@@ -35,11 +35,9 @@ class AdmobTools{
   bool mustShowAd(){
     bool mustShowAd = false;
     if(!firstActionDone && showInFirstAction && actionsCounter == 1){
-      print(' -> mustShowAd: fistsAction!');
       firstActionDone = true;
       mustShowAd = true;
     } else if (actionsCounter == _actionsNumberToShowAd){
-      print(' -> mustShowAd: actionsCounter!');
       mustShowAd = true;
     }
     return mustShowAd;
@@ -64,7 +62,7 @@ class AdmobTools{
   }
 
   static final AdRequest request = AdRequest(
-    keywords: <String>['Estudiar','Examen','Quis'],
+    keywords: <String>['Estudiar','Examen','trivial','Exam','Study'],
     nonPersonalizedAds: false,
   );
 
@@ -72,7 +70,6 @@ class AdmobTools{
   int _numInterstitialLoadAttempts = 0;
 
   Future _createInterstitialAd() async{
-    print('createInterstitialAd');
     await InterstitialAd.load(
         adUnitId: _interstitialAdId,
             //_debugMode
@@ -81,7 +78,6 @@ class AdmobTools{
         request: request,
         adLoadCallback: InterstitialAdLoadCallback(
           onAdLoaded: (InterstitialAd ad) {
-            print('$ad loaded');
             _interstitialAd = ad;
             _numInterstitialLoadAttempts = 0;
             //adReady = true;
@@ -90,7 +86,6 @@ class AdmobTools{
             }
           },
           onAdFailedToLoad: (LoadAdError error) async {
-            print('InterstitialAd failed to load: $error.');
             _numInterstitialLoadAttempts += 1;
             _interstitialAd = null;
             if (_numInterstitialLoadAttempts <= maxFailedLoadAttempts) {
@@ -102,27 +97,23 @@ class AdmobTools{
   }
 
   void disposeInterstitialAd() {
-    print('disposeInterstitialAd ?');
     _interstitialAd?.dispose();
     screenReady = false;
   }
 
   void showInterstitialAd() async{
-    print('showInterstitialAd');
     if (_interstitialAd == null) {
-      print('Warning: attempt to show interstitial before loaded.');
       return;
     }
     _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-      onAdShowedFullScreenContent: (InterstitialAd ad) =>
-          print('ad onAdShowedFullScreenContent.'),
+      //onAdShowedFullScreenContent: (InterstitialAd ad) => print('ad onAdShowedFullScreenContent.'),
       onAdDismissedFullScreenContent: (InterstitialAd ad) {
-        print('$ad onAdDismissedFullScreenContent.');
+        //print('$ad onAdDismissedFullScreenContent.');
         ad.dispose();
         //_createInterstitialAd();
       },
       onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
-        print('$ad onAdFailedToShowFullScreenContent: $error');
+        //print('$ad onAdFailedToShowFullScreenContent: $error');
         ad.dispose();
         //_createInterstitialAd();
       },

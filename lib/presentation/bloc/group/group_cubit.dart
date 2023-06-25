@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flashcards/data/repositories/local_repository.dart';
 import 'package:flashcards/domain/entities/flash_card.dart';
 import 'package:flashcards/domain/entities/group.dart';
-import 'package:flutter/cupertino.dart';
 
 part 'group_state.dart';
 
