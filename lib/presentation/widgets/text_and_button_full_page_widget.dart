@@ -12,6 +12,7 @@ class TextAndButtonFullPageWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(32.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(text,style: const TextStyle(fontSize: 18)),

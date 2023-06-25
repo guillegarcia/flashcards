@@ -16,7 +16,6 @@ class ExportCubit extends Cubit<ExportState> {
 
   void exportFlashcards() async{
     try {
-      print('exporting!');
       String csvPath = await _flashcardsListToCSV(flashcards);
       emit(ExportSuccessState(csvPath:csvPath));
       shareCsv(csvPath);

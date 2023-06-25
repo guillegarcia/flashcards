@@ -31,7 +31,6 @@ class ImportFromSpreadsheetCubit extends Cubit<ImportFromSpreadsheetState> {
         var response = await http.get(url);
         if (response.statusCode == 200) {
           String csvResponse = utf8.decode(response.bodyBytes);
-          print('csvResponse spreadsheet: $csvResponse');
 
           ImportFlashcardsFromCsv csvToFlashcards = ImportFlashcardsFromCsv(csvString: csvResponse,groupId: groupId,localRepository: _localRepository);
           ImportFlashcardsFromCsvResult importResult = await csvToFlashcards.execute();
@@ -42,11 +41,9 @@ class ImportFromSpreadsheetCubit extends Cubit<ImportFromSpreadsheetState> {
             importResult: importResult
           ));
         } else {
-          print("Error al recuperar por URL");
           emit(ImportErrorState());
         }
       } catch (e) {
-        print("Error al importar de google: ${e.toString()}");
         emit(ImportErrorState());
       }
     }

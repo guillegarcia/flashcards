@@ -34,10 +34,8 @@ class ImportFlashcardsFromCsv {
     for(Flashcard flashcard in flashcards){
       //Solo se inserta si no está repetida
       if(await localRepository.existsFlashcard(flashcard, groupId)){
-        print('existe!! ${flashcard.question}');
         flashcardsRepeatedCounter++;
       } else {
-        print('Guardando ${flashcard.question} en bbdd');
         try {
           await localRepository.insertFlashcard(flashcard, groupId);
           flashcardsCreatedCounter++;
@@ -58,7 +56,6 @@ class ImportFlashcardsFromCsv {
   }
 
   List<Flashcard> _csvListToListOfFlashcards(List<List<dynamic>> csvColumnsList)  {
-    print('_csvListToListOfFlashcards ${csvColumnsList.length}');
     List<Flashcard> flashcards = [];
 
     for (List<dynamic> csvRowList in csvColumnsList) {
@@ -70,10 +67,8 @@ class ImportFlashcardsFromCsv {
         if(question.isNotEmpty && answer.isNotEmpty) {
           //Si alguno de los valroes sobrepara el límite de tamaño se ignoran y se informa al usuario
           if(question.length > AppConfig.flashcardTextMaxLength || answer.length > AppConfig.flashcardTextMaxLength) {
-            print('pregunta supera el limite ${question.length}');
             maxLengthErrorCounter++;
           } else {
-            print('Leido flashcard $question');
             Flashcard flashcard = Flashcard(question: question, answer: answer);
             flashcards.add(flashcard);
           }

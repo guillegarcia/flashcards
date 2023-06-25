@@ -66,7 +66,6 @@ class _ExamScreenState extends State<ExamScreen> {
                 return _buildExamPageContent(context, state);
               },
               listener: (context, state) {
-                print('listener $state');
                 if(state is ShowCurrentFlashcardState){
                   setState(() {
                     _showButtons = false;
@@ -96,13 +95,10 @@ class _ExamScreenState extends State<ExamScreen> {
 
   _buildExamPageContent(BuildContext context, ExamState state) {
     if(state is LoadingState) {
-      print('LoadingState');
       return const Center(
           child: CircularProgressIndicator()
       );
     } else if(state is ShowCurrentFlashcardState) {
-      print('build new ShowCurrentFlashcardState');
-
       return Stack(
           children: [
             Align(

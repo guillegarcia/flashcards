@@ -85,7 +85,7 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
                 ),
                 const SizedBox(height: 48),
                 Container(
-                  padding: EdgeInsets.all(16.0), // Espacio interno de 16 unidades en todos los lados
+                  padding: const EdgeInsets.all(16.0), // Espacio interno de 16 unidades en todos los lados
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.3), // Color blanco con 50% de transparencia
                     borderRadius: BorderRadius.circular(10.0), // Bordes redondeados con un radio de 10 unidades
@@ -147,7 +147,7 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
 class ResultButtonWidget extends StatelessWidget {
   final String buttonText;
   final VoidCallback? onPressed;
-  ResultButtonWidget({required this.buttonText, this.onPressed, Key? key}) : super(key: key);
+  const ResultButtonWidget({required this.buttonText, this.onPressed, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

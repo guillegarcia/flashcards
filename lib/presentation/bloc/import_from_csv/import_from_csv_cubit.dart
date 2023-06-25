@@ -20,7 +20,6 @@ class ImportFromCsvCubit extends Cubit<ImportFromCsvState> {
   ImportFromCsvCubit({required this.localRepository,required this.groupBloc}) : super(ImportFromCsvInitialState());
 
   void import() async{
-    print('import!');
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
@@ -41,16 +40,13 @@ class ImportFromCsvCubit extends Cubit<ImportFromCsvState> {
 
           emit(ImportFromCsvSuccessState(importResult: importResult));
         } else {
-          print('file.path es null');
           emit(ImportFromCsvErrorState());
         }
       } else {
-        print('No encontrado el fichero');
         emit(ImportFromCsvErrorState());
       }
       //shareCsv(csvPath);
     } catch (e) {
-      print('catch ${e.toString()}');
       emit(ImportFromCsvErrorState());
     }
   }

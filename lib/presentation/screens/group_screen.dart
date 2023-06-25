@@ -68,11 +68,8 @@ class _GroupScreenState extends State<GroupScreen> with SingleTickerProviderStat
                         var editGroupResult = await Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => EditGroupScreen(group: widget.group,groupsCubit: context.read<GroupsCubit>()),
                         ));
-                        print('Respuesta: ${editGroupResult}');
                         if(editGroupResult!=null && editGroupResult is Group){
-                          print('Es instancia de grupo! con texto: ${editGroupResult.name}');
                           setState(() {
-                            print('Hacemos set');
                             widget.group.name = editGroupResult.name;
                             widget.group.color = editGroupResult.color;
                           });
