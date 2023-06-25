@@ -23,19 +23,19 @@ class EditGroupScreen extends StatefulWidget {
 class _EditGroupScreenState extends State<EditGroupScreen> {
 
   final _nameController = TextEditingController();
-  final _descriptionController = TextEditingController();
+  //final _descriptionController = TextEditingController();
   Color? _selectedColor;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.text = widget.group.name;
+    _selectedColor = widget.group.color;
+  }
 
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
-    _nameController.text = widget.group.name;
-    _descriptionController.text = widget.group.description ?? '';
-    if (_selectedColor == null) {
-      setState(() {
-        _selectedColor = widget.group.color;
-      });
-    }
 
     return BlocProvider(
       create: (context) =>
@@ -78,7 +78,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
             ),
             body:
             (state is UpdateInProgressState ||
-                state is DeleteGroupInProgressState) ? Center(
+                state is DeleteGroupInProgressState) ? const Center(
                 child: CircularProgressIndicator()) :
             Container(
               padding: DesignConfig.screenPadding,
@@ -92,8 +92,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                       controller: _nameController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return AppLocalizations.of(context)!
-                              .valueCanNotBeEmpty;
+                          return AppLocalizations.of(context)!.valueCanNotBeEmpty;
                         }
                         return null;
                       }
@@ -111,11 +110,11 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                     (state is UpdateErrorState)
                         ? ErrorMessageWidget(message:
                         AppLocalizations.of(context)!.updateGroupErrorMessage)
-                        : SizedBox.shrink(),
+                        : const SizedBox.shrink(),
                     (state is DeleteGroupErrorState)
                         ? ErrorMessageWidget(message:
                         AppLocalizations.of(context)!.deleteGroupErrorMessage)
-                        : SizedBox.shrink()
+                        : const SizedBox.shrink()
                   ],
                 ),
               ),
@@ -129,7 +128,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
   Group _updatedGroup(int groupId){
     return Group(
       name: _nameController.text,
-      description: _descriptionController.text,
+      //description: _descriptionController.text,
       color: _selectedColor!,
       id: groupId,
     );
@@ -170,7 +169,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
   @override
   void dispose() {
     _nameController.dispose();
-    _descriptionController.dispose();
+    //_descriptionController.dispose();
     super.dispose();
   }
 }

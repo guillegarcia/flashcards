@@ -5,9 +5,9 @@ class Group {
   int? id;
   String name;
   Color color;
-  String? description;
+  String description;
 
   List<Flashcard>? cards;
 
-  Group({this.id, required this.color ,required this.name, this.description, this.cards});
+  Group({this.id, required this.color ,required this.name, this.description = '', this.cards});
 }
