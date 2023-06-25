@@ -149,7 +149,6 @@ class SQLiteLocalDatasource implements LocalRepository{
     if(queryCountValue!=null) {
       counter = queryCountValue;
     }
-    print('flashcardsCount $counter');
     return counter;
   }
 
@@ -168,7 +167,6 @@ class SQLiteLocalDatasource implements LocalRepository{
       description: map['description'] ?? '',
       color: color,
     );
-    print('Grupo recuperado ${group.id} ${group.name}');
     return group;
   }
 

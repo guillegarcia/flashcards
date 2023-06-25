@@ -7,12 +7,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'data/datasources/sqlite_local_datasource.dart';
 import 'presentation/screens/edit_flashcard_screen.dart';
-import 'presentation/screens/edit_group_screen.dart';
-import 'presentation/screens/group_screen.dart';
 import 'presentation/screens/groups_screen.dart';
 import 'presentation/screens/new_group_screen.dart';
-import 'presentation/screens/result_screen.dart';
-import 'presentation/screens/sample_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -80,13 +76,10 @@ class MyApp extends StatelessWidget {
             Locale('es', ''), // Spanish, no country code
           ],
           routes: {
-            SampleScreen.routeName: (context) => const SampleScreen(),
             GroupsScreen.routeName: (context) => const GroupsScreen(),
             NewGroupScreen.routeName: (context) => const NewGroupScreen(),
             NewFlashcardScreen.routeName: (context) => const NewFlashcardScreen(),
             EditFlashcardScreen.routeName: (context) => const EditFlashcardScreen(),
-            GroupScreen.routeName: (context) => const GroupScreen(),
-            EditGroupScreen.routeName: (context) => const EditGroupScreen(),
           },
           initialRoute: GroupsScreen.routeName,
         ),

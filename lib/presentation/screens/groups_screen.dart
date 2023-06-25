@@ -70,30 +70,32 @@ class GroupsHeaderWidget extends StatelessWidget {
 }
 
 class SetWidget extends StatelessWidget {
-  Group set;
-  SetWidget(this.set,{Key? key}) : super(key: key);
+  Group group;
+  SetWidget(this.group,{Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: 'set${set.id!}',
+      tag: 'set${group.id!}',
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            color: set.color
+            color: group.color
         ),
         child: Material(
             type: MaterialType.transparency,
             child: InkWell(
               borderRadius: const BorderRadius.all(Radius.circular(30)),
               onTap: () {
-                Navigator.pushNamed(context, GroupScreen.routeName,arguments: set);
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => GroupScreen(group),
+                ));
               },
               child: Container(
                 alignment: Alignment.bottomRight,
                 padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 24),
-                child: Text(set.name,style: const TextStyle(fontSize: 18,color: Colors.white)),
+                child: Text(group.name,style: const TextStyle(fontSize: 18,color: Colors.white)),
                 height: 150,
               ),
             )

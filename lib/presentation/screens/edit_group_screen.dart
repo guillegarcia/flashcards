@@ -2,9 +2,7 @@ import 'package:flashcards/config/design_config.dart';
 import 'package:flashcards/data/datasources/sqlite_local_datasource.dart';
 import 'package:flashcards/domain/entities/group.dart';
 import 'package:flashcards/presentation/bloc/edit_group/edit_group_cubit.dart';
-import 'package:flashcards/presentation/bloc/group/group_cubit.dart';
 import 'package:flashcards/presentation/bloc/groups/groups_cubit.dart';
-import 'package:flashcards/presentation/bloc/new_group/new_group_cubit.dart';
 import 'package:flashcards/presentation/screens/groups_screen.dart';
 import 'package:flashcards/presentation/widgets/color_picker.dart';
 import 'package:flashcards/presentation/widgets/error_message_widget.dart';
@@ -14,9 +12,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditGroupScreen extends StatefulWidget {
-  const EditGroupScreen({Key? key}) : super(key: key);
-
-  static const routeName = '/edit_group_screen';
+  final GroupsCubit groupsCubit;
+  final Group group;
+  const EditGroupScreen({required this.groupsCubit, required this.group,Key? key}) : super(key: key);
 
   @override
   _EditGroupScreenState createState() => _EditGroupScreenState();
@@ -31,15 +29,11 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
-    EditGroupScreenArguments arguments = ModalRoute
-        .of(context)!
-        .settings
-        .arguments as EditGroupScreenArguments;
-    _nameController.text = arguments.group.name;
-    _descriptionController.text = arguments.group.description ?? '';
+    _nameController.text = widget.group.name;
+    _descriptionController.text = widget.group.description ?? '';
     if (_selectedColor == null) {
       setState(() {
-        _selectedColor = arguments.group.color;
+        _selectedColor = widget.group.color;
       });
     }
 
@@ -51,7 +45,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
       child: BlocConsumer<EditGroupCubit, EditGroupState>(
         listener: (context, state) {
           if (state is UpdateSuccessState) {
-            Navigator.of(context).pop(_updatedGroup(arguments.group.id!));
+            Navigator.of(context).pop(_updatedGroup(widget.group.id!));
           } else if (state is DeleteGroupSuccessState) {
             Navigator.of(context).pushNamedAndRemoveUntil(
                 GroupsScreen.routeName, (Route<dynamic> route) => false);
@@ -65,18 +59,18 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
               actions: [
                 TextButton(onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    context.read<EditGroupCubit>().updateGroup(_updatedGroup(arguments.group.id!));
+                    context.read<EditGroupCubit>().updateGroup(_updatedGroup(widget.group.id!));
                   }
                 },
                     child: Text(
                         AppLocalizations.of(context)!.save.toUpperCase(),
-                        style: TextStyle(color: Colors.black))),
+                        style: const TextStyle(color: Colors.black))),
                 IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () {
                     showConfirmationDialog(context, () {
                       context.read<EditGroupCubit>().deleteGroup(
-                          arguments.group);
+                          widget.group);
                     });
                   },
                 )
@@ -179,10 +173,4 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
     _descriptionController.dispose();
     super.dispose();
   }
-}
-
-class EditGroupScreenArguments {
-  final GroupsCubit groupsCubit;
-  final Group group;
-  EditGroupScreenArguments({required this.group, required this.groupsCubit});
 }

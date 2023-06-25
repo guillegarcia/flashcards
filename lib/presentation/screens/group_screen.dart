@@ -19,16 +19,14 @@ import 'import_screen.dart';
 import 'new_flashcard_screen.dart';
 
 class GroupScreen extends StatefulWidget {
-  const GroupScreen({Key? key}) : super(key: key);
-
-  static const routeName = '/group_screen';
+  final Group group;
+  const GroupScreen(this.group,{Key? key}) : super(key: key);
 
   @override
   _GroupScreenState createState() => _GroupScreenState();
 }
 
 class _GroupScreenState extends State<GroupScreen> with SingleTickerProviderStateMixin{
-  Group? group;
   bool _reviewButtonsVisible = false;
 
   @override
@@ -44,11 +42,10 @@ class _GroupScreenState extends State<GroupScreen> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    group = ModalRoute.of(context)!.settings.arguments as Group;
 
     return BlocProvider(
         create: (context) =>
-            GroupCubit(context.read<SQLiteLocalDatasource>(), group: group!),
+            GroupCubit(context.read<SQLiteLocalDatasource>(), group: widget.group),
         child: BlocBuilder<GroupCubit, GroupState>(
           builder: (context, state) {
               List<Flashcard> flashcards = [];
@@ -68,13 +65,16 @@ class _GroupScreenState extends State<GroupScreen> with SingleTickerProviderStat
                     IconButton(
                       icon: const Icon(Icons.edit),
                       onPressed: () async {
-                        var editGroupResult = await Navigator.of(context).pushNamed(EditGroupScreen.routeName,
-                            arguments: EditGroupScreenArguments(group: group!,groupsCubit: context.read<GroupsCubit>())
-                        );
-
+                        var editGroupResult = await Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => EditGroupScreen(group: widget.group,groupsCubit: context.read<GroupsCubit>()),
+                        ));
+                        print('Respuesta: ${editGroupResult}');
                         if(editGroupResult!=null && editGroupResult is Group){
+                          print('Es instancia de grupo! con texto: ${editGroupResult.name}');
                           setState(() {
-                            group = editGroupResult as Group;
+                            print('Hacemos set');
+                            widget.group.name = editGroupResult.name;
+                            widget.group.color = editGroupResult.color;
                           });
                         }
                       },
@@ -161,10 +161,10 @@ class _GroupScreenState extends State<GroupScreen> with SingleTickerProviderStat
                       }
                   ),
                   Hero(
-                    tag: 'set${group!.id!}',
+                    tag: 'set${widget.group.id!}',
                     child: Container(width: double.infinity, height: 220,decoration: BoxDecoration(
                         borderRadius: const BorderRadius.only(bottomRight: Radius.circular(100),bottomLeft: Radius.circular(100)),
-                        color: group!.color
+                        color: widget.group.color
                     )),
                   ),
 
@@ -178,7 +178,7 @@ class _GroupScreenState extends State<GroupScreen> with SingleTickerProviderStat
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(group!.name,style: const TextStyle(fontSize: 32,color: Colors.white)),
+                          Text(widget.group.name,style: const TextStyle(fontSize: 32,color: Colors.white)),
                           const SizedBox(height: 40),
                           //SizedBox(height:45,child: Text(group!.description!,style: const TextStyle(color: Colors.white),)),
                           //####### BOTONES PARA INICIAR REPASO #######

@@ -14,12 +14,9 @@ class EditGroupCubit extends Cubit<EditGroupState> {
 
   void updateGroup(Group group) async{
     try{
-      print('updateGroup cubit ${group.name}');
       emit(UpdateInProgressState());
       await _localRepository.updateGroup(group);
-      if(groupsBloc.state is LoadSuccessState){
-        groupsBloc.loadGroups();//.addCreatedGroup(group);
-      }
+      groupsBloc.loadGroups();
       emit(UpdateSuccessState());
     } catch (e) {
       emit(UpdateErrorState());
