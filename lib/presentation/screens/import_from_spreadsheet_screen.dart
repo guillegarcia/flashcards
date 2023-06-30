@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../bloc/import_from_spreadsheet/import_from_spreadsheet_cubit.dart';
+import '../widgets/error_message_widget.dart';
 
 class ImportFromSpreadsheetScreen extends StatefulWidget {
   GroupCubit groupCubit;
@@ -59,13 +60,8 @@ class ImportInitialStateContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Quitar
     //_urlController.text = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-AdUnsxTHpU2XZ_IM9iMs-37Flnjh6ydQtuq0Un-x522PZJTe6Li8rhpj14ZJXjoLFtGpJMMIoOEO/pub?output=csv';
-    _urlController.text = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSHZYd6sGhJuLAmeX02pi43fTumUY9QKQFbbzMctP4oYuGSOymRvs9NnGKwAaJTtzDPGH8vrih3J3Tk/pub?output=csv&cache=2';
-
-    //Archivo -> Compartir -> publicar en web
-    //"Valores separados por comas (csv)"
-    //Copia el enlace y pégalo aquí
+    //_urlController.text = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTW7m8t0-bufMs4AecB-cOHgycIrnsosWplbjskGpmWtiwcN8FSzHskTwfbWpZda3B710uwZAPVLGlu/pub?output=csv';
 
     return Form(
       key: formKey,
@@ -147,8 +143,7 @@ class ImportErrorStateContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO:
-    return const Text('ERROR');
+    return const ErrorMessageWidget();
   }
 }
 

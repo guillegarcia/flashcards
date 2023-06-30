@@ -12,6 +12,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 import '../../domain/entities/exam_data.dart';
+import '../widgets/error_message_widget.dart';
 
 class ExamScreen extends StatefulWidget {
   final ExamData examData;
@@ -161,8 +162,7 @@ class _ExamScreenState extends State<ExamScreen> {
           ]
       );
     } else {
-      //TODO: ERROR
-      return Container();
+      return const ErrorMessageWidget();
     }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flashcards/presentation/widgets/error_message_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -92,8 +93,7 @@ class ImportFromCsvErrorStateContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Mejorar texto
-    return Text('ERROR');
+    return const ErrorMessageWidget();
   }
 }
 

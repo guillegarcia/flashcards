@@ -27,9 +27,6 @@ class ImportFlashcardsFromCsv {
     //Pasar a lista de objetos flashcards
     List<Flashcard> flashcards = _csvListToListOfFlashcards(rowsAsListOfValues);
 
-    //TODO: Consultar primero en bbdd el número de preguntas actual para ver cuantas podemos añadir de las importadas sin sobrepasar el máximo
-    //AppConfig.maxFlashcardInGroup
-
     //Guardamos en base de datos
     for(Flashcard flashcard in flashcards){
       //Solo se inserta si no está repetida

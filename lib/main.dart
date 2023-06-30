@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
       child: BlocProvider(
         create: (context) => GroupsCubit(context.read<SQLiteLocalDatasource>()),
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Simple flashcards',
           theme: theme.copyWith(
               colorScheme: theme.colorScheme.copyWith(
