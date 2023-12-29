@@ -152,7 +152,7 @@ class ResultButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      child: Text(buttonText,style: const TextStyle(fontSize: 18)),
+      child: Text(buttonText,style: const TextStyle(fontSize: 18,color: Colors.white)),
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(backgroundColor: Colors.black.withOpacity(0.6)),
     );

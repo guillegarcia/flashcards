@@ -10,4 +10,5 @@ Initial version
 ## 1.1.0 
 ### Changed
 - Upgrade to most recent version of Flutter (3.16) and Dart (3.2.3)
+- Material 3
 

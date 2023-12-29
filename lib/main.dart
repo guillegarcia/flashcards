@@ -25,6 +25,58 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final ThemeData theme = ThemeData();
+    final lightTheme = theme.copyWith(
+        colorScheme: const ColorScheme(
+          brightness: Brightness.light,
+          primary: Colors.black,
+          onPrimary: Colors.white,
+          secondary: Colors.white,
+          onSecondary: Colors.black,
+          error: Colors.red,
+          onError: Colors.white,
+          background: Colors.white,
+          onBackground: Colors.black,
+          surface: Colors.white,
+          onSurface: Colors.black,
+        ),
+        scaffoldBackgroundColor: Color(0xffFAFAFA),
+        // theme.colorScheme.copyWith(
+        //     primary: Colors.black,
+        //     secondary: Colors.black,
+        //     //onPrimary: Colors.black
+        // ),
+        appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black
+        ),
+        inputDecorationTheme:  InputDecorationTheme(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0),
+              // width: 0.0 produces a thin "hairline" border
+              borderSide: const BorderSide(color: Colors.black54, width: 0.0),
+            ),
+            filled: true,
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0),
+              // width: 0.0 produces a thin "hairline" border
+              borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+            ),
+            hintStyle: TextStyle(color: Colors.grey[800])
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              elevation: 6,
+              padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 28),
+              textStyle: const TextStyle(fontSize: 14),
+              shape:RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(30.0),
+              ),
+            )
+        )
+    );
 
     return RepositoryProvider(
       create: (context) => SQLiteLocalDatasource(),
@@ -33,44 +85,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Simple flashcards',
-          theme: theme.copyWith(
-              colorScheme: theme.colorScheme.copyWith(
-                  primary: Colors.black,
-                  secondary: Colors.black,
-                  //onPrimary: Colors.black
-              ),
-              appBarTheme: const AppBarTheme(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black
-              ),
-              inputDecorationTheme: new InputDecorationTheme(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                    // width: 0.0 produces a thin "hairline" border
-                    borderSide: const BorderSide(color: Colors.black54, width: 0.0),
-                  ),
-                  filled: true,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                    // width: 0.0 produces a thin "hairline" border
-                    borderSide: const BorderSide(color: Colors.grey, width: 1.0),
-                  ),
-                  hintStyle: TextStyle(color: Colors.grey[800])
-              ),
-              elevatedButtonTheme: ElevatedButtonThemeData(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 6,
-                    padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 28),
-                    textStyle: const TextStyle(fontSize: 14),
-                    shape:RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0),
-                    ),
-                  )
-              )
-          ),
+          theme: lightTheme,
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
