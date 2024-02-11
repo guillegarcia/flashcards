@@ -131,30 +131,7 @@ class _GroupScreenState extends State<GroupScreen> with SingleTickerProviderStat
                           );
                         }
                         var flashcard = flashcards[index-1];
-                        return Container(
-                            margin: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.white),
-                            child: Material(
-                                type: MaterialType.transparency,
-                                child: InkWell(
-                                  //splashColor: Colors.white,
-                                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                    onTap: () {
-                                      Navigator.of(context).pushNamed(
-                                          EditFlashcardScreen.routeName,
-                                          arguments: EditFlashcardScreenArguments(
-                                              flashcard: flashcard,
-                                              groupCubit: context.read< GroupCubit>()));
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
-                                      child: Text(flashcard.question,style: const TextStyle(fontWeight: FontWeight.bold)),
-                                    )
-                                )
-                            )
-                        );
+                        return FlashCardListItem(flashcard);
                       }
                   ),
                   Hero(
@@ -200,6 +177,49 @@ class _GroupScreenState extends State<GroupScreen> with SingleTickerProviderStat
     );
   }
 }
+
+class FlashCardListItem extends StatelessWidget {
+  final Flashcard flashcard;
+  const FlashCardListItem(this.flashcard,{Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Container(
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white),
+              child: Material(
+                  type: MaterialType.transparency,
+                  child: InkWell(
+                    //splashColor: Colors.white,
+                      borderRadius: const BorderRadius.all(Radius.circular(20)),
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                            EditFlashcardScreen.routeName,
+                            arguments: EditFlashcardScreenArguments(
+                                flashcard: flashcard,
+                                groupCubit: context.read< GroupCubit>()));
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+                        child: Text(flashcard.question,style: const TextStyle(fontWeight: FontWeight.bold)),
+                      )
+                  )
+              )
+          ),
+        ),
+        IconButton(onPressed: (){}, icon: const Icon(Icons.play_arrow))
+      ],
+    );
+  }
+}
+
 
 class DoExamButton extends StatelessWidget {
   final GestureTapCallback? onTap;

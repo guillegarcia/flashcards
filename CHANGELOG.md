@@ -11,4 +11,6 @@ Initial version
 ### Changed
 - Upgrade to most recent version of Flutter (3.16) and Dart (3.2.3)
 - Material 3
+- Android targetSdkVersion from 31 to 33
+- 
 
