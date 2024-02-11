@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../config/design_config.dart';
 import '../../data/datasources/sqlite_local_datasource.dart';
-import '../../domain/entities/flash_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../bloc/group/group_cubit.dart';

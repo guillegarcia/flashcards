@@ -2,7 +2,6 @@ import 'package:flashcards/config/design_config.dart';
 import 'package:flashcards/data/datasources/sqlite_local_datasource.dart';
 import 'package:flashcards/domain/entities/flash_card.dart';
 import 'package:flashcards/presentation/bloc/exam/exam_cubit.dart';
-import 'package:flashcards/presentation/screens/groups_screen.dart';
 import 'package:flashcards/presentation/screens/result_screen.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
@@ -27,12 +26,7 @@ class _ExamScreenState extends State<ExamScreen> {
 
   bool _showButtons = false;
   bool _visibleFlashCard = true;
-  FlipCardController _flashcardController = FlipCardController();
-
-  final ButtonStyle resultButtonStyle = ElevatedButton.styleFrom(
-      backgroundColor: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 48,vertical: 24)
-  );
+  final FlipCardController _flashcardController = FlipCardController();
 
   @override
   Widget build(BuildContext context) {
@@ -61,34 +55,32 @@ class _ExamScreenState extends State<ExamScreen> {
               )
             ],
           ),
-          body: Container(
-            child: BlocConsumer<ExamCubit, ExamState>(
-              builder: (context, state) {
-                return _buildExamPageContent(context, state);
-              },
-              listener: (context, state) {
-                if(state is ShowCurrentFlashcardState){
-                  setState(() {
-                    _showButtons = false;
-                    _flashcardController.toggleCardWithoutAnimation();
-                    //_flashcardController.skew(1,curve: Curves.easeIn,duration: const Duration(milliseconds: 1));
-                    _visibleFlashCard = true;
-                  });
+          body: BlocConsumer<ExamCubit, ExamState>(
+            builder: (context, state) {
+              return _buildExamPageContent(context, state);
+            },
+            listener: (context, state) {
+              if(state is ShowCurrentFlashcardState){
+                setState(() {
+                  _showButtons = false;
+                  _flashcardController.toggleCardWithoutAnimation();
+                  //_flashcardController.skew(1,curve: Curves.easeIn,duration: const Duration(milliseconds: 1));
+                  _visibleFlashCard = true;
+                });
+              }
+              if(state is FinishState){
+                //Si no hemos contestado ninguna pregunta, salirmos del examen porque no hay resultados que mostrar
+                if(state.examResult.totalSteps()>0) {
+                  //Si hemos contestado preguntas mostramos el resultado
+                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+                    builder: (context) =>
+                        ResultScreen(examResult: state.examResult),
+                  ), (Route route) => false);
+                } else {
+                  Navigator.of(context).pop();
                 }
-                if(state is FinishState){
-                  //Si no hemos contestado ninguna pregunta, salirmos del examen porque no hay resultados que mostrar
-                  if(state.examResult.totalSteps()>0) {
-                    //Si hemos contestado preguntas mostramos el resultado
-                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
-                      builder: (context) =>
-                          ResultScreen(examResult: state.examResult),
-                    ), (Route route) => false);
-                  } else {
-                    Navigator.of(context).pop();
-                  }
-                }
-              },
-            ),
+              }
+            },
           ),
       ),
     );
@@ -138,7 +130,10 @@ class _ExamScreenState extends State<ExamScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                        style: resultButtonStyle,
+                        style: ElevatedButton.styleFrom(
+                            surfaceTintColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 48,vertical: 24)
+                        ),
                         onPressed: () async {
                           setState(() {
                             _visibleFlashCard = false;
@@ -147,7 +142,10 @@ class _ExamScreenState extends State<ExamScreen> {
                           context.read<ExamCubit>().saveCurrentCardFailed();
                         }, child: const Icon(Icons.close,color: DesignConfig.badAnswerColor)),
                     ElevatedButton(
-                        style: resultButtonStyle,
+                        style: ElevatedButton.styleFrom(
+                            surfaceTintColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 48,vertical: 24)
+                        ),
                         onPressed: () async {
                           setState(() {
                             _visibleFlashCard = false;
