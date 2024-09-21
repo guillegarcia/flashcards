@@ -14,3 +14,13 @@ Initial version
 - Android targetSdkVersion from 31 to 33
 - 
 
+## 1.2.0
+
+### Added
+- PENDING: Play a single card
+- PENDING: Dark mode
+- PENDING: Increase the target limits
+- PENDING: Notifications
+
+### Changed
+- IN PROGRESS: Upgrade to most recent version of Flutter (3.22.2) and Dart (3.4.3)
