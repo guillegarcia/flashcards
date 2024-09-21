@@ -69,13 +69,13 @@ class _ExamScreenState extends State<ExamScreen> {
                 });
               }
               if(state is FinishState){
-                //Si no hemos contestado ninguna pregunta, salirmos del examen porque no hay resultados que mostrar
+                //Si no hemos contestado ninguna pregunta, salimos del examen porque no hay resultados que mostrar
                 if(state.examResult.totalSteps()>0) {
                   //Si hemos contestado preguntas mostramos el resultado
-                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) =>
                         ResultScreen(examResult: state.examResult),
-                  ), (Route route) => false);
+                  ));
                 } else {
                   Navigator.of(context).pop();
                 }

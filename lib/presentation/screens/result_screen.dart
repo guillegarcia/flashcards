@@ -1,5 +1,6 @@
 import 'package:flashcards/config/design_config.dart';
 import 'package:flashcards/domain/entities/exam_result.dart';
+import 'package:flashcards/presentation/screens/group_screen.dart';
 import 'package:flashcards/utils/admob_tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -116,7 +117,7 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
                       child: ResultButtonWidget(
                         buttonText: AppLocalizations.of(context)!.repeatFailedCards.toUpperCase(),
                         onPressed: (){
-                          Navigator.of(context).push(
+                          Navigator.of(context).pushReplacement(
                             MaterialPageRoute(builder: (context) => ExamScreen(
                               examData: ExamData(flashcards: widget.examResult.failedFlashcard)
                             ))
@@ -129,7 +130,8 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
                       child: ResultButtonWidget(
                         buttonText: AppLocalizations.of(context)!.goHome.toUpperCase(),
                         onPressed: (){
-                          Navigator.pushNamedAndRemoveUntil(context, GroupsScreen.routeName, (route) => false);
+                          //Navigator.pushNamedAndRemoveUntil(context, GroupsScreen.routeName, (route) => false);
+                          Navigator.pop(context);
                         }
                       ),
                     )
