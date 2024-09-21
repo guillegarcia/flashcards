@@ -214,7 +214,13 @@ class FlashCardListItem extends StatelessWidget {
               )
           ),
         ),
-        IconButton(onPressed: (){}, icon: const Icon(Icons.play_arrow))
+        IconButton(onPressed: (){
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => ExamScreen(examData: ExamData(
+              flashcards: [flashcard]
+            )))
+          );
+        }, icon: const Icon(Icons.play_arrow))
       ],
     );
   }
@@ -234,12 +240,12 @@ class DoExamButton extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: Colors.white,
-          boxShadow: [
-            const BoxShadow(
+          boxShadow: const [
+            BoxShadow(
               color: Colors.grey,
               blurRadius: 6.0, // soften the shadow
               spreadRadius: 0.0, //extend the shadow
-              offset: const Offset(
+              offset: Offset(
                 0.0, // Move to right 10  horizontally
                 2.0, // Move to bottom 10 Vertically
               ),
@@ -312,7 +318,7 @@ class StartReviewButtonsWidgets extends StatelessWidget {
         flashcards.length>=AppConfig.quickReviewQuestionNumber ? DoExamButton(
           label: AppLocalizations.of(context)!.startQuickExam.toUpperCase(),
           icon: FontAwesomeIcons.bolt,
-          examData: ExamData(flashcards: flashcards,isQuickExam:true),
+          examData: ExamData(flashcards: flashcards,type :ExamType.quick),
         ) : const SizedBox.shrink(),
       ],
     );

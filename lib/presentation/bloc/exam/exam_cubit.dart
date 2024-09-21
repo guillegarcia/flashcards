@@ -29,10 +29,12 @@ class ExamCubit extends Cubit<ExamState> {
   List<Flashcard> examFlashcards(ExamData examData){
     //Random order
     examData.flashcards.shuffle();
+
     //If it is a quick exam, it will only use some cards
     if(examData.isQuickExam){
       return examData.flashcards.sublist(0,AppConfig.quickReviewQuestionNumber);
     }
+
     return examData.flashcards;
   }
 
