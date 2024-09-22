@@ -17,13 +17,13 @@ Initial version
 ## 1.2.0
 
 ### Added
-- IN PROGRESS: Play a single card
+- Play a single card from group page
 - PENDING: Dark mode
 - PENDING: Increase the target limits
 - PENDING: Import CSV information
 
 ### Changed
-- IN PROGRESS: Upgrade to most recent version of Flutter (3.22.2) and Dart (3.4.3)
+- Upgrade to most recent version of Flutter (3.22.2) and Dart (3.4.3)
 - Al salir de un examen, vuelve a la página del grupo de preguntas en lugar de ir a la home
 
 # ROADMAP
