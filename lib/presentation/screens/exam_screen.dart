@@ -87,7 +87,7 @@ class _ExamScreenState extends State<ExamScreen> {
   }
 
   _buildExamPageContent(BuildContext context, ExamState state) {
-    if(state is LoadingState) {
+    if(state is LoadingState || state is FinishState) {
       return const Center(
           child: CircularProgressIndicator()
       );
@@ -160,6 +160,7 @@ class _ExamScreenState extends State<ExamScreen> {
           ]
       );
     } else {
+      print('ERROR MESSAGE!');
       return const ErrorMessageWidget();
     }
   }

@@ -20,16 +20,16 @@ Initial version
 - IN PROGRESS: Play a single card
 - PENDING: Dark mode
 - PENDING: Increase the target limits
-- PENDING: Notifications
+- PENDING: Import CSV information
 
 ### Changed
 - IN PROGRESS: Upgrade to most recent version of Flutter (3.22.2) and Dart (3.4.3)
 - Al salir de un examen, vuelve a la página del grupo de preguntas en lugar de ir a la home
-
 
 # ROADMAP
 
 ## 1.3.0
 
 ### Added
-- PENDING: Optional ogin to remote saving and loading the users flashcards
+- PENDING: Optional origin to remote saving and loading the users flashcards
+- PENDING: Notifications
