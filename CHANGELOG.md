@@ -21,10 +21,10 @@ Initial version
 
 ### Changed
 - Upgrade to most recent version of Flutter (3.22.2) and Dart (3.4.3)
-- Al salir de un examen, vuelve a la página del grupo de preguntas en lugar de ir a la home
+- When you exit an exam, you return to the question group page instead of going to the home page.
 - Android targetSdkVersion from 33 to 34
 - Increase the limit of flashcards per group from 100 to 200
-- If there are to many steps in an exam, the step counter will be a text
+- If there are to many steps in an exam, the step counter will be a text to improve performance
 - CSV Import: "\n" as eol
 - FocusActions in new flashcard form
 
