@@ -18,13 +18,13 @@ Initial version
 
 ### Added
 - Play a single card from group page
-- PENDING: Dark mode
 - PENDING: Increase the target limits
-- PENDING: Import CSV information
+
 
 ### Changed
 - Upgrade to most recent version of Flutter (3.22.2) and Dart (3.4.3)
 - Al salir de un examen, vuelve a la página del grupo de preguntas en lugar de ir a la home
+- Android targetSdkVersion from 33 to 34
 
 # ROADMAP
 
@@ -33,3 +33,5 @@ Initial version
 ### Added
 - PENDING: Optional origin to remote saving and loading the users flashcards
 - PENDING: Notifications
+- PENDING: Import CSV information
+- PENDING: Dark mode
