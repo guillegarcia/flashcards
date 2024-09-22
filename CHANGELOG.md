@@ -26,6 +26,7 @@ Initial version
 - Increase the limit of flashcards per group from 100 to 200
 - If there are to many steps in an exam, the step counter will be a text
 - CSV Import: "\n" as eol
+- FocusActions in new flashcard form
 
 # ROADMAP
 

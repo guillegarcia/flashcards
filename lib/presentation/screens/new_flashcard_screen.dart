@@ -70,6 +70,7 @@ class _NewFlashcardScreenState extends State<NewFlashcardScreen> {
                         maxLines: 3,
                         maxLength: AppConfig.flashcardTextMaxLength,
                         controller: _questionController,
+                        textInputAction: TextInputAction.next,
                         validator: (value){
                           if (value == null || value.isEmpty) {
                             return AppLocalizations.of(context)!.valueCanNotBeEmpty;
@@ -84,6 +85,7 @@ class _NewFlashcardScreenState extends State<NewFlashcardScreen> {
                         maxLines: 3,
                         maxLength: AppConfig.flashcardTextMaxLength,
                         controller: _answerController,
+                        textInputAction: TextInputAction.done,
                         validator: (value){
                           if (value == null || value.isEmpty) {
                             return AppLocalizations.of(context)!.valueCanNotBeEmpty;
