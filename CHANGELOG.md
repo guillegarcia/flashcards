@@ -28,6 +28,11 @@ Initial version
 - CSV Import: "\n" as eol
 - FocusActions in new flashcard form
 
+## 1.2.1
+
+### Added
+- New permission "AD_ID" required for Android 13 and upgrade admob version
+- 
 # ROADMAP
 
 ## 1.3.0
