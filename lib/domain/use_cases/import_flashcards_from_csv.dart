@@ -22,7 +22,8 @@ class ImportFlashcardsFromCsv {
     bool flashcardsLimitReached = false;
 
     //String de CSV a lista de listas dinámicas
-    List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(csvString);
+    print(csvString);
+    List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(csvString,eol: "\n");
 
     //Pasar a lista de objetos flashcards
     List<Flashcard> flashcards = _csvListToListOfFlashcards(rowsAsListOfValues);
@@ -62,7 +63,7 @@ class ImportFlashcardsFromCsv {
         String answer = csvRowList[1];
         //Si alguno de los valores es vacío se ignoran
         if(question.isNotEmpty && answer.isNotEmpty) {
-          //Si alguno de los valroes sobrepara el límite de tamaño se ignoran y se informa al usuario
+          //Si alguno de los valres sobrepara el límite de tamaño se ignoran y se informa al usuario
           if(question.length > AppConfig.flashcardTextMaxLength || answer.length > AppConfig.flashcardTextMaxLength) {
             maxLengthErrorCounter++;
           } else {

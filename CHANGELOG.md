@@ -18,13 +18,14 @@ Initial version
 
 ### Added
 - Play a single card from group page
-- PENDING: Increase the target limits
-
 
 ### Changed
 - Upgrade to most recent version of Flutter (3.22.2) and Dart (3.4.3)
 - Al salir de un examen, vuelve a la página del grupo de preguntas en lugar de ir a la home
 - Android targetSdkVersion from 33 to 34
+- Increase the limit of flashcards per group from 100 to 200
+- If there are to many steps in an exam, the step counter will be a text
+- CSV Import: "\n" as eol
 
 # ROADMAP
 

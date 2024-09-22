@@ -1,3 +1,4 @@
+import 'package:flashcards/config/app_config.dart';
 import 'package:flashcards/config/design_config.dart';
 import 'package:flashcards/data/datasources/sqlite_local_datasource.dart';
 import 'package:flashcards/domain/entities/flash_card.dart';
@@ -98,12 +99,12 @@ class _ExamScreenState extends State<ExamScreen> {
               alignment: Alignment.topCenter,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: StepProgressIndicator(
+                child: (state.totalSteps <= AppConfig.maxExamStepsToShowStepIndicator) ? StepProgressIndicator(
                   totalSteps: state.totalSteps,
                   currentStep: state.currentStep,
                   selectedColor: state.flashcard.color!,
                   unselectedColor: Colors.grey,
-                ),
+                ):SimpleProgressIndicator(currentStep: state.currentStep,totalSteps: state.totalSteps,mainColor:state.flashcard.color!)
               ),
             ),
             Center(
@@ -160,7 +161,6 @@ class _ExamScreenState extends State<ExamScreen> {
           ]
       );
     } else {
-      print('ERROR MESSAGE!');
       return const ErrorMessageWidget();
     }
   }
@@ -217,5 +217,31 @@ class FlashCardWidget extends StatelessWidget {
       onFlipDone: onAnswerShown,
       controller: controller,
     );
+  }
+}
+
+class SimpleProgressIndicator extends StatelessWidget {
+  const SimpleProgressIndicator({Key? key, required this.currentStep, required this.totalSteps, required this.mainColor}) : super(key: key);
+
+  final int currentStep;
+  final int totalSteps;
+  final Color mainColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+        text: TextSpan(
+        // Note: Styles for TextSpans must be explicitly defined.
+        // Child text spans will inherit styles from parent
+        style: const TextStyle(
+        fontSize: 20.0,
+        color: Colors.grey,
+    ),
+    children: <TextSpan>[
+    TextSpan(text: currentStep.toString(),style: TextStyle(fontWeight: FontWeight.bold,color: mainColor,fontSize: 26)),
+    const TextSpan(text: '/'),
+    TextSpan(text: totalSteps.toString()),
+    ],
+    ));
   }
 }
