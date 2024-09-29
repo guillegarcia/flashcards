@@ -1,5 +1,6 @@
 import 'package:flashcards/config/app_config.dart';
 import 'package:flashcards/config/design_config.dart';
+import 'package:flashcards/config/themes/custom_theme_colors.dart';
 import 'package:flashcards/data/datasources/sqlite_local_datasource.dart';
 import 'package:flashcards/domain/entities/flash_card.dart';
 import 'package:flashcards/domain/entities/group.dart';
@@ -193,7 +194,7 @@ class FlashCardListItem extends StatelessWidget {
               margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.white),
+                  color: Theme.of(context).extension<CustomThemeColors>()!.flashCardListItemBackground),
               child: Material(
                   type: MaterialType.transparency,
                   child: InkWell(
@@ -238,8 +239,8 @@ class DoExamButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          color: Theme.of(context).extension<CustomThemeColors>()!.playButtonBackground, //Colors.white,
           boxShadow: const [
             BoxShadow(
               color: Colors.grey,

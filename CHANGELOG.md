@@ -32,13 +32,17 @@ Initial version
 
 ### Added
 - New permission "AD_ID" required for Android 13 and upgrade admob version
-- 
-# ROADMAP
 
 ## 1.3.0
+
+### Added
+- IN PROGRESS: Dark mode
+
+# ROADMAP
+
+
 
 ### Added
 - PENDING: Optional origin to remote saving and loading the users flashcards
 - PENDING: Notifications
 - PENDING: Import CSV information
-- PENDING: Dark mode

@@ -1,3 +1,4 @@
+import 'package:flashcards/config/themes/custom_theme_colors.dart';
 import 'package:flashcards/presentation/bloc/groups/groups_cubit.dart';
 import 'package:flashcards/presentation/screens/new_flashcard_screen.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +24,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
+    ThemeMode themeMode = ThemeMode.system;
     final ThemeData theme = ThemeData();
+
     final lightTheme = theme.copyWith(
         colorScheme: const ColorScheme(
           brightness: Brightness.light,
@@ -72,10 +74,25 @@ class MyApp extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 28),
               textStyle: const TextStyle(fontSize: 14),
               shape:RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(30.0),
+                borderRadius: BorderRadius.circular(30.0),
               ),
             )
+        ),
+        extensions: <ThemeExtension<dynamic>>[
+          const CustomThemeColors(
+              playButtonBackground: Colors.white,
+              flashCardListItemBackground: Colors.white
+          )
+        ]
+    );
+
+    final darkTheme = ThemeData.dark().copyWith(
+      extensions: <ThemeExtension<dynamic>>[
+        const CustomThemeColors(
+            playButtonBackground: Color(0xff444444),
+            flashCardListItemBackground: Colors.black
         )
+      ]
     );
 
     return RepositoryProvider(
@@ -86,6 +103,8 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Simple flashcards',
           theme: lightTheme,
+          darkTheme: darkTheme,
+          themeMode: themeMode,
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
