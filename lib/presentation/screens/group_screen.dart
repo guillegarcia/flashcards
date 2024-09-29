@@ -194,6 +194,7 @@ class FlashCardListItem extends StatelessWidget {
               margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.grey),
                   color: Theme.of(context).extension<CustomThemeColors>()!.flashCardListItemBackground),
               child: Material(
                   type: MaterialType.transparency,

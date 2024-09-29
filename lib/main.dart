@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
           surface: Colors.white,
           onSurface: Colors.black,
         ),
-        scaffoldBackgroundColor: Color(0xffFAFAFA),
+        scaffoldBackgroundColor: const Color(0xffFAFAFA),
         // theme.colorScheme.copyWith(
         //     primary: Colors.black,
         //     secondary: Colors.black,
@@ -81,16 +81,29 @@ class MyApp extends StatelessWidget {
         extensions: <ThemeExtension<dynamic>>[
           const CustomThemeColors(
               playButtonBackground: Colors.white,
-              flashCardListItemBackground: Colors.white
+              flashCardListItemBackground: Colors.white,
+              flashCardListItemBorderColor: Colors.transparent,
           )
         ]
     );
 
     final darkTheme = ThemeData.dark().copyWith(
+      colorScheme: const ColorScheme(
+        brightness: Brightness.light,
+        primary: Color(0xff222222),
+        onPrimary: Colors.white,
+        secondary: Colors.white,
+        onSecondary: Color(0xff222222),
+        error: Colors.red,
+        onError: Colors.white,
+        surface: Colors.white,
+        onSurface: Color(0xff222222),
+      ),
       extensions: <ThemeExtension<dynamic>>[
         const CustomThemeColors(
             playButtonBackground: Color(0xff444444),
-            flashCardListItemBackground: Colors.black
+            flashCardListItemBackground: Colors.black,
+          flashCardListItemBorderColor: Colors.grey
         )
       ]
     );
