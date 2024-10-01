@@ -100,7 +100,7 @@ class MyApp extends StatelessWidget {
 
     final darkTheme = ThemeData.dark().copyWith(
       colorScheme: const ColorScheme(
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
         primary: Color(0xff222222),
         onPrimary: Colors.white,
         secondary: Colors.white,
@@ -110,6 +110,12 @@ class MyApp extends StatelessWidget {
         surface: Colors.white,
         onSurface: Color(0xff222222),
       ),
+      iconTheme: const IconThemeData(color: Colors.white),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white
+      ),
+      scaffoldBackgroundColor: const Color(0xff000000),
       extensions: <ThemeExtension<dynamic>>[
         const CustomThemeColors(
           playButtonBackground: Color(0xff444444),
