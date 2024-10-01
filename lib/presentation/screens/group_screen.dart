@@ -242,17 +242,7 @@ class DoExamButton extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Theme.of(context).extension<CustomThemeColors>()!.playButtonBackground, //Colors.white,
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 6.0, // soften the shadow
-              spreadRadius: 0.0, //extend the shadow
-              offset: Offset(
-                0.0, // Move to right 10  horizontally
-                2.0, // Move to bottom 10 Vertically
-              ),
-            )
-          ],
+          boxShadow: Theme.of(context).extension<CustomThemeColors>()!.playButtonBoxShadows,
         ),
         child: Material(
             type: MaterialType.transparency,

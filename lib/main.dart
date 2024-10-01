@@ -83,6 +83,17 @@ class MyApp extends StatelessWidget {
               playButtonBackground: Colors.white,
               flashCardListItemBackground: Colors.white,
               flashCardListItemBorderColor: Colors.transparent,
+              playButtonBoxShadows: [
+                BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 6.0, // soften the shadow
+                  spreadRadius: 0.0, //extend the shadow
+                  offset: Offset(
+                    0.0, // Move to right 10  horizontally
+                    2.0, // Move to bottom 10 Vertically
+                  ),
+                )
+              ]
           )
         ]
     );
@@ -101,9 +112,10 @@ class MyApp extends StatelessWidget {
       ),
       extensions: <ThemeExtension<dynamic>>[
         const CustomThemeColors(
-            playButtonBackground: Color(0xff444444),
-            flashCardListItemBackground: Colors.black,
-          flashCardListItemBorderColor: Colors.grey
+          playButtonBackground: Color(0xff444444),
+          flashCardListItemBackground: Colors.black,
+          flashCardListItemBorderColor: Colors.grey,
+          playButtonBoxShadows:[]
         )
       ]
     );
