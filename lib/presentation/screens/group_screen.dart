@@ -153,13 +153,21 @@ class _GroupScreenState extends State<GroupScreen> with SingleTickerProviderStat
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(widget.group.name,style: const TextStyle(fontSize: 32,color: Colors.white)),
-                          const SizedBox(height: 40),
+                          SizedBox(
+                              child: Text(
+                                  widget.group.name,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: _titleFontSize(widget.group.name.length),color: Colors.white)
+                              ),
+                              height: 75
+                          ),
+                          const SizedBox(height: 11),
                           //SizedBox(height:45,child: Text(group!.description!,style: const TextStyle(color: Colors.white),)),
                           //####### BOTONES PARA INICIAR REPASO #######
                           AnimatedOpacity(
                             opacity: _reviewButtonsVisible ? 1.0 : 0.0,
-                            duration: Duration(milliseconds: 200),
+                            duration: const Duration(milliseconds: 200),
                             child: StartReviewButtonsWidgets(flashcards: flashcards,reviewFlashcards: reviewFlashcards)
                           )
                         ],
@@ -176,6 +184,18 @@ class _GroupScreenState extends State<GroupScreen> with SingleTickerProviderStat
       }
     )
     );
+  }
+
+  double _titleFontSize(int titleLength) {
+    print('titleLength $titleLength');
+    if(titleLength<=40){
+      return 32.0;
+    } else if(titleLength<=50){
+      return 25.0;
+    } else if(titleLength<=60){
+      return 20.0;
+    }
+    return 18;
   }
 }
 

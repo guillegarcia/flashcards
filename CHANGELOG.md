@@ -36,13 +36,16 @@ Initial version
 ## 1.3.0
 
 ### Added
-- IN PROGRESS: Dark mode
+- Dark mode
+
+### Fixed
+- Group title overflow
+
 
 # ROADMAP
 
-
-
 ### Added
-- PENDING: Optional origin to remote saving and loading the users flashcards
+- PENDING: Optional login to remote saving and loading the users flashcards
 - PENDING: Notifications
-- PENDING: Import CSV information
+- PENDING: Improve Import CSV information 
+- PENDING: Swipe in exam
