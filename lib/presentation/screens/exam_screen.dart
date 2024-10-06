@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
+import '../../config/themes/custom_theme_colors.dart';
 import '../../domain/entities/exam_data.dart';
 import '../widgets/error_message_widget.dart';
 
@@ -132,8 +133,9 @@ class _ExamScreenState extends State<ExamScreen> {
                   children: [
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            surfaceTintColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(horizontal: 48,vertical: 24)
+                          backgroundColor: Theme.of(context).extension<CustomThemeColors>()!.examButtonBackground,
+                          surfaceTintColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(horizontal: 48,vertical: 24)
                         ),
                         onPressed: () async {
                           setState(() {
@@ -144,6 +146,7 @@ class _ExamScreenState extends State<ExamScreen> {
                         }, child: const Icon(Icons.close,color: DesignConfig.badAnswerColor)),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(context).extension<CustomThemeColors>()!.examButtonBackground,
                             surfaceTintColor: Colors.white,
                             padding: const EdgeInsets.symmetric(horizontal: 48,vertical: 24)
                         ),
@@ -181,17 +184,7 @@ class FlashCardPageWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: color ?? Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.grey,
-            blurRadius: 5.0, // soften the shadow
-            spreadRadius: 0.0, //extend the shadow
-            offset: Offset(
-              0, // Move to right 10  horizontally
-              0.0, // Move to bottom 10 Vertically
-            ),
-          )
-        ]
+        boxShadow: Theme.of(context).extension<CustomThemeColors>()!.examCardBoxShadows
       ),
       height: 500,
       width: 300,
@@ -212,8 +205,8 @@ class FlashCardWidget extends StatelessWidget {
     return FlipCard(
       direction: FlipDirection.HORIZONTAL,
       front: FlashCardPageWidget(
-        flashcard.question, color: flashcard.color, textColor: Colors.white,),
-      back: FlashCardPageWidget(flashcard.answer, color: Colors.white),
+        flashcard.question, color: flashcard.color, textColor: Colors.white),
+      back: FlashCardPageWidget(flashcard.answer, color: Theme.of(context).extension<CustomThemeColors>()!.examCardAnswerBackground, textColor: Theme.of(context).extension<CustomThemeColors>()!.examCardAnswerTextColor),
       onFlipDone: onAnswerShown,
       controller: controller,
     );

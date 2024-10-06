@@ -83,6 +83,9 @@ class MyApp extends StatelessWidget {
               playButtonBackground: Colors.white,
               flashCardListItemBackground: Colors.white,
               flashCardListItemBorderColor: Colors.transparent,
+              examCardAnswerBackground: Colors.white,
+              examCardAnswerTextColor: Colors.black,
+              examButtonBackground: Colors.white,
               playButtonBoxShadows: [
                 BoxShadow(
                   color: Colors.grey,
@@ -91,6 +94,17 @@ class MyApp extends StatelessWidget {
                   offset: Offset(
                     0.0, // Move to right 10  horizontally
                     2.0, // Move to bottom 10 Vertically
+                  ),
+                )
+              ],
+              examCardBoxShadows: [
+                BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 5.0, // soften the shadow
+                  spreadRadius: 0.0, //extend the shadow
+                  offset: Offset(
+                    0, // Move to right 10  horizontally
+                    0.0, // Move to bottom 10 Vertically
                   ),
                 )
               ]
@@ -121,7 +135,11 @@ class MyApp extends StatelessWidget {
           playButtonBackground: Color(0xff444444),
           flashCardListItemBackground: Colors.black,
           flashCardListItemBorderColor: Colors.grey,
-          playButtonBoxShadows:[]
+          examCardAnswerBackground: Color(0xff444444),
+          examCardAnswerTextColor: Colors.white,
+          examButtonBackground: Color(0xff222222),
+          playButtonBoxShadows:[],
+          examCardBoxShadows:[],
         )
       ]
     );
