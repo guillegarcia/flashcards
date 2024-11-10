@@ -36,6 +36,7 @@
   "thereAreNoFlashcards": "It's time to create a flashcard!",
   "importFromspreadsheet": "Import from Google Spreadsheet",
   "importFromCSV": "Import from CSV",
+  "importFromCsvWrongFileExtensionError": "El fichero seleccionado no es un CSV. Por favor, busca un fichero con extension '.csv'",
   "spreadsheetUrl": "Spreadsheet URL",
   "importFlashcards": "Import flashcards",
   "finish": "Finish",

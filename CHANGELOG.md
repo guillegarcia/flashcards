@@ -41,6 +41,11 @@ Initial version
 ### Fixed
 - Group title overflow
 
+## 1.3.1
+
+### Fixed
+- Troubleshooting CSV file selection
+
 
 # ROADMAP
 

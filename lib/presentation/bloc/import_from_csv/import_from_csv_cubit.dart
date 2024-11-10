@@ -22,23 +22,30 @@ class ImportFromCsvCubit extends Cubit<ImportFromCsvState> {
   void import() async{
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['csv'],
+        type: FileType.any
       );
 
       if (result != null) {
         PlatformFile file = result.files.first;
         if (file.path != null) {
-          String csvString = await File(file.path!).readAsString();
+          if(file.extension != null && file.extension!.toLowerCase() == 'csv') {
+            String csvString = await File(file.path!).readAsString();
 
-          int groupId = (groupBloc.group.id!);
+            int groupId = (groupBloc.group.id!);
 
-          ImportFlashcardsFromCsv importFlashcards = ImportFlashcardsFromCsv(csvString: csvString, groupId: groupId, localRepository: localRepository);
-          ImportFlashcardsFromCsvResult importResult = await importFlashcards.execute();
+            ImportFlashcardsFromCsv importFlashcards = ImportFlashcardsFromCsv(
+                csvString: csvString,
+                groupId: groupId,
+                localRepository: localRepository);
+            ImportFlashcardsFromCsvResult importResult = await importFlashcards
+                .execute();
 
-          groupBloc.loadFlashcards();
+            groupBloc.loadFlashcards();
 
-          emit(ImportFromCsvSuccessState(importResult: importResult));
+            emit(ImportFromCsvSuccessState(importResult: importResult));
+          } else {
+            emit(ImportFromCsvErrorState(error: ImportFromCsvError.wrongFileExtension));
+          }
         } else {
           emit(ImportFromCsvErrorState());
         }
@@ -47,6 +54,7 @@ class ImportFromCsvCubit extends Cubit<ImportFromCsvState> {
       }
       //shareCsv(csvPath);
     } catch (e) {
+      print(e);
       emit(ImportFromCsvErrorState());
     }
   }

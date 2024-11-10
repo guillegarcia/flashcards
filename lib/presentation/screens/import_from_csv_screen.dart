@@ -42,6 +42,10 @@ class _ImportFromCSVScreenState extends State<ImportFromCSVScreen> {
               if (state is ImportFromCsvSuccessState) {
                 return ImportFromCsvSuccessStateContent(state);
               }
+              else if (state is ImportFromCsvErrorState && state.error != ImportFromCsvError.unknown){
+                return ImportFromCsvInitialStateContent(errorMessageKey: state.error);
+              }
+              
               return const ImportFromCsvErrorStateContent();
             },
           ),
@@ -52,17 +56,30 @@ class _ImportFromCSVScreenState extends State<ImportFromCSVScreen> {
 }
 
 class ImportFromCsvInitialStateContent extends StatelessWidget {
-  const ImportFromCsvInitialStateContent({Key? key}) : super(key: key);
+  final ImportFromCsvError? errorMessageKey;
+  const ImportFromCsvInitialStateContent({this.errorMessageKey, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String? errorMessage = errorMessageText(context,errorMessageKey);
     return TextAndButtonFullPageWidget(
       text: AppLocalizations.of(context)!.importFromCsvInitialMessage,
+      extraInfo: errorMessage!=null ? Text(errorMessage) : const SizedBox(),
       buttonText: AppLocalizations.of(context)!.importFromCSV.toUpperCase(),
       buttonOnPressed: (){
         context.read<ImportFromCsvCubit>().import();
       }
     );
+  }
+
+  String? errorMessageText(BuildContext context,ImportFromCsvError? errorMessageKey) {
+    if(errorMessageKey != null){
+      switch (errorMessageKey){
+        case ImportFromCsvError.wrongFileExtension:
+          return AppLocalizations.of(context)!.importFromCsvWrongFileExtensionError;
+      }
+    }
+    return null;
   }
 }
 

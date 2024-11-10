@@ -36,6 +36,7 @@
   "thereAreNoFlashcards": "¡Es el momento crear tarjetas!",
   "importFromspreadsheet": "Importar desde hoja de cálculo de Google",
   "importFromCSV": "Importar desde CSV",
+  "importFromCsvWrongFileExtensionError": "El fichero seleccionado no es un CSV. Por favor, busca un fichero con extension '.csv'",
   "spreadsheetUrl": "Link CSV de la hoja de cálculo de Google",
   "importFlashcards": "Importar tarjetas",
   "finish": "Terminar",
